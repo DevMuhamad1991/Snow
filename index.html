@@ -1,188 +1,1010 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="ckb" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Folio — Build Your Portfolio</title>
+<title>کوردی پۆل</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/style.css">
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E8E4DC;
+    --text-primary: #1A1714;
+    --text-secondary: #6B6560;
+    --text-muted: #A09A94;
+    --accent: #C8452A;
+    --accent-light: #F5EAE7;
+    --green: #2A7A4B;
+    --green-light: #E8F4EE;
+    --progress-bg: #EDE9E3;
+    --font: 'Noto Naskh Arabic', serif;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+  }
+
+  .logo span {
+    color: var(--accent);
+  }
+
+  .header-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .dot-live {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* MAIN */
+  main {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px 16px 80px;
+  }
+
+  /* DATE BAR */
+  .date-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .date-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .progress-label {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .progress-label strong {
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    background: var(--progress-bg);
+    border-radius: 4px;
+    height: 4px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 16px;
+  }
+
+  .q-number {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .q-text {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: 28px;
+  }
+
+  /* OPTIONS */
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .option-btn {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 18px 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+    font-family: var(--font);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .option-btn:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  .option-btn .opt-text {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .option-btn .opt-pct {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: none;
+  }
+
+  /* Result state */
+  .option-btn.voted {
+    cursor: default;
+  }
+
+  .option-btn.voted .opt-pct {
+    display: block;
+  }
+
+  .option-btn.winner {
+    border-color: var(--green);
+    background: var(--green-light);
+  }
+
+  .option-btn.winner .opt-text {
+    color: var(--green);
+  }
+
+  .option-btn.winner .opt-pct {
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  .option-btn.my-pick {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .option-btn.my-pick .opt-text {
+    color: var(--accent);
+  }
+
+  .option-btn.my-pick .opt-pct {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* Fill bar inside button */
+  .fill-bar {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 3px;
+    background: currentColor;
+    opacity: 0.3;
+    transition: width 0.6s ease;
+    width: 0;
+  }
+
+  .option-btn.winner .fill-bar { background: var(--green); opacity: 0.4; }
+  .option-btn.my-pick .fill-bar { background: var(--accent); opacity: 0.4; }
+
+  .total-votes {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+    margin-top: 32px;
+    padding-right: 4px;
+    border-right: 3px solid var(--accent);
+    padding-right: 10px;
+  }
+
+  /* COUNTDOWN */
+  .countdown-card {
+    background: var(--text-primary);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+
+  .countdown-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .countdown-time {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+  }
+
+  /* HISTORY VIEW */
+  #history-view { display: none; }
+
+  .history-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+
+  .history-q {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+
+  .history-date {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .history-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .history-opt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+
+  .history-opt-bar {
+    height: 6px;
+    background: var(--progress-bg);
+    border-radius: 3px;
+    flex: 1;
+    margin: 0 12px;
+    overflow: hidden;
+  }
+
+  .history-opt-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+  }
+
+  .history-opt.win .history-opt-fill { background: var(--green); }
+
+  .history-opt-pct {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    min-width: 40px;
+    text-align: left;
+  }
+
+  .history-opt.win .history-opt-pct { color: var(--green); }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .nav-btn {
+    flex: 1;
+    max-width: 200px;
+    padding: 14px;
+    background: none;
+    border: none;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+    border-bottom: 3px solid transparent;
+  }
+
+  .nav-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* LOADING */
+  .loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+    font-size: 16px;
+  }
+
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+  }
+
+  .empty-state p { font-size: 16px; line-height: 1.8; }
+
+  @media (max-width: 400px) {
+    .q-text { font-size: 19px; }
+    .option-btn .opt-text { font-size: 15px; }
+    .card { padding: 22px 18px; }
+  }
+</style>
 </head>
 <body>
 
-<!-- ===== LANDING ===== -->
-<div id="landing">
-  <nav>
-    <div class="logo">folio.</div>
-    <div class="nav-right">
-      <a href="#samples" class="nav-link">Examples</a>
-      <a href="#cta" class="nav-link">Get Started</a>
-      <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">🌙</button>
-      <button class="btn btn-ghost hide-mobile" onclick="window.location.href='./login.html'">Sign in</button>
-      <button class="btn btn-primary" onclick="window.location.href='./claim.html'">Start Free</button>
-    </div>
-  </nav>
-
-  <section class="hero">
-    <div class="glow glow-1"></div>
-    <div class="glow glow-2"></div>
-    <div class="hero-badge fade-up d1">✦ Portfolio platform for everyone</div>
-    <h1 class="fade-up d2">Your work, your links,<br><span class="grad">one beautiful page.</span></h1>
-    <p class="hero-sub fade-up d3">Build a stunning portfolio in minutes. Share your projects, links, and story — all in one place.</p>
-    <div class="hero-cta fade-up d4">
-      <button class="btn btn-primary btn-lg" onclick="window.location.href='./claim.html'">✦ Create yours — it's free</button>
-      <a href="#samples" class="btn btn-ghost btn-lg">See examples</a>
-    </div>
-  </section>
-
-  <section class="features-section fade-up d5">
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h3>Ready in minutes</h3>
-        <p>Fill in your name, bio, and links. Your portfolio is live instantly.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎨</div>
-        <h3>Your style</h3>
-        <p>Pick colors, emojis, and themes. Make it look and feel like you.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔗</div>
-        <h3>One link for all</h3>
-        <p>Get a clean shareable URL and send it everywhere.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="samples-section" id="samples">
-    <div class="section-header">
-      <div class="section-eyebrow">Examples</div>
-      <h2>See what others built</h2>
-      <p>Tap any card to load it into the builder</p>
-    </div>
-    <div class="profiles-scroll" id="profiles-container"></div>
-  </section>
-
-  <section class="cta-strip" id="cta">
-    <h2>Ready to build yours?</h2>
-    <p>Free forever. No credit card. Set up in under 2 minutes.</p>
-    <button class="btn btn-primary btn-lg" onclick="window.location.href='./claim.html'">Create your folio →</button>
-  </section>
-
-  <footer>made with <span>♥</span> · folio.app · © 2025</footer>
-</div>
-
-<!-- ===== BUILDER ===== -->
-<div id="builder">
-  <nav class="builder-nav">
-    <div class="builder-nav-left">
-      <button class="back-btn" onclick="showLanding()">← Back</button>
-      <div class="logo" style="font-size:1.15rem;">folio.</div>
-    </div>
-    <div class="builder-nav-right">
-  <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn-2">🌙</button>
-
-  <div class="username-area">
-    <div class="username-wrap">
-      <span class="username-prefix">folio.app/</span>
-      <input
-        type="text"
-        id="username-input"
-        placeholder="yourname"
-        maxlength="20"
-        oninput="this.value = this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')"
-      >
-    </div>
-    <button class="publish-btn" onclick="handlePublish()">🚀 Publish</button>
+<header>
+  <div class="logo">کوردی <span>پۆل</span></div>
+  <div class="header-meta">
+    <div class="dot-live"></div>
+    <span id="header-date"></span>
   </div>
-  <p id="username-error" style="display:none; color:#fa6d8f; font-size:0.75rem; margin-top:0.3rem; text-align:right;"></p>
+</header>
 
-</div>
+<main>
+  <!-- TODAY VIEW -->
+  <div id="today-view">
+    <div class="date-bar">
+      <div class="date-label" id="today-label"></div>
+      <div class="progress-label"><strong id="answered-count">0</strong> / <strong id="total-count">10</strong></div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
 
+    <div class="countdown-card">
+      <div class="countdown-label">ئەنجامی کۆتایی لە</div>
+      <div class="countdown-time" id="countdown">--:--:--</div>
+    </div>
 
-
-  <div class="builder-tabs" id="builder-tabs">
-    <button class="tab-btn active" onclick="switchTab('editor')">✏️ Edit</button>
-    <button class="tab-btn" onclick="switchTab('preview')">👁 Preview</button>
+    <div id="questions-container">
+      <div class="loading">
+        <div class="spinner"></div>
+        پرسیارەکان دەگێڕێنەوە...
+      </div>
+    </div>
   </div>
 
-  <div class="builder-body">
-    <!-- EDITOR -->
-    <div class="editor-panel" id="editor-panel">
-      <div class="editor-section">
-        <div class="editor-label">Your Info</div>
-        <div class="input-group">
-          <label>Name or Brand</label>
-          <input type="text" id="pf-name" placeholder="e.g. Hama Karwan" oninput="updatePreview()">
-        </div>
-        <div class="input-group">
-          <label>Job Title</label>
-          <input type="text" id="pf-role" placeholder="e.g. Web Developer" oninput="updatePreview()">
-        </div>
-        <div class="input-group">
-          <label>Short Bio</label>
-          <textarea id="pf-bio" placeholder="I build beautiful websites and love clean code..." oninput="updatePreview()"></textarea>
-        </div>
-      </div>
-      <div class="editor-section">
-        <div class="editor-label">Avatar Emoji</div>
-        <div class="emoji-grid" id="emoji-grid"></div>
-      </div>
-      <div class="editor-section">
-        <div class="editor-label">Background Theme</div>
-        <div class="color-grid" id="color-grid"></div>
-      </div>
-      <div class="editor-section">
-        <div class="editor-label">Your Links</div>
-        <div class="link-items" id="link-items"></div>
-        <button class="add-link-btn" onclick="addLink()">+ Add a new link</button>
-      </div>
+  <!-- HISTORY VIEW -->
+  <div id="history-view">
+    <div class="section-title">ئەنجامی ڕۆژەکانی پێشوو</div>
+    <div id="history-container">
+      <div class="empty-state"><p>ئەنجامی ئێستا بەردەست نیە.<br>هەموو شەوێک کاژمێر ١٢ ئەنجامەکان دەکرێنەوە.</p></div>
     </div>
+  </div>
+</main>
 
-    <!-- PREVIEW -->
-    <div class="preview-panel" id="preview-panel">
-      <div class="preview-browser">
-        <div class="browser-dots">
-          <div class="bd bd-r"></div>
-          <div class="bd bd-y"></div>
-          <div class="bd bd-g"></div>
-        </div>
-        <div class="browser-url" id="browser-url-text">folio.app/you</div>
+<nav>
+  <button class="nav-btn active" onclick="showView('today')">پرسیارەکان</button>
+  <button class="nav-btn" onclick="showView('history')">مێژوو</button>
+</nav>
+
+<script>
+// =====================
+// SUPABASE CONFIG
+// =====================
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+async function supabase(method, path, body = null) {
+  const opts = {
+    method,
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': method === 'POST' ? 'return=representation' : ''
+    }
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, opts);
+  if (!r.ok) throw new Error(await r.text());
+  return r.json().catch(() => null);
+}
+
+// =====================
+// QUESTIONS DATA
+// =====================
+const QUESTIONS_DB = {
+  // key = YYYY-MM-DD
+  // fallback: today's index from pool
+};
+
+// Pool of questions — add as many as you want
+const QUESTION_POOL = [
+  {
+    id: 'q001',
+    text: 'خواردنی سەرەتای بەیانی کامە باشترە؟',
+    a: 'نان و هێلکە',
+    b: 'کیچی و شیر'
+  },
+  {
+    id: 'q002',
+    text: 'کام شار باشترە بۆ ژیان؟',
+    a: 'هەولێر',
+    b: 'سلێمانی'
+  },
+  {
+    id: 'q003',
+    text: 'ئایا ئەنترنێتی کوردستان باشترە بوو؟',
+    a: 'بەڵێ، باشترە بووە',
+    b: 'نەخێر، خراپترە بووە'
+  },
+  {
+    id: 'q004',
+    text: 'کام مووسیقا زیاتر گوێت لێیە؟',
+    a: 'کلاسیکی کوردی',
+    b: 'مووسیقای نوێ'
+  },
+  {
+    id: 'q005',
+    text: 'ئایا زمانی کوردی لە قوتابخانەکانda باشانە فێردەکرێت؟',
+    a: 'بەڵێ، باشە',
+    b: 'نەخێر، پێویستی بە باشکردنە'
+  },
+  {
+    id: 'q006',
+    text: 'ڕووی ئێوارەی خۆشتر کامە؟',
+    a: 'خاندنەوە',
+    b: 'سەیرکردنی فیلم'
+  },
+  {
+    id: 'q007',
+    text: 'کام وەرز باشترە لە کوردستان؟',
+    a: 'بەهار',
+    b: 'پایز'
+  },
+  {
+    id: 'q008',
+    text: 'کام شتی کوردستان زیاتر دەناسرێت لە دەرەوە؟',
+    a: 'نەوت',
+    b: 'ئاماژەی سروشتی'
+  },
+  {
+    id: 'q009',
+    text: 'کامە زیاتر پێویستە؟',
+    a: 'کارگە و پرۆژەی نوێ',
+    b: 'باشکردنی خزمەتگوزاریەکانی ئێستا'
+  },
+  {
+    id: 'q010',
+    text: 'سەفەری ماڵەوایەت کامە باشترە؟',
+    a: 'ئۆتۆمبێل',
+    b: 'فڕۆکە'
+  },
+  {
+    id: 'q011',
+    text: 'کام خواردن باشترە؟',
+    a: 'کەباب',
+    b: 'دۆڵمە'
+  },
+  {
+    id: 'q012',
+    text: 'کام زیاتر کاری تێدەکەیت؟',
+    a: 'بەیانی',
+    b: 'شەو'
+  },
+  {
+    id: 'q013',
+    text: 'کام سەرگەرمی باشترە بۆ منداڵەکان؟',
+    a: 'وەرزش',
+    b: 'موسیقا یان هونەر'
+  },
+  {
+    id: 'q014',
+    text: 'ئایا کوردستان پێویستی بە مێترۆ هەیە؟',
+    a: 'بەڵێ، زوور پێویستە',
+    b: 'نەخێر، ئۆتۆبێس باسە'
+  },
+  {
+    id: 'q015',
+    text: 'کام زمان باشترە بۆ فێربوون؟',
+    a: 'ئینگلیزی',
+    b: 'عەرەبی'
+  },
+  {
+    id: 'q016',
+    text: 'کام باشترە بۆ کاری ڕۆژانە؟',
+    a: 'لای ماڵ',
+    b: 'لە ئۆفیس'
+  },
+  {
+    id: 'q017',
+    text: 'کام رووی هەفتەیی باشترە؟',
+    a: 'شەممە',
+    b: 'یەکشەممە'
+  },
+  {
+    id: 'q018',
+    text: 'کام باشترە بۆ خوێندکار؟',
+    a: 'زانکۆی کوردستان',
+    b: 'زانکۆی دەرەوە'
+  },
+  {
+    id: 'q019',
+    text: 'کام بژاردە باشترە بۆ گەشت؟',
+    a: 'ناوخۆی کوردستان',
+    b: 'دەرەوەی وڵات'
+  },
+  {
+    id: 'q020',
+    text: 'کام باشترە بۆ ماڵ؟',
+    a: 'شقەی بەرز',
+    b: 'خانووی بچووک'
+  },
+  {
+    id: 'q021',
+    text: 'کام نووسین باشترە؟',
+    a: 'کوردی سۆرانی',
+    b: 'کوردی بادینی'
+  },
+  {
+    id: 'q022',
+    text: 'کام فڕۆکەخانە باشترە؟',
+    a: 'هەولێر',
+    b: 'سلێمانی'
+  },
+  {
+    id: 'q023',
+    text: 'کام زیاتر بەکارئێنیت؟',
+    a: 'فەیسبووک',
+    b: 'ئینستاگرام'
+  },
+  {
+    id: 'q024',
+    text: 'کام باشترە بۆ خواردنی نیوەڕۆ؟',
+    a: 'بەرینجی ماڵەوە',
+    b: 'ڕێستۆران'
+  },
+  {
+    id: 'q025',
+    text: 'کام چایی باشترە؟',
+    a: 'چایی سوور',
+    b: 'چایی شیرین'
+  },
+  {
+    id: 'q026',
+    text: 'کامە باشترە بۆ بەکارهێنانی ڕۆژانە؟',
+    a: 'ئایفۆن',
+    b: 'ئەندرۆید'
+  },
+  {
+    id: 'q027',
+    text: 'کام رووی نیوەڕۆ باشترە؟',
+    a: 'خەوتن',
+    b: 'مەشقکردن'
+  },
+  {
+    id: 'q028',
+    text: 'کام باشترە بۆ مندالەکان؟',
+    a: 'قوتابخانەی دەوڵەتی',
+    b: 'قوتابخانەی تایبەت'
+  },
+  {
+    id: 'q029',
+    text: 'کام ئۆتۆمبێل باشترە؟',
+    a: 'Toyota',
+    b: 'Kia'
+  },
+  {
+    id: 'q030',
+    text: 'کام باشترە بۆ ماوەی خۆشیویست؟',
+    a: 'ژووری فیلم لایماڵ',
+    b: 'ڕێستۆرانی باش'
+  }
+];
+
+// Get today's 10 questions based on date seed
+function getTodaysQuestions() {
+  const today = getDateKey();
+  // Use date as seed to pick 10 questions
+  let seed = today.replace(/-/g, '');
+  let idx = parseInt(seed) % QUESTION_POOL.length;
+  
+  const picked = [];
+  const used = new Set();
+  let i = idx;
+  while (picked.length < 10) {
+    const q = QUESTION_POOL[i % QUESTION_POOL.length];
+    if (!used.has(q.id)) {
+      picked.push(q);
+      used.add(q.id);
+    }
+    i++;
+  }
+  return picked;
+}
+
+// =====================
+// STATE
+// =====================
+let todaysQuestions = [];
+let votes = {}; // { questionId: { a: N, b: N } }
+let myVotes = {}; // { questionId: 'a' | 'b' }
+let currentView = 'today';
+
+function getDateKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function loadMyVotes() {
+  try {
+    const d = getDateKey();
+    const raw = localStorage.getItem(`kurdipoll_votes_${d}`);
+    return raw ? JSON.parse(raw) : {};
+  } catch { return {}; }
+}
+
+function saveMyVotes() {
+  const d = getDateKey();
+  localStorage.setItem(`kurdipoll_votes_${d}`, JSON.stringify(myVotes));
+}
+
+// =====================
+// SUPABASE OPERATIONS
+// =====================
+async function getVotesForQuestion(qid) {
+  try {
+    const today = getDateKey();
+    const data = await supabase('GET', `votes?question_id=eq.${qid}&date=eq.${today}&select=option,count`);
+    const result = { a: 0, b: 0 };
+    if (data) {
+      data.forEach(row => { result[row.option] = parseInt(row.count) || 0; });
+    }
+    return result;
+  } catch {
+    return { a: 0, b: 0 };
+  }
+}
+
+async function castVote(qid, option) {
+  try {
+    const today = getDateKey();
+    // Upsert vote — increment
+    await supabase('POST', 'votes', {
+      question_id: qid,
+      date: today,
+      option: option,
+      count: 1
+    });
+  } catch { /* fail silently */ }
+}
+
+async function loadAllVotes() {
+  try {
+    const today = getDateKey();
+    const qids = todaysQuestions.map(q => `question_id=eq.${q.id}`).join(',');
+    const data = await supabase('GET', `votes?date=eq.${today}&select=question_id,option,count`);
+    const result = {};
+    if (data) {
+      data.forEach(row => {
+        if (!result[row.question_id]) result[row.question_id] = { a: 0, b: 0 };
+        result[row.question_id][row.option] = parseInt(row.count) || 0;
+      });
+    }
+    return result;
+  } catch {
+    return {};
+  }
+}
+
+// =====================
+// RENDER
+// =====================
+function formatDate(d) {
+  const days = ['یەکشەممە','دووشەممە','سێشەممە','چوارشەممە','پێنجشەممە','هەینی','شەممە'];
+  const months = ['کانوونی دووەم','شوبات','ئازار','نیسان','ئایار','حوزەیران','تەممووز','ئاب','ئەیلوول','تشرینی یەکەم','تشرینی دووەم','کانوونی یەکەم'];
+  return `${days[d.getDay()]}، ${d.getDate()}ی ${months[d.getMonth()]}`;
+}
+
+function renderQuestions() {
+  const container = document.getElementById('questions-container');
+  const answered = Object.keys(myVotes).length;
+  document.getElementById('answered-count').textContent = answered;
+  document.getElementById('progress-fill').style.width = `${(answered / 10) * 100}%`;
+
+  container.innerHTML = todaysQuestions.map((q, i) => {
+    const myPick = myVotes[q.id];
+    const v = votes[q.id] || { a: 0, b: 0 };
+    const total = v.a + v.b;
+    const pctA = total ? Math.round((v.a / total) * 100) : 0;
+    const pctB = total ? Math.round((v.b / total) * 100) : 0;
+    const winnerA = pctA > pctB;
+    const winnerB = pctB > pctA;
+    const voted = !!myPick;
+
+    return `
+    <div class="card" id="card-${q.id}">
+      <div class="q-number">پرسیار ${i + 1}</div>
+      <div class="q-text">${q.text}</div>
+      <div class="options">
+        <button class="option-btn ${voted ? 'voted' : ''} ${voted && winnerA ? 'winner' : ''} ${myPick === 'a' ? 'my-pick' : ''}"
+          onclick="vote('${q.id}', 'a')"
+          ${voted ? 'disabled' : ''}>
+          <span class="opt-text">${q.a}</span>
+          <span class="opt-pct">${pctA}٪</span>
+          <div class="fill-bar" style="width:${voted ? pctA : 0}%"></div>
+        </button>
+        <button class="option-btn ${voted ? 'voted' : ''} ${voted && winnerB ? 'winner' : ''} ${myPick === 'b' ? 'my-pick' : ''}"
+          onclick="vote('${q.id}', 'b')"
+          ${voted ? 'disabled' : ''}>
+          <span class="opt-text">${q.b}</span>
+          <span class="opt-pct">${pctB}٪</span>
+          <div class="fill-bar" style="width:${voted ? pctB : 0}%"></div>
+        </button>
       </div>
-      <div class="pf-card">
-        <div class="pf-header-block" id="pf-header-block" style="background:linear-gradient(135deg,#1a0a2e,#0d1b3e);">
-          <div class="pf-avi" id="pf-avi">🧑‍💻</div>
-          <div class="pf-name-text" id="pf-name-out">Your Name</div>
-          <div class="pf-role-text" id="pf-role-out">Your Title</div>
-          <div class="pf-bio-text" id="pf-bio-out">Your bio will appear here...</div>
-        </div>
-        <div id="pf-links-out" style="background:#0a0a0f;">
-          <div class="pf-links-block" id="pf-links-inner">
-            <div class="pf-empty-msg">Add links from the editor</div>
+      ${voted ? `<div class="total-votes">${total} دەنگی کۆتایی</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+async function vote(qid, option) {
+  if (myVotes[qid]) return;
+  myVotes[qid] = option;
+  saveMyVotes();
+
+  // Optimistic update
+  if (!votes[qid]) votes[qid] = { a: 0, b: 0 };
+  votes[qid][option]++;
+
+  renderQuestions();
+
+  // Send to Supabase
+  await castVote(qid, option);
+
+  // Refresh votes from server
+  const fresh = await loadAllVotes();
+  if (Object.keys(fresh).length) votes = { ...votes, ...fresh };
+  renderQuestions();
+}
+
+// =====================
+// HISTORY
+// =====================
+async function loadHistory() {
+  try {
+    // Get all past dates from localStorage
+    const container = document.getElementById('history-container');
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('kurdipoll_votes_')) {
+        const d = k.replace('kurdipoll_votes_', '');
+        if (d !== getDateKey()) keys.push(d);
+      }
+    }
+
+    if (keys.length === 0) {
+      container.innerHTML = `<div class="empty-state"><p>ئەنجامی ئێستا بەردەست نیە.<br>هەموو شەوێک کاژمێر ١٢ ئەنجامەکان دەکرێنەوە.</p></div>`;
+      return;
+    }
+
+    keys.sort().reverse();
+
+    // Load from Supabase for each date
+    let html = '';
+    for (const d of keys.slice(0, 7)) {
+      try {
+        const data = await supabase('GET', `votes?date=eq.${d}&select=question_id,option,count`);
+        const dayVotes = {};
+        if (data) {
+          data.forEach(row => {
+            if (!dayVotes[row.question_id]) dayVotes[row.question_id] = { a: 0, b: 0 };
+            dayVotes[row.question_id][row.option] = parseInt(row.count) || 0;
+          });
+        }
+
+        // Get seed questions for that date
+        const seed = d.replace(/-/g, '');
+        let idx = parseInt(seed) % QUESTION_POOL.length;
+        const picked = [];
+        const used = new Set();
+        let i = idx;
+        while (picked.length < 10) {
+          const q = QUESTION_POOL[i % QUESTION_POOL.length];
+          if (!used.has(q.id)) { picked.push(q); used.add(q.id); }
+          i++;
+        }
+
+        html += `<div class="history-card">
+          <div class="history-date">${d}</div>
+          <div class="history-options">
+            ${picked.map(q => {
+              const v = dayVotes[q.id] || { a: 0, b: 0 };
+              const total = v.a + v.b;
+              const pctA = total ? Math.round((v.a / total) * 100) : 0;
+              const pctB = total ? Math.round((v.b / total) * 100) : 0;
+              const winA = pctA >= pctB;
+              return `
+              <div class="history-q">${q.text}</div>
+              <div class="history-opt ${winA ? 'win' : ''}">
+                <span style="min-width:100px;font-size:13px">${q.a}</span>
+                <div class="history-opt-bar"><div class="history-opt-fill" style="width:${pctA}%"></div></div>
+                <span class="history-opt-pct">${pctA}٪</span>
+              </div>
+              <div class="history-opt ${!winA ? 'win' : ''}">
+                <span style="min-width:100px;font-size:13px">${q.b}</span>
+                <div class="history-opt-bar"><div class="history-opt-fill" style="width:${pctB}%"></div></div>
+                <span class="history-opt-pct">${pctB}٪</span>
+              </div>`;
+            }).join('<hr style="border:none;border-top:1px solid var(--border);margin:10px 0">')}
           </div>
-          <div class="pf-links-footer">folio.app · built with ❤️</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+        </div>`;
+      } catch { /* skip */ }
+    }
 
-<!-- MODAL -->
-<div class="modal-overlay" id="share-modal" onclick="handleModalClick(event)">
-  <div class="modal-box">
-    <div class="m-icon">🎉</div>
-    <h2>You're live!</h2>
-    <p>Your portfolio is ready. Copy your link and share it with the world.</p>
-    <div class="share-row">
-      <span id="modal-url-text">folio.app/you</span>
-      <button class="copy-btn" onclick="copyUrl()">Copy</button>
-    </div>
-    <button class="modal-close-btn" onclick="closeShareModal()">Close</button>
-  </div>
-</div>
+    container.innerHTML = html || `<div class="empty-state"><p>داتای مێژوو نەدۆزرایەوە.</p></div>`;
+  } catch {
+    document.getElementById('history-container').innerHTML = `<div class="empty-state"><p>هەڵەیەک ڕووی دا.</p></div>`;
+  }
+}
 
-<div class="toast" id="toast">✓ Copied to clipboard!</div>
-<!-- Firebase SDKs -->
+// =====================
+// COUNTDOWN
+// =====================
+function updateCountdown() {
+  const now = new Date();
+  const midnight = new Date();
+  midnight.setHours(23, 59, 59, 999);
+  const diff = midnight - now;
+  const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
+  const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+  const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+  document.getElementById('countdown').textContent = `${h}:${m}:${s}`;
+}
+
+// =====================
+// NAV
+// =====================
+function showView(view) {
+  currentView = view;
+  document.getElementById('today-view').style.display = view === 'today' ? 'block' : 'none';
+  document.getElementById('history-view').style.display = view === 'history' ? 'block' : 'none';
+  document.querySelectorAll('.nav-btn').forEach((b, i) => {
+    b.classList.toggle('active', (i === 0 && view === 'today') || (i === 1 && view === 'history'));
+  });
+  if (view === 'history') loadHistory();
+}
+
+// =====================
+// INIT
+// =====================
+async function init() {
+  const now = new Date();
+  document.getElementById('header-date').textContent = formatDate(now);
+  document.getElementById('today-label').textContent = formatDate(now);
+
+  todaysQuestions = getTodaysQuestions();
+  myVotes = loadMyVotes();
+  document.getElementById('total-count').textContent = '10';
+
+  // Load votes
+  votes = await loadAllVotes();
+  renderQuestions();
+
+  // Countdown
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // Auto-refresh votes every 30s
+  setInterval(async () => {
+    if (currentView === 'today') {
+      const fresh = await loadAllVotes();
+      if (Object.keys(fresh).length) { votes = fresh; renderQuestions(); }
+    }
+  }, 30000);
+}
+
+init();
+</script>
+
+<!-- SUPABASE SETUP NOTE:
+Create a table called 'votes' with:
+  - question_id: text
+  - date: text (YYYY-MM-DD)
+  - option: text ('a' or 'b')
+  - count: integer
+
+Enable RLS and add policy: allow insert/select for anon users.
+
+For vote aggregation, use a Postgres function or handle in frontend as above.
+Replace SUPABASE_URL and SUPABASE_KEY with your actual values.
+-->
 </body>
 </html>
