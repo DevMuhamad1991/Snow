@@ -1,149 +1,819 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="ku" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Folio — Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/style.css">
-<link rel="stylesheet" href="./assets/css/dashboard.css">
+<title>بازرگانی کوردستان</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;600;700;900&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--blue-950:#03091a;
+--blue-900:#071228;
+--blue-850:#0a1a38;
+--blue-800:#0d2048;
+--blue-700:#102858;
+--blue-600:#1a3a72;
+--blue-500:#2252a0;
+--blue-400:#3068c0;
+--blue-300:#4880d8;
+--blue-200:#6a9ee8;
+--blue-100:#a8c4f4;
+--blue-50:#d6e6fc;
+--white:#ffffff;
+--white90:rgba(255,255,255,0.9);
+--white70:rgba(255,255,255,0.7);
+--white40:rgba(255,255,255,0.4);
+--white20:rgba(255,255,255,0.2);
+--white10:rgba(255,255,255,0.1);
+--white06:rgba(255,255,255,0.06);
+--green:#22c55e;
+--green-bg:rgba(34,197,94,0.12);
+--red:#f87171;
+--red-bg:rgba(248,113,113,0.12);
+--font-kuf:'Noto Kufi Arabic',sans-serif;
+--font-nas:'Noto Naskh Arabic',serif;
+--r4:4px;--r8:8px;--r12:12px;--r16:16px;--r20:20px;--r24:24px;
+}
+html{font-size:15px;scroll-behavior:smooth}
+body{font-family:var(--font-kuf);background:var(--blue-900);color:var(--white);min-height:100vh;direction:rtl;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--white20);border-radius:4px}
+button{cursor:pointer;font-family:var(--font-kuf)}
+input{font-family:var(--font-kuf)}
+
+/* ─── NAVBAR ─── */
+.nav{
+  position:sticky;top:0;z-index:300;
+  display:flex;align-items:center;gap:8px;
+  height:60px;padding:0 20px;
+  background:rgba(7,18,40,0.9);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--white10);
+}
+.nav-brand{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-nas);font-size:1.1rem;font-weight:700;
+  color:var(--white);white-space:nowrap;margin-left:auto;
+}
+.nav-logo{
+  width:34px;height:34px;border-radius:var(--r8);
+  background:var(--blue-500);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.nav-logo svg{width:18px;height:18px}
+.nav-stats{display:flex;gap:6px}
+.stat-pill{
+  display:flex;flex-direction:column;align-items:flex-end;
+  background:var(--white06);border:1px solid var(--white10);
+  border-radius:var(--r8);padding:5px 12px;min-width:88px;
+}
+.stat-pill-lbl{font-size:0.65rem;color:var(--white40);line-height:1.2}
+.stat-pill-val{font-size:0.85rem;font-weight:700;color:var(--white);margin-top:1px}
+.btn-day{
+  display:flex;align-items:center;gap:6px;
+  background:var(--white);color:var(--blue-900);
+  border:none;border-radius:var(--r8);
+  padding:0 16px;height:36px;
+  font-size:0.82rem;font-weight:700;white-space:nowrap;
+  transition:opacity .15s,transform .15s;
+}
+.btn-day:hover{opacity:.9;transform:translateY(-1px)}
+.btn-day svg{width:14px;height:14px}
+
+/* ─── TABS ─── */
+.tabs{
+  display:flex;gap:0;
+  background:rgba(7,18,40,0.8);
+  border-bottom:1px solid var(--white10);
+  padding:0 20px;overflow-x:auto;
+}
+.tabs::-webkit-scrollbar{height:0}
+.tab-btn{
+  display:flex;align-items:center;gap:7px;
+  background:transparent;border:none;
+  color:var(--white40);padding:13px 16px;
+  font-size:0.82rem;font-weight:600;white-space:nowrap;
+  border-bottom:2px solid transparent;
+  transition:color .2s,border-color .2s;
+  position:relative;top:1px;
+}
+.tab-btn svg{width:15px;height:15px;opacity:.6;transition:opacity .2s}
+.tab-btn:hover{color:var(--white70)}
+.tab-btn.active{color:var(--white);border-bottom-color:var(--white)}
+.tab-btn.active svg{opacity:1}
+
+/* ─── PAGES ─── */
+.page{display:none;padding:24px 20px;max-width:1280px;margin:0 auto}
+.page.active{display:block}
+
+/* ─── SECTION HEAD ─── */
+.sec-head{margin-bottom:22px}
+.sec-title{font-family:var(--font-nas);font-size:1.45rem;font-weight:700;color:var(--white)}
+.sec-sub{font-size:0.78rem;color:var(--white40);margin-top:4px}
+
+/* ─── KPI ROW ─── */
+.kpi-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:12px;margin-bottom:20px;
+}
+.kpi-card{
+  background:var(--blue-800);border:1px solid var(--white10);
+  border-radius:var(--r16);padding:18px 20px;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  transition:border-color .2s,transform .2s;
+}
+.kpi-card:hover{border-color:var(--white20);transform:translateY(-2px)}
+.kpi-lbl{font-size:0.72rem;color:var(--white40);margin-bottom:6px}
+.kpi-val{font-size:1.2rem;font-weight:700;color:var(--white)}
+.kpi-val.up{color:var(--green)}
+.kpi-val.dn{color:var(--red)}
+.kpi-icon{
+  width:36px;height:36px;border-radius:var(--r8);
+  background:var(--white10);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.kpi-icon svg{width:18px;height:18px}
+
+/* ─── EVENT ─── */
+.event-box{
+  display:flex;align-items:flex-start;gap:12px;
+  background:var(--blue-800);border:1px solid var(--white10);
+  border-right:3px solid var(--white40);
+  border-radius:var(--r12);padding:14px 16px;
+  margin-bottom:22px;
+  animation:slideIn .35s ease;
+}
+@keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.event-ic{
+  width:32px;height:32px;border-radius:var(--r8);
+  background:var(--white10);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.event-ic svg{width:16px;height:16px}
+.event-day{font-size:0.68rem;color:var(--white40);margin-bottom:2px}
+.event-msg{font-size:0.87rem;color:var(--white70);line-height:1.6}
+
+/* ─── FILTER BAR ─── */
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.fc{
+  display:flex;align-items:center;gap:5px;
+  background:var(--white06);border:1px solid var(--white10);
+  color:var(--white40);border-radius:20px;
+  padding:6px 13px;font-size:0.78rem;font-weight:600;
+  transition:all .15s;
+}
+.fc svg{width:13px;height:13px}
+.fc:hover{border-color:var(--white20);color:var(--white70)}
+.fc.active{background:var(--white);color:var(--blue-900);border-color:var(--white)}
+
+/* ─── CARDS GRID ─── */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:14px;
+}
+
+/* ─── ASSET CARD ─── */
+.acard{
+  background:var(--blue-800);border:1px solid var(--white10);
+  border-radius:var(--r16);padding:18px 18px 16px;
+  display:flex;flex-direction:column;gap:14px;
+  transition:border-color .2s,transform .2s;
+  position:relative;overflow:hidden;
+}
+.acard:hover{border-color:var(--white30,rgba(255,255,255,.3));transform:translateY(-2px)}
+.acard-top-line{
+  position:absolute;top:0;right:18px;left:18px;height:2px;border-radius:0 0 2px 2px;
+  opacity:.7;
+}
+.cat-company .acard-top-line{background:var(--blue-200)}
+.cat-property .acard-top-line{background:#4ade80}
+.cat-land .acard-top-line{background:#a3e635}
+.cat-car .acard-top-line{background:#fb923c}
+.cat-shop .acard-top-line{background:#c084fc}
+.cat-gold .acard-top-line{background:#fbbf24}
+.cat-dollar .acard-top-line{background:#67e8f9}
+
+.acard-head{display:flex;align-items:flex-start;gap:12px}
+.acard-ic{
+  width:42px;height:42px;border-radius:var(--r10,10px);
+  background:var(--white06);border:1px solid var(--white10);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.acard-ic svg{width:22px;height:22px}
+.acard-meta{flex:1;min-width:0}
+.acard-name{font-size:0.9rem;font-weight:700;color:var(--white);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acard-sub{font-size:0.7rem;color:var(--white40);margin-top:2px}
+.acard-badge{
+  font-size:0.63rem;font-weight:700;padding:3px 8px;
+  border-radius:20px;white-space:nowrap;flex-shrink:0;align-self:flex-start;
+}
+.badge-company{background:rgba(106,158,232,.15);color:var(--blue-100)}
+.badge-property{background:rgba(74,222,128,.12);color:#86efac}
+.badge-land{background:rgba(163,230,53,.12);color:#bef264}
+.badge-car{background:rgba(251,146,60,.12);color:#fdba74}
+.badge-shop{background:rgba(192,132,252,.12);color:#d8b4fe}
+.badge-gold{background:rgba(251,191,36,.12);color:#fde68a}
+.badge-dollar{background:rgba(103,232,249,.12);color:#a5f3fc}
+
+.acard-price-row{display:flex;justify-content:space-between;align-items:center}
+.acard-price{font-size:1.05rem;font-weight:700;color:var(--white)}
+.cpill{
+  display:flex;align-items:center;gap:3px;
+  font-size:0.7rem;font-weight:700;padding:3px 8px;border-radius:20px;
+}
+.cpill svg{width:9px;height:9px}
+.cpill.up{background:var(--green-bg);color:var(--green)}
+.cpill.dn{background:var(--red-bg);color:var(--red)}
+.cpill.fl{background:var(--white06);color:var(--white40)}
+
+.acard-detail{
+  font-size:0.74rem;color:var(--white40);line-height:1.65;
+  padding-top:12px;border-top:1px solid var(--white06);
+}
+.acard-owned{
+  position:absolute;top:12px;left:12px;
+  display:flex;align-items:center;gap:4px;
+  background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);
+  color:var(--green);font-size:0.62rem;font-weight:700;
+  padding:3px 8px;border-radius:20px;
+}
+.acard-owned svg{width:10px;height:10px}
+.acard-actions{display:flex;gap:8px}
+.btn-buy,.btn-sell,.btn-more{
+  flex:1;height:34px;display:flex;align-items:center;justify-content:center;gap:5px;
+  border:none;border-radius:var(--r8);
+  font-size:0.78rem;font-weight:700;
+  transition:opacity .15s,transform .12s;
+}
+.btn-buy{background:var(--white);color:var(--blue-900)}
+.btn-sell{background:var(--red-bg);color:var(--red);border:1px solid rgba(248,113,113,.25)}
+.btn-more{background:var(--white06);color:var(--white70);border:1px solid var(--white10)}
+.btn-buy:hover,.btn-sell:hover,.btn-more:hover{opacity:.85;transform:scale(1.02)}
+.btn-buy:disabled{opacity:.3;cursor:not-allowed;transform:none}
+.btn-buy svg,.btn-sell svg,.btn-more svg{width:13px;height:13px}
+
+/* ─── PRICES TABLE ─── */
+.ptable{background:var(--blue-800);border:1px solid var(--white10);border-radius:var(--r16);overflow:hidden}
+.ptable-head{
+  display:grid;grid-template-columns:1fr 140px 110px 110px;
+  padding:11px 20px;background:var(--white06);
+  font-size:0.68rem;color:var(--white40);font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;
+  border-bottom:1px solid var(--white10);
+}
+.prow{
+  display:grid;grid-template-columns:1fr 140px 110px 110px;
+  align-items:center;padding:13px 20px;
+  border-bottom:1px solid var(--white06);transition:background .15s;
+}
+.prow:last-child{border-bottom:none}
+.prow:hover{background:var(--white06)}
+.prow-name{display:flex;align-items:center;gap:10px}
+.prow-ic{
+  width:32px;height:32px;border-radius:var(--r8);
+  background:var(--white06);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.prow-ic svg{width:16px;height:16px}
+.prow-main{font-size:0.85rem;font-weight:600;color:var(--white)}
+.prow-cat{font-size:0.68rem;color:var(--white40);margin-top:1px}
+.prow-price{font-size:0.88rem;font-weight:700;color:var(--white)}
+.prow-owned{font-size:0.8rem;color:var(--white40)}
+
+/* ─── PORTFOLIO STATS ─── */
+.port-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:20px}
+.pstat{background:var(--blue-800);border:1px solid var(--white10);border-radius:var(--r12);padding:14px 16px}
+.pstat-lbl{font-size:0.69rem;color:var(--white40)}
+.pstat-val{font-size:1rem;font-weight:700;color:var(--white);margin-top:4px}
+
+/* ─── EMPTY ─── */
+.empty{text-align:center;padding:56px 20px;color:var(--white40)}
+.empty-ic{
+  width:54px;height:54px;border-radius:50%;
+  background:var(--white06);margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.empty-ic svg{width:26px;height:26px}
+.empty h3{font-size:.95rem;color:var(--white70);margin-bottom:6px}
+.empty p{font-size:.8rem;margin-bottom:18px}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--white);color:var(--blue-900);
+  border:none;border-radius:var(--r8);
+  padding:9px 20px;font-size:.82rem;font-weight:700;
+  transition:opacity .15s;
+}
+.btn-primary:hover{opacity:.9}
+.btn-primary svg{width:14px;height:14px}
+
+/* ─── MODAL ─── */
+.modal-bg{
+  display:none;position:fixed;inset:0;
+  background:rgba(3,9,26,0.75);
+  backdrop-filter:blur(8px);z-index:900;
+  align-items:center;justify-content:center;padding:16px;
+}
+.modal-bg.open{display:flex}
+.modal{
+  background:var(--blue-800);border:1px solid var(--white20);
+  border-radius:var(--r20);padding:24px;
+  width:100%;max-width:440px;position:relative;
+  animation:mpop .2s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes mpop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+.modal-x{
+  position:absolute;top:16px;left:16px;
+  width:28px;height:28px;border-radius:50%;
+  background:var(--white10);border:none;color:var(--white70);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;
+}
+.modal-x:hover{background:var(--white20)}
+.modal-x svg{width:13px;height:13px}
+.modal-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.modal-ic{
+  width:48px;height:48px;border-radius:var(--r12);
+  background:var(--white10);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.modal-ic svg{width:24px;height:24px}
+.modal-title{font-family:var(--font-nas);font-size:1rem;font-weight:700;color:var(--white)}
+.modal-sub{font-size:0.72rem;color:var(--white40);margin-top:3px}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.mc{background:var(--blue-700);border-radius:var(--r8);padding:10px 12px}
+.mc-lbl{font-size:0.66rem;color:var(--white40)}
+.mc-val{font-size:0.88rem;font-weight:700;color:var(--white);margin-top:3px}
+.modal-desc{font-size:0.8rem;color:var(--white60,rgba(255,255,255,.6));line-height:1.7;background:var(--blue-700);border-radius:var(--r8);padding:11px 13px;margin-bottom:14px}
+.qty-wrap{margin-bottom:14px}
+.qty-top{display:flex;justify-content:space-between;margin-bottom:7px}
+.qty-lbl{font-size:0.76rem;color:var(--white40)}
+.qty-tot{font-size:0.78rem;font-weight:700;color:var(--white)}
+.qty-row{display:flex;align-items:center;gap:7px}
+.qbtn{
+  width:30px;height:30px;border-radius:var(--r8);
+  background:var(--white10);border:1px solid var(--white10);color:var(--white);
+  font-size:1rem;display:flex;align-items:center;justify-content:center;
+  transition:background .15s;
+}
+.qbtn:hover{background:var(--white20)}
+.qinp{
+  flex:1;background:var(--blue-700);border:1px solid var(--white20);
+  color:var(--white);border-radius:var(--r8);
+  padding:7px;font-size:0.88rem;text-align:center;
+}
+.qinp:focus{outline:none;border-color:var(--white40)}
+.modal-acts{display:flex;gap:8px}
+.modal-acts .btn-buy,.modal-acts .btn-sell{height:40px;font-size:0.85rem;border-radius:var(--r8)}
+
+/* ─── TOAST ─── */
+.toast{
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(70px);
+  background:var(--blue-800);border:1px solid var(--white20);
+  color:var(--white);padding:11px 20px;
+  border-radius:var(--r12);font-size:0.84rem;font-weight:600;
+  z-index:9999;pointer-events:none;white-space:nowrap;
+  box-shadow:0 8px 28px rgba(0,0,0,.5);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ok{color:var(--green);border-color:rgba(34,197,94,.3)}
+.toast.err{color:var(--red);border-color:rgba(248,113,113,.3)}
+.toast.inf{color:var(--white70)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .nav{padding:0 14px}
+  .stat-pill:nth-child(3){display:none}
+  .page{padding:18px 14px}
+  .tabs{padding:0 14px}
+  .cards{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+  .ptable-head,.prow{grid-template-columns:1fr 120px 100px}
+  .ptable-head>:last-child,.prow>:last-child{display:none}
+}
+@media(max-width:600px){
+  .nav-brand span{display:none}
+  .stat-pill{min-width:72px;padding:5px 8px}
+  .btn-day span{display:none}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .cards{grid-template-columns:1fr}
+  .ptable-head,.prow{grid-template-columns:1fr 100px 80px}
+  .modal{padding:18px}
+  .port-stats{grid-template-columns:1fr 1fr}
+}
+@media(max-width:400px){
+  .kpi-row{grid-template-columns:1fr}
+  .stat-pill:nth-child(2){display:none}
+}
+</style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="dash-nav">
-  <div class="dash-nav-left">
-    <div class="logo">folio.</div>
-    <span class="nav-username" id="nav-username">@...</span>
+<!-- NAVBAR -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <span>بازرگانی کوردستان</span>
   </div>
-  <div class="dash-nav-right">
-    <button class="icon-btn-nav" onclick="toggleTheme()" id="theme-btn" title="Toggle theme">🌙</button>
-    <button class="btn btn-ghost" onclick="viewPortfolio()">View</button>
-    <button class="btn btn-primary" onclick="savePortfolio()" id="save-btn">Save</button>
-    <button class="icon-btn-nav logout-btn" onclick="logout()" title="Log out">↩</button>
+  <div class="nav-stats">
+    <div class="stat-pill">
+      <span class="stat-pill-lbl">کاش</span>
+      <span class="stat-pill-val" id="nCash">$50,000</span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-pill-lbl">سامان</span>
+      <span class="stat-pill-val" id="nNet">$50,000</span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-pill-lbl">ڕۆژ</span>
+      <span class="stat-pill-val" id="nDay">1</span>
+    </div>
   </div>
+  <button class="btn-day" onclick="G.nextDay()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    <span>ڕۆژی داهاتوو</span>
+  </button>
 </nav>
 
-<!-- MAIN -->
-<div class="dash-main">
-
-  <!-- SIDEBAR -->
-  <div class="dash-sidebar" id="dash-sidebar">
-
-    <!-- AVATAR -->
-    <div class="profile-header-section">
-      <div class="avatar-upload-wrap">
-        <div class="avatar-preview" id="avatar-preview">
-          <span id="avatar-emoji-display">🧑‍💻</span>
-          <img id="avatar-img" src="" alt="" style="display:none;">
-        </div>
-        <div class="avatar-actions">
-          <button class="avatar-action-btn" onclick="document.getElementById('photo-input').click()">Upload photo</button>
-          <button class="avatar-action-btn" onclick="toggleEmojiPicker()">Use emoji</button>
-        </div>
-        <input type="file" id="photo-input" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
-      </div>
-      <div class="emoji-picker-wrap" id="emoji-picker-wrap" style="display:none;">
-        <div class="emoji-grid" id="emoji-grid"></div>
-      </div>
-    </div>
-
-    <!-- TEMPLATES -->
-    <div class="templates-section">
-      <div class="dash-section-title">Templates</div>
-      <div class="templates-grid" id="templates-grid"></div>
-    </div>
-
-    <!-- ABOUT -->
-    <div class="dash-section">
-      <div class="dash-section-title">About</div>
-      <div class="input-group">
-        <label>Full Name</label>
-        <input type="text" id="pf-name" placeholder="e.g. Hama Karwan" oninput="markDirty()">
-      </div>
-      <div class="input-group">
-        <label>Job Title</label>
-        <input type="text" id="pf-role" placeholder="e.g. Web Developer" oninput="markDirty()">
-      </div>
-      <div class="input-group">
-        <label>Bio</label>
-        <textarea id="pf-bio" placeholder="Tell the world about yourself..." oninput="markDirty()"></textarea>
-      </div>
-      <div class="input-group">
-        <label>Location</label>
-        <input type="text" id="pf-location" placeholder="e.g. Erbil, Iraq" oninput="markDirty()">
-      </div>
-    </div>
-
-    <!-- BACKGROUND -->
-    <div class="dash-section">
-      <div class="dash-section-title">Background</div>
-      <div class="bg-grid" id="bg-grid"></div>
-    </div>
-
-    <!-- SKILLS -->
-    <div class="dash-section">
-      <div class="dash-section-title">Skills</div>
-      <div class="tags-list" id="skills-list"></div>
-      <div class="tag-input-row">
-        <input type="text" id="skill-input" placeholder="Add a skill..." onkeydown="handleSkillKey(event)">
-        <button class="btn btn-ghost" style="font-size:0.78rem;padding:0.4rem 0.75rem;" onclick="addSkill()">Add</button>
-      </div>
-    </div>
-
-    <!-- WORK -->
-    <div class="dash-section">
-      <div class="dash-section-title">Work Experience</div>
-      <div class="work-list" id="work-list"></div>
-      <button class="add-item-btn" onclick="addWork()">+ Add experience</button>
-    </div>
-
-    <!-- LINKS -->
-    <div class="dash-section">
-      <div class="dash-section-title">Links</div>
-      <div class="links-list" id="links-list"></div>
-      <button class="add-item-btn" onclick="addLink()">+ Add link</button>
-    </div>
-
-  </div>
-
-  <!-- PREVIEW -->
-  <div class="dash-preview" id="dash-preview">
-    <div class="preview-sticky">
-      <div class="preview-label">Live Preview</div>
-      <div class="preview-browser">
-        <div class="browser-dots">
-          <div class="bd bd-r"></div>
-          <div class="bd bd-y"></div>
-          <div class="bd bd-g"></div>
-        </div>
-        <div class="browser-url" id="browser-url">folio.app/you</div>
-      </div>
-      <div class="pf-preview-card" id="pf-preview-card"></div>
-    </div>
-  </div>
-
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="G.tab('dashboard',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    داشبۆرد
+  </button>
+  <button class="tab-btn" onclick="G.tab('market',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    بازاڕ
+  </button>
+  <button class="tab-btn" onclick="G.tab('portfolio',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+    موڵکەکانم
+  </button>
+  <button class="tab-btn" onclick="G.tab('prices',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    نرخەکان
+  </button>
 </div>
 
-<!-- MOBILE BOTTOM NAV -->
-<div class="mobile-bottom-nav">
-  <button class="mob-nav-btn active" onclick="showMobileTab('edit')" id="mob-edit-btn">Edit</button>
-  <button class="mob-nav-btn" onclick="showMobileTab('preview')" id="mob-preview-btn">Preview</button>
+<!-- DASHBOARD -->
+<div id="p-dashboard" class="page active">
+  <div class="sec-head"><h1 class="sec-title">داشبۆرد</h1><p class="sec-sub">وضعی گشتی دارایی و سامانی تۆ</p></div>
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div><div class="kpi-lbl">پارەی کاش</div><div class="kpi-val" id="kCash">$50,000</div></div>
+      <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 9h4.5a1.5 1.5 0 010 3H9m0 0h5a1.5 1.5 0 010 3H9"/></svg></div>
+    </div>
+    <div class="kpi-card">
+      <div><div class="kpi-lbl">سامانی گشتی</div><div class="kpi-val" id="kNet">$50,000</div></div>
+      <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+    </div>
+    <div class="kpi-card">
+      <div><div class="kpi-lbl">قازانجی گشتی</div><div class="kpi-val" id="kProfit">$0</div></div>
+      <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+    </div>
+    <div class="kpi-card">
+      <div><div class="kpi-lbl">ژمارەی موڵک</div><div class="kpi-val" id="kCount">0</div></div>
+      <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+    </div>
+  </div>
+  <div class="event-box" id="evBox">
+    <div class="event-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+    <div><div class="event-day" id="evDay">ڕۆژی 1</div><div class="event-msg" id="evMsg">بەخێربێیت! دەستت بە $50,000 پێوە دەست پێدەکەیت. باشترین سەرمایەکاری بکە.</div></div>
+  </div>
+  <div class="sec-head"><h2 class="sec-title" style="font-size:1.1rem">موڵکەکانم</h2></div>
+  <div id="dPort"></div>
 </div>
 
-<!-- UPGRADE MODAL -->
-<div class="modal-overlay" id="upgrade-modal" onclick="handleModalClick(event)">
-  <div class="modal-box">
-    <div class="modal-icon">⭐</div>
-    <h2>Premium Template</h2>
-    <p>This template is available for Pro users. Upgrade to unlock all premium templates and features.</p>
-    <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="closeUpgradeModal()">Maybe later</button>
-    <button class="modal-close" onclick="closeUpgradeModal()">Close</button>
+<!-- MARKET -->
+<div id="p-market" class="page">
+  <div class="sec-head"><h1 class="sec-title">بازاڕ</h1><p class="sec-sub">کڕین و فرۆشتنی موڵک و بابەتەکان</p></div>
+  <div class="filter-bar" id="fBar"></div>
+  <div class="cards" id="mGrid"></div>
+</div>
+
+<!-- PORTFOLIO -->
+<div id="p-portfolio" class="page">
+  <div class="sec-head"><h1 class="sec-title">موڵکەکانم</h1><p class="sec-sub">هەموو سامان و موڵکی تۆ</p></div>
+  <div class="port-stats" id="pStats"></div>
+  <div class="cards" id="pGrid"></div>
+</div>
+
+<!-- PRICES -->
+<div id="p-prices" class="page">
+  <div class="sec-head"><h1 class="sec-title">نرخەکان</h1><p class="sec-sub">شوێن بگرە لە گۆڕانکاری نرخی بازاڕ</p></div>
+  <div class="ptable">
+    <div class="ptable-head"><div>ناو</div><div>نرخی ئێستا</div><div>گۆڕانکاری</div><div>کڕاوەکانت</div></div>
+    <div id="pList"></div>
   </div>
 </div>
 
+<!-- MODAL -->
+<div class="modal-bg" id="mBg" onclick="G.mClose(event)">
+  <div class="modal">
+    <button class="modal-x" onclick="G.closeM()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div id="mBody"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script type="module" src="./assets/js/dashboard.js"></script>
+<script>
+const SVGS={
+  company:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>`,
+  property:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+  land:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.8"><path d="M2 22l10-10 4 4 6-8"/><path d="M2 22h20"/></svg>`,
+  car:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.8"><path d="M5 17H3a2 2 0 01-2-2V9a2 2 0 012-2h13l4 4v4a2 2 0 01-2 2h-2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>`,
+  shop:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>`,
+  gold:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>`,
+  dollar:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>`,
+  buy:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>`,
+  sell:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>`,
+  check:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`,
+  up:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>`,
+  dn:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>`,
+  bag:`<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>`,
+  market:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>`,
+};
+
+const CATS={company:'کۆمپانیا',property:'خانووبەرە',land:'زەوی',car:'ئۆتۆمبێل',shop:'دوکان',gold:'زێڕ',dollar:'دۆلار'};
+
+const ASSETS=[
+  {id:'korek',cat:'company',name:'کۆمپانیای کۆرەک',sub:'تێلیکۆم · هەولێر',price:850000,base:850000,yield:.020,detail:'12M بەکارهێنەر · داهاتی ساڵانە $120M'},
+  {id:'asiacell',cat:'company',name:'ئاسیاسێل',sub:'تێلیکۆم · عێراق',price:2400000,base:2400000,yield:.030,detail:'18M بەکارهێنەر · گەورەترین کۆمپانیای مۆبایل'},
+  {id:'mass',cat:'company',name:'ماس گلۆبەل',sub:'بیناسازی · کوردستان',price:3500000,base:3500000,yield:.018,detail:'50+ پرۆژە · داهاتی بەرز'},
+  {id:'nazcity',cat:'company',name:'ناز سیتی',sub:'سەرگەرمی · هەولێر',price:650000,base:650000,yield:.035,detail:'500K میوان لە ساڵدا'},
+  {id:'falcon',cat:'company',name:'گروپی فالکۆن',sub:'هوتێل · کوردستان',price:980000,base:980000,yield:.022,detail:'8 هوتێل · داهاتی ساڵانە $95M'},
+  {id:'villa',cat:'property',name:'ڤیلا لە عەینکاوە',sub:'هەولێر · عەینکاوە',price:420000,base:420000,yield:.015,detail:'450م² · 5 ژووری نوستن · باخچە'},
+  {id:'apt',cat:'property',name:'شقەی بینای بلند',sub:'سلێمانی · ناوەند',price:180000,base:180000,yield:.012,detail:'120م² · 3 ژووری نوستن · 12 قات'},
+  {id:'tower',cat:'property',name:'برجی بازرگانی',sub:'هەولێر · ئەمنی',price:750000,base:750000,yield:.020,detail:'800م² ئۆفیس · 3 قات'},
+  {id:'house',cat:'property',name:'خانووی دهوک',sub:'دهوک · سەنتەری',price:145000,base:145000,yield:.013,detail:'130م² · 3 ژووری نوستن · دیمەنی چیا'},
+  {id:'lgwr',cat:'land',name:'زەوی کشتوکاڵی گەورڕە',sub:'هەولێر · گەورڕە',price:320000,base:320000,yield:0,detail:'50 دۆنم · ئاوی تەواو'},
+  {id:'lind',cat:'land',name:'زەوی پیشەسازی',sub:'هەولێر · زۆنی پیشەسازی',price:560000,base:560000,yield:0,detail:'30 دۆنم · مۆڵەتی بیناسازی'},
+  {id:'ltur',cat:'land',name:'زەوی گەشتیاری سۆران',sub:'ئەربیل · سۆران',price:210000,base:210000,yield:0,detail:'20 دۆنم · دیمەنی چیایی'},
+  {id:'lc200',cat:'car',name:'تۆیۆتا لاندکروزەر 2024',sub:'SUV لوکس',price:85000,base:85000,yield:-.005,detail:'ڤی8 · 4WD · فول ئۆپشن'},
+  {id:'lexus',cat:'car',name:'لێکسەس LX 600',sub:'فول ئۆپشن · 2023',price:130000,base:130000,yield:-.003,detail:'ڤی6 ترببۆ · 7 نیشتەجێ'},
+  {id:'bus',cat:'car',name:'باسی گواستنەوە',sub:'بازرگانی · 45 نیشتەجێ',price:45000,base:45000,yield:.018,detail:'دیزێل · گونجاوە بۆ لایینی بازرگانی'},
+  {id:'shopfam',cat:'shop',name:'دوکانی فامیلی مۆڵ',sub:'هەولێر · فامیلی مۆڵ',price:280000,base:280000,yield:.040,detail:'80م² · کرێی مانگانە $2,500'},
+  {id:'rest',cat:'shop',name:'چێشتخانەی ئامادە',sub:'سلێمانی · ئازادی',price:95000,base:95000,yield:.050,detail:'50 کەلتوور · داهاتی مانگانە $7,500'},
+  {id:'pharm',cat:'shop',name:'داروخانەی مۆدێرن',sub:'کوردستان · ناوەند',price:65000,base:65000,yield:.038,detail:'مۆڵەتی تەواو · داهاتی باش'},
+  {id:'g1',cat:'gold',name:'زێڕی 1 ئاونس',sub:'24 قیراط · 31.1 گرام',price:2050,base:2050,yield:0,detail:'زێڕی خاوی ناوەند'},
+  {id:'g10',cat:'gold',name:'زێڕی 10 ئاونس',sub:'24 قیراط · 311 گرام',price:20500,base:20500,yield:0,detail:'بارکی 10 ئاونسی زێڕ'},
+  {id:'gkg',cat:'gold',name:'زێڕی یەک کیلۆ',sub:'24 قیراط · 1000 گرام',price:65900,base:65900,yield:0,detail:'بارکی 1 کیلۆی زێڕ'},
+  {id:'u1k',cat:'dollar',name:'1,000 دۆلار',sub:'دۆلاری ئەمریکی',price:1300,base:1300,yield:0,detail:'1 دۆلار = 1,300 دینار'},
+  {id:'u10k',cat:'dollar',name:'10,000 دۆلار',sub:'دەستەی دۆلار',price:13000,base:13000,yield:0,detail:'نرخی بازاڕی ئازاد'},
+];
+
+const EVENTS=[
+  {msg:'گەشتیاری زیاد بوو — نرخی دوکان بەرز دەبێتەوە.',cats:['shop','company'],fx:.09},
+  {msg:'بازاڕی خانوو گەشەی کرد — داواکاری زیاد.',cats:['property'],fx:.11},
+  {msg:'نرخی سووتەمەنی بەرز بوو — کارگاکان کاریگەری بینی.',cats:['company','car'],fx:-.06},
+  {msg:'داواکاری زێڕ زیاد بوو.',cats:['gold'],fx:.13},
+  {msg:'دۆلار بەرز بوو لە بازاڕی ئازاد.',cats:['dollar'],fx:.07},
+  {msg:'قەیرانی ئابووری — بازاڕ دادەبەزێت.',cats:['company','property'],fx:-.13},
+  {msg:'وەرزی گەرمە — گەشتیاری زیاد بوو.',cats:['shop','company'],fx:.08},
+  {msg:'پرۆژەی گەورەی بیناسازی دەست پێکرد.',cats:['land','property'],fx:.10},
+  {msg:'نرخی ئۆتۆمبێل بەرز بوو بەهۆی تاکسی.',cats:['car'],fx:.09},
+  {msg:'نەورۆز — جووڵەی بازاڕ زیاد بوو.',cats:['shop','company'],fx:.12},
+  {msg:'باران و سیلاو — زەوی ئاژاوەیی کرد.',cats:['land'],fx:-.09},
+  {msg:'وەبەرهێنانی بیانی زیاد بوو لە کوردستان.',cats:['company','property'],fx:.06},
+];
+
+const S={cash:50000,day:1,port:{},cat:'all',million:false};
+
+const fmt=n=>{const a=Math.abs(n),s=n<0?'-':'';return a>=1e6?s+'$'+(a/1e6).toFixed(2)+'M':a>=1000?s+'$'+Math.round(a).toLocaleString():s+'$'+Math.round(a);};
+const own=id=>S.port[id]?.qty||0;
+const nw=()=>{let t=S.cash;ASSETS.forEach(a=>{const q=own(a.id);if(q)t+=a.price*q;});return t;};
+const profit=()=>nw()-50000;
+const acount=()=>Object.values(S.port).reduce((s,v)=>s+v.qty,0);
+
+const cpill=a=>{const d=(a.price-a.base)/a.base;if(d>.0004)return`<span class="cpill up">${SVGS.up}+${(d*100).toFixed(1)}%</span>`;if(d<-.0004)return`<span class="cpill dn">${SVGS.dn}${(d*100).toFixed(1)}%</span>`;return`<span class="cpill fl">—</span>`;};
+
+function toast(msg,type='inf'){const el=document.getElementById('toast');el.textContent=msg;el.className=`toast show ${type}`;clearTimeout(el._t);el._t=setTimeout(()=>el.className='toast',3000);}
+
+function upStats(){
+  const n=nw(),p=profit();
+  ['nCash','kCash'].forEach(id=>document.getElementById(id).textContent=fmt(S.cash));
+  ['nNet','kNet'].forEach(id=>document.getElementById(id).textContent=fmt(n));
+  document.getElementById('nDay').textContent=S.day;
+  const pe=document.getElementById('kProfit');
+  pe.textContent=(p>=0?'+':'')+fmt(p);
+  pe.className='kpi-val '+(p>0?'up':p<0?'dn':'');
+  document.getElementById('kCount').textContent=acount();
+}
+
+function card(a,mode){
+  const q=own(a.id),canBuy=S.cash>=a.price;
+  let acts='';
+  if(mode==='market'){
+    acts=`<div class="acard-actions">
+      <button class="btn-buy" ${!canBuy?'disabled':''} onclick="event.stopPropagation();G.openM('${a.id}','buy')">${SVGS.buy}بکڕە</button>
+      ${q>0?`<button class="btn-sell" onclick="event.stopPropagation();G.openM('${a.id}','sell')">${SVGS.sell}بفرۆشە</button>`:''}
+    </div>`;
+  } else {
+    acts=`<div class="acard-actions">
+      <button class="btn-sell" onclick="event.stopPropagation();G.openM('${a.id}','sell')">${SVGS.sell}بفرۆشە</button>
+      <button class="btn-more" onclick="event.stopPropagation();G.openM('${a.id}','buy')">+ زیادبکە</button>
+    </div>`;
+  }
+  return`<div class="acard cat-${a.cat}" onclick="G.openM('${a.id}','info')">
+    <div class="acard-top-line"></div>
+    ${q>0?`<div class="acard-owned">${SVGS.check}${q} ماڵت</div>`:''}
+    <div class="acard-head">
+      <div class="acard-ic">${SVGS[a.cat]}</div>
+      <div class="acard-meta">
+        <div class="acard-name">${a.name}</div>
+        <div class="acard-sub">${a.sub}</div>
+      </div>
+      <div class="acard-badge badge-${a.cat}">${CATS[a.cat]}</div>
+    </div>
+    <div class="acard-price-row">
+      <span class="acard-price">${fmt(a.price)}</span>
+      ${cpill(a)}
+    </div>
+    <div class="acard-detail">${a.detail}</div>
+    ${acts}
+  </div>`;
+}
+
+function renderMarket(){
+  const list=S.cat==='all'?ASSETS:ASSETS.filter(a=>a.cat===S.cat);
+  document.getElementById('mGrid').innerHTML=list.map(a=>card(a,'market')).join('');
+}
+
+function renderPort(){
+  const own_=ASSETS.filter(a=>own(a.id)>0);
+  if(!own_.length){
+    document.getElementById('pGrid').innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-ic">${SVGS.bag}</div><h3>موڵکت نییە هێشتا</h3><p>بڕۆ بازاڕ دەست بکە بە سەرمایەکاری!</p><button class="btn-primary" onclick="G.tab('market',document.querySelectorAll('.tab-btn')[1])">${SVGS.market}بڕۆ بازاڕ</button></div>`;
+    document.getElementById('pStats').innerHTML='';return;
+  }
+  document.getElementById('pGrid').innerHTML=own_.map(a=>card(a,'port')).join('');
+  const tv=own_.reduce((s,a)=>s+a.price*own(a.id),0);
+  const tc=own_.reduce((s,a)=>{const p=S.port[a.id];return s+(p?p.avgBuy*p.qty:0);},0);
+  const pnl=tv-tc;
+  document.getElementById('pStats').innerHTML=`
+    <div class="pstat"><div class="pstat-lbl">ژمارەی موڵک</div><div class="pstat-val">${acount()}</div></div>
+    <div class="pstat"><div class="pstat-lbl">نرخی ئێستا</div><div class="pstat-val">${fmt(tv)}</div></div>
+    <div class="pstat"><div class="pstat-lbl">تێچوونی کڕین</div><div class="pstat-val">${fmt(tc)}</div></div>
+    <div class="pstat"><div class="pstat-lbl">قازانج/زیان</div><div class="pstat-val" style="color:${pnl>=0?'var(--green)':'var(--red)'}">${pnl>=0?'+':''}${fmt(pnl)}</div></div>`;
+}
+
+function renderPrices(){
+  document.getElementById('pList').innerHTML=ASSETS.map(a=>{
+    const q=own(a.id);
+    return`<div class="prow">
+      <div class="prow-name">
+        <div class="prow-ic">${SVGS[a.cat]}</div>
+        <div><div class="prow-main">${a.name}</div><div class="prow-cat">${CATS[a.cat]}</div></div>
+      </div>
+      <div class="prow-price">${fmt(a.price)}</div>
+      <div>${cpill(a)}</div>
+      <div class="prow-owned">${q>0?`${q} ماڵت`:'—'}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderDPort(){
+  const own_=ASSETS.filter(a=>own(a.id)>0);
+  if(!own_.length){
+    document.getElementById('dPort').innerHTML=`<div class="empty"><div class="empty-ic">${SVGS.bag}</div><h3>هێشتا موڵکت نییە</h3><p>بڕۆ بازاڕ و دەست بکە بە کڕین</p><button class="btn-primary" onclick="G.tab('market',document.querySelectorAll('.tab-btn')[1])">${SVGS.market}بڕۆ بازاڕ</button></div>`;
+    return;
+  }
+  document.getElementById('dPort').innerHTML=`<div class="cards">${own_.map(a=>card(a,'port')).join('')}</div>`;
+}
+
+function renderFilter(){
+  const cats=[{id:'all',label:'هەمووی'},...Object.keys(CATS).map(k=>({id:k,label:CATS[k]}))];
+  document.getElementById('fBar').innerHTML=cats.map(c=>`<button class="fc ${S.cat===c.id?'active':''}" onclick="G.fCat('${c.id}',this)">${c.id!=='all'?SVGS[c.id]:''}${c.label}</button>`).join('');
+}
+
+function openModal(id,mode){
+  const a=ASSETS.find(x=>x.id===id),q=own(id),canBuy=S.cash>=a.price;
+  const d=(a.price-a.base)/a.base;
+  const ys=a.yield>0?`+${(a.yield*100).toFixed(1)}%`:a.yield<0?`${(a.yield*100).toFixed(1)}%`:'—';
+  let body=`<div class="modal-head">
+    <div class="modal-ic">${SVGS[a.cat]}</div>
+    <div><div class="modal-title">${a.name}</div><div class="modal-sub">${a.sub} · ${CATS[a.cat]}</div></div>
+  </div>
+  <div class="modal-grid">
+    <div class="mc"><div class="mc-lbl">نرخی ئێستا</div><div class="mc-val">${fmt(a.price)}</div></div>
+    <div class="mc"><div class="mc-lbl">گۆڕانکاری</div><div class="mc-val">${cpill(a)}</div></div>
+    <div class="mc"><div class="mc-lbl">داهاتی ساڵانە</div><div class="mc-val" style="color:var(--green)">${ys}</div></div>
+    <div class="mc"><div class="mc-lbl">کڕاوەکانت</div><div class="mc-val">${q}</div></div>
+  </div>
+  <div class="modal-desc">${a.detail}</div>`;
+
+  if(mode==='buy'||mode==='info'){
+    body+=`<div class="qty-wrap">
+      <div class="qty-top"><span class="qty-lbl">بڕی کڕین</span><span class="qty-tot" id="bTot">${fmt(a.price)}</span></div>
+      <div class="qty-row">
+        <button class="qbtn" onclick="G.qA('bQ','${id}',-1,'buy')">−</button>
+        <input type="number" class="qinp" id="bQ" min="1" value="1" oninput="G.qR('${id}','buy')">
+        <button class="qbtn" onclick="G.qA('bQ','${id}',1,'buy')">+</button>
+      </div>
+    </div>
+    <div class="modal-acts">
+      <button class="btn-buy" style="flex:1" ${!canBuy?'disabled':''} onclick="G.doBuy('${id}')">${SVGS.buy}بکڕە</button>
+      ${q>0?`<button class="btn-sell" style="flex:1" onclick="G.swSell('${id}')">${SVGS.sell}بفرۆشە</button>`:''}
+    </div>`;
+  } else if(mode==='sell'){
+    if(!q){toast('هیچ نییە بفرۆشیت!','err');return;}
+    body+=`<div class="qty-wrap">
+      <div class="qty-top"><span class="qty-lbl">بڕی فرۆشتن (هەیتت: ${q})</span><span class="qty-tot" id="sTot">${fmt(a.price)}</span></div>
+      <div class="qty-row">
+        <button class="qbtn" onclick="G.qA('sQ','${id}',-1,'sell')">−</button>
+        <input type="number" class="qinp" id="sQ" min="1" max="${q}" value="1" oninput="G.qR('${id}','sell')">
+        <button class="qbtn" onclick="G.qA('sQ','${id}',1,'sell')">+</button>
+      </div>
+    </div>
+    <div class="modal-acts"><button class="btn-sell" style="flex:1" onclick="G.doSell('${id}')">${SVGS.sell}بفرۆشە</button></div>`;
+  }
+  document.getElementById('mBody').innerHTML=body;
+  document.getElementById('mBg').classList.add('open');
+}
+
+const G={
+  tab(id,btn){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('p-'+id).classList.add('active');
+    btn.classList.add('active');
+    if(id==='market'){renderFilter();renderMarket();}
+    if(id==='portfolio')renderPort();
+    if(id==='prices')renderPrices();
+    if(id==='dashboard'){renderDPort();upStats();}
+  },
+  fCat(cat,btn){S.cat=cat;document.querySelectorAll('.fc').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderMarket();},
+  openM:openModal,
+  closeM(){document.getElementById('mBg').classList.remove('open');},
+  mClose(e){if(e.target.id==='mBg')this.closeM();},
+  swSell(id){this.closeM();setTimeout(()=>openModal(id,'sell'),60);},
+  qA(inp,id,d,mode){
+    const el=document.getElementById(inp),q=own(id);
+    let v=(parseInt(el.value)||1)+d;
+    v=mode==='sell'?Math.min(Math.max(v,1),q):Math.max(v,1);
+    el.value=v;this.qR(id,mode);
+  },
+  qR(id,mode){
+    const a=ASSETS.find(x=>x.id===id);
+    const inp=mode==='buy'?'bQ':'sQ',tot=mode==='buy'?'bTot':'sTot';
+    const v=parseInt(document.getElementById(inp)?.value)||1;
+    const el=document.getElementById(tot);if(el)el.textContent=fmt(a.price*v);
+  },
+  doBuy(id){
+    const a=ASSETS.find(x=>x.id===id);
+    const qty=parseInt(document.getElementById('bQ')?.value)||1;
+    const total=a.price*qty;
+    if(S.cash<total){toast('پارەت بەس نییە!','err');return;}
+    S.cash-=total;
+    if(!S.port[id])S.port[id]={qty:0,avgBuy:0,totalCost:0};
+    const p=S.port[id];p.totalCost=(p.totalCost||0)+total;p.qty+=qty;p.avgBuy=p.totalCost/p.qty;
+    upStats();this.closeM();toast(`${a.name} ×${qty} کڕیت — ${fmt(total)}`,'ok');this._ref();
+  },
+  doSell(id){
+    const a=ASSETS.find(x=>x.id===id),q=own(id);
+    const qty=Math.min(parseInt(document.getElementById('sQ')?.value)||1,q);
+    if(!qty){toast('هیچ نییە!','err');return;}
+    const total=a.price*qty,avgBuy=S.port[id]?.avgBuy||0,pnl=(a.price-avgBuy)*qty;
+    S.cash+=total;S.port[id].qty-=qty;
+    if(S.port[id].qty<=0){S.port[id].totalCost=0;delete S.port[id];}
+    upStats();this.closeM();toast(`فرۆشیت ×${qty} — ${fmt(total)} | ${pnl>=0?'+':''}${fmt(pnl)}`,pnl>=0?'ok':'inf');
+    this._ref();
+    if(!S.million&&nw()>=1e6){S.million=true;setTimeout(()=>toast('پیرۆزبا! بوویتە میلیۆنێر!','ok'),400);}
+  },
+  nextDay(){
+    S.day++;
+    ASSETS.forEach(a=>{const d=(Math.random()-.47)*.065;a.price=Math.max(a.base*.28,a.price*(1+d));});
+    let msg='بازاڕ ئارامبوو. هیچ ڕووداوێکی گرینگ ڕووی نەدا.';
+    if(Math.random()<.58){
+      const ev=EVENTS[Math.floor(Math.random()*EVENTS.length)];
+      ev.cats.forEach(cat=>ASSETS.filter(a=>a.cat===cat).forEach(a=>{a.price=Math.max(a.base*.22,a.price*(1+ev.fx+(Math.random()-.5)*.03));}));
+      msg=ev.msg;
+    }
+    let yi=0;ASSETS.forEach(a=>{const q=own(a.id);if(q>0&&a.yield>0)yi+=a.price*a.yield*q/30;});
+    if(yi>0){S.cash+=yi;msg+=` — داهاتی موڵک: +${fmt(yi)}`;}
+    const b=document.getElementById('evBox');
+    document.getElementById('evDay').textContent=`ڕۆژی ${S.day}`;
+    document.getElementById('evMsg').textContent=msg;
+    b.style.animation='none';requestAnimationFrame(()=>b.style.animation='slideIn .35s ease');
+    upStats();toast(`ڕۆژی ${S.day} دەستی پێکرد`,'inf');this._ref();
+  },
+  _ref(){
+    const a=document.querySelector('.page.active');if(!a)return;
+    const id=a.id.replace('p-','');
+    if(id==='market')renderMarket();
+    if(id==='portfolio')renderPort();
+    if(id==='prices')renderPrices();
+    if(id==='dashboard')renderDPort();
+  },
+};
+upStats();renderFilter();renderDPort();
+</script>
 </body>
 </html>
