@@ -15,23 +15,24 @@
 --sky-5:#0ea5e9;--sky-6:#0284c7;--sky-7:#0369a1;--sky-8:#075985;
 --sky-9:#0c4a6e;--sky-10:#082f4e;--sky-11:#051e35;--sky-12:#030f1c;
 
---night-1:#030d1a;--night-2:#071628;--night-3:#0a1e38;
---night-4:#0d2650;--night-5:#102e60;
+--amber-1:#fffbeb;--amber-2:#fef3c7;--amber-3:#fde68a;--amber-4:#fcd34d;
+--amber-5:#fbbf24;--amber-6:#f59e0b;--amber-7:#d97706;
 
---glass-bg:rgba(14,38,70,0.55);
---glass-border:rgba(125,211,252,0.18);
+--glass-bg:#faf7f0;
+--glass-border:rgba(245,158,11,0.18);
 --glass-blur:blur(22px);
---white:rgba(255,255,255,1);
---w90:rgba(255,255,255,0.9);
---w70:rgba(255,255,255,0.7);
---w50:rgba(255,255,255,0.5);
---w30:rgba(255,255,255,0.3);
---w15:rgba(255,255,255,0.15);
---w08:rgba(255,255,255,0.08);
---w04:rgba(255,255,255,0.04);
---green:#4ade80;--gbg:rgba(74,222,128,0.12);
---red:#f87171;--rbg:rgba(248,113,113,0.12);
---amber:#fbbf24;--abg:rgba(251,191,36,0.12);
+--white:#1e2433;
+--w90:rgba(30,36,48,0.88);
+--w70:rgba(30,36,48,0.66);
+--w50:rgba(30,36,48,0.46);
+--w40:rgba(30,36,48,0.38);
+--w30:rgba(30,36,48,0.22);
+--w15:rgba(30,36,48,0.10);
+--w08:rgba(30,36,48,0.05);
+--w04:rgba(30,36,48,0.03);
+--green:#16a34a;--gbg:rgba(22,163,74,0.10);
+--red:#dc2626;--rbg:rgba(220,38,38,0.10);
+--amber:#d97706;--abg:rgba(217,119,6,0.10);
 --font-kuf:'Noto Sans Arabic',sans-serif;
 --font-nas:'Noto Sans Arabic',sans-serif;
 --r6:6px;--r10:10px;--r14:14px;--r18:18px;--r24:24px;--r32:32px;
@@ -39,17 +40,14 @@
 html{font-size:15px;scroll-behavior:smooth}
 body{
   font-family:var(--font-kuf);
-  background:var(--night-1);
+  background:linear-gradient(135deg,#fff7cf 0%,#ffd84d 100%);
   min-height:100vh;direction:rtl;
   -webkit-font-smoothing:antialiased;
   color:var(--w90);
 }
 body::before{
   content:'';position:fixed;inset:0;z-index:-1;
-  background:
-    radial-gradient(ellipse 80% 50% at 20% 10%,rgba(14,165,233,0.12) 0%,transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 80%,rgba(3,105,161,0.10) 0%,transparent 55%),
-    var(--night-1);
+  background:linear-gradient(135deg,#fff7cf 0%,#ffd84d 100%);
 }
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
@@ -63,7 +61,7 @@ input{font-family:var(--font-kuf)}
   height:64px;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 20px;gap:12px;
-  background:rgba(5,20,45,0.6);
+  background:rgba(255,255,255,0.6);
   backdrop-filter:var(--glass-blur);
   -webkit-backdrop-filter:var(--glass-blur);
   border-bottom:1px solid var(--glass-border);
@@ -71,16 +69,9 @@ input{font-family:var(--font-kuf)}
 }
 .nav-brand{
   display:flex;align-items:center;gap:10px;
-  font-family:var(--font-nas);font-size:1.05rem;font-weight:700;
+  font-family:var(--font-nas);font-size:1.05rem;font-weight:800;
   color:var(--white);white-space:nowrap;
 }
-.nav-logo{
-  width:38px;height:38px;border-radius:var(--r10);
-  background:linear-gradient(135deg,var(--sky-5),var(--sky-7));
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  box-shadow:0 0 0 1px rgba(56,189,248,0.3);
-}
-.nav-logo i{font-size:18px;color:#fff}
 .nav-stats{display:flex;gap:6px}
 .stat-pill{
   display:flex;flex-direction:column;align-items:center;
@@ -95,7 +86,7 @@ input{font-family:var(--font-kuf)}
   width:42px;height:42px;border-radius:var(--r10);
   background:linear-gradient(135deg,var(--sky-5),var(--sky-7));
   border:none;color:#fff;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 0 1px rgba(56,189,248,0.25);
+  box-shadow:0 4px 14px rgba(2,132,199,0.28);
   transition:transform .15s,opacity .15s;flex-shrink:0;
 }
 .btn-nextday:hover{transform:scale(1.06);opacity:.9}
@@ -103,19 +94,20 @@ input{font-family:var(--font-kuf)}
 
 /* ── BOTTOM NAV ── */
 .bnav{
-  position:fixed;bottom:0;left:0;right:0;z-index:300;
-  height:64px;
+  position:fixed;bottom:12px;left:12px;right:12px;z-index:300;
+  height:64px;max-width:520px;margin:0 auto;
   display:flex;align-items:center;justify-content:space-around;
-  background:rgba(5,20,45,0.65);
+  background:rgba(255,255,255,0.62);
   backdrop-filter:var(--glass-blur);
   -webkit-backdrop-filter:var(--glass-blur);
-  border-top:1px solid var(--glass-border);
-  border-radius:var(--r18) var(--r18) 0 0;
+  border:1px solid var(--glass-border);
+  border-radius:var(--r32);
+  box-shadow:0 10px 34px rgba(245,158,11,0.16);
 }
 .bnav-btn{
   display:flex;flex-direction:column;align-items:center;gap:3px;
-  background:transparent;border:none;color:var(--w40,rgba(255,255,255,.4));
-  padding:6px 20px;border-radius:var(--r10);
+  background:transparent;border:none;color:var(--w40);
+  padding:6px 20px;border-radius:var(--r18);
   transition:color .2s,background .2s;
   position:relative;
 }
@@ -123,19 +115,59 @@ input{font-family:var(--font-kuf)}
 .bnav-btn .bnav-dot{
   position:absolute;top:4px;right:18px;
   width:6px;height:6px;border-radius:50%;
-  background:var(--sky-4);display:none;
+  background:var(--sky-5);display:none;
 }
-.bnav-btn.active{color:var(--sky-3)}
+.bnav-btn.active{color:var(--sky-6)}
 .bnav-btn.active .bnav-dot{display:block}
 
 /* ── PAGES ── */
-.page{display:none;padding:20px 16px 84px;max-width:1200px;margin:0 auto}
+.page{display:none;padding:20px 16px 104px;max-width:1200px;margin:0 auto}
 .page.active{display:block}
 
 /* ── SEC HEAD ── */
 .sec-head{margin-bottom:20px}
 .sec-title{font-family:var(--font-nas);font-size:1.4rem;font-weight:700;color:var(--white)}
 .sec-sub{font-size:0.75rem;color:var(--w50);margin-top:3px}
+
+/* ── DASHBOARD HERO ── */
+.dash-hero{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#fcd34d 0%,#38bdf8 55%,#0284c7 100%);
+  border-radius:var(--r24);
+  padding:22px 22px 24px;margin-bottom:14px;
+  color:#fff;
+  box-shadow:0 14px 36px rgba(2,132,199,0.22);
+}
+.dash-hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+	radial-gradient(circle at 90% -10%,rgba(255,255,255,0.35) 0%,transparent 45%),
+	radial-gradient(circle at -10% 110%,rgba(255,255,255,0.18) 0%,transparent 50%);
+  pointer-events:none;
+}
+.dash-hero-top{display:flex;justify-content:flex-end;margin-bottom:10px;position:relative;z-index:1}
+.dash-hero-day{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.25);
+  border-radius:20px;padding:5px 14px;font-size:0.72rem;font-weight:700;
+}
+.dash-hero-day i{font-size:14px}
+.dash-hero-lbl{font-size:0.75rem;opacity:.9;margin-bottom:4px;position:relative;z-index:1}
+.dash-hero-val{font-family:var(--font-nas);font-size:clamp(1.7rem,7vw,2.3rem);font-weight:800;margin-bottom:18px;position:relative;z-index:1}
+.dash-hero-row{display:flex;gap:10px;position:relative;z-index:1}
+.dash-hero-item{
+  flex:1;display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.16);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:var(--r14);padding:10px 12px;
+  backdrop-filter:blur(6px);min-width:0;
+}
+.dhi-ic{width:34px;height:34px;border-radius:var(--r10);background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dhi-ic i{font-size:16px;color:#fff}
+.dhi-lbl{font-size:0.64rem;opacity:.9}
+.dhi-val{font-size:0.92rem;font-weight:700;white-space:nowrap}
+.dhi-val.up{color:#bbf7d0}
+.dhi-val.dn{color:#fecaca}
 
 /* ── KPI ROW ── */
 .kpi-row{
@@ -149,9 +181,10 @@ input{font-family:var(--font-kuf)}
   backdrop-filter:blur(10px);
   border-radius:var(--r18);padding:16px 18px;
   display:flex;justify-content:space-between;align-items:flex-start;
-  transition:border-color .2s,transform .2s;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+  box-shadow:0 4px 18px rgba(245,158,11,0.06);
 }
-.kpi-card:hover{border-color:var(--w30);transform:translateY(-2px)}
+.kpi-card:hover{border-color:var(--sky-4);transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,158,11,0.1)}
 .kpi-lbl{font-size:0.68rem;color:var(--w50);margin-bottom:5px}
 .kpi-val{font-size:1.15rem;font-weight:700;color:var(--white)}
 .kpi-val.up{color:var(--green)}
@@ -161,26 +194,27 @@ input{font-family:var(--font-kuf)}
   background:var(--w08);
   display:flex;align-items:center;justify-content:center;
 }
-.kpi-ic i{font-size:17px;color:var(--sky-3)}
+.kpi-ic i{font-size:17px;color:var(--sky-6)}
 
 /* ── EVENT BOX ── */
 .event-box{
   display:flex;align-items:flex-start;gap:12px;
   background:var(--glass-bg);
   border:1px solid var(--glass-border);
-  border-right:3px solid var(--sky-4);
+  border-right:3px solid var(--amber-6);
   border-radius:var(--r14);padding:14px 16px;
   margin-bottom:20px;
   animation:slideIn .35s ease;
   backdrop-filter:blur(10px);
+  box-shadow:0 4px 18px rgba(245,158,11,0.06);
 }
 @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 .event-ic{
   width:30px;height:30px;border-radius:var(--r10);
-  background:rgba(56,189,248,0.15);
+  background:rgba(245,158,11,0.14);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
-.event-ic i{font-size:15px;color:var(--sky-3)}
+.event-ic i{font-size:15px;color:var(--amber-7)}
 .event-day{font-size:0.63rem;color:var(--w50);margin-bottom:2px}
 .event-msg{font-size:0.85rem;color:var(--w70);line-height:1.65}
 
@@ -200,17 +234,17 @@ input{font-family:var(--font-kuf)}
   transition:all .15s;white-space:nowrap;
 }
 .fc i{font-size:14px}
-.fc:hover{border-color:var(--w30);color:var(--w70)}
+.fc:hover{border-color:var(--sky-4);color:var(--w70)}
 .fc.active{
-  background:rgba(14,165,233,0.2);
-  border-color:rgba(56,189,248,0.5);
-  color:var(--sky-2);
+  background:rgba(2,132,199,0.12);
+  border-color:rgba(2,132,199,0.4);
+  color:var(--sky-7);
 }
 
 /* ── MARKET GRID ── */
 .market-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
   gap:14px;
 }
 
@@ -221,10 +255,11 @@ input{font-family:var(--font-kuf)}
   border-radius:var(--r24);
   overflow:hidden;
   backdrop-filter:blur(12px);
-  transition:transform .2s,border-color .2s;
+  transition:transform .2s,border-color .2s,box-shadow .2s;
   cursor:pointer;
+  box-shadow:0 4px 18px rgba(245,158,11,0.06);
 }
-.mcard:hover{transform:translateY(-3px);border-color:var(--w30)}
+.mcard:hover{transform:translateY(-3px);border-color:var(--sky-4);box-shadow:0 10px 28px rgba(245,158,11,0.12)}
 
 .mcard-img{
   width:100%;height:130px;
@@ -235,7 +270,7 @@ input{font-family:var(--font-kuf)}
   position:absolute;inset:0;
   opacity:0.18;
 }
-.mcard-img i{font-size:52px;position:relative;z-index:1;opacity:.9}
+.mcard-img i{font-size:52px;position:relative;z-index:1;opacity:.95}
 
 .mcard-body{padding:14px 16px 16px}
 
@@ -273,8 +308,8 @@ input{font-family:var(--font-kuf)}
 
 .mcard-owned-badge{
   display:inline-flex;align-items:center;gap:4px;
-  background:rgba(74,222,128,0.12);
-  border:1px solid rgba(74,222,128,0.25);
+  background:rgba(22,163,74,0.10);
+  border:1px solid rgba(22,163,74,0.25);
   color:var(--green);font-size:0.62rem;font-weight:700;
   padding:3px 9px;border-radius:20px;margin-bottom:10px;
 }
@@ -291,7 +326,7 @@ input{font-family:var(--font-kuf)}
   background:linear-gradient(135deg,var(--sky-5),var(--sky-7));
   color:#fff;
 }
-.btn-sell{background:var(--rbg);color:var(--red);border:1px solid rgba(248,113,113,.25)}
+.btn-sell{background:var(--rbg);color:var(--red);border:1px solid rgba(220,38,38,.22)}
 .btn-more{background:var(--w08);color:var(--w70);border:1px solid var(--glass-border)}
 .btn-buy:hover,.btn-sell:hover,.btn-more:hover{opacity:.85;transform:scale(1.02)}
 .btn-buy:disabled{opacity:.3;cursor:not-allowed;transform:none}
@@ -303,6 +338,7 @@ input{font-family:var(--font-kuf)}
   background:var(--glass-bg);border:1px solid var(--glass-border);
   border-radius:var(--r14);padding:13px 15px;
   backdrop-filter:blur(10px);
+  box-shadow:0 4px 18px rgba(245,158,11,0.06);
 }
 .pstat-lbl{font-size:0.66rem;color:var(--w50)}
 .pstat-val{font-size:0.98rem;font-weight:700;color:var(--white);margin-top:4px}
@@ -312,11 +348,12 @@ input{font-family:var(--font-kuf)}
   background:var(--glass-bg);border:1px solid var(--glass-border);
   border-radius:var(--r18);overflow:hidden;
   backdrop-filter:blur(12px);
+  box-shadow:0 4px 18px rgba(245,158,11,0.06);
 }
 .ptable-head{
   display:grid;grid-template-columns:1fr 130px 100px 100px;
   padding:10px 18px;background:var(--w04);
-  font-size:0.65rem;color:var(--w40,rgba(255,255,255,.4));font-weight:700;
+  font-size:0.65rem;color:var(--w40);font-weight:700;
   text-transform:uppercase;letter-spacing:.05em;
   border-bottom:1px solid var(--glass-border);
 }
@@ -346,7 +383,7 @@ input{font-family:var(--font-kuf)}
   background:var(--w08);margin:0 auto 12px;
   display:flex;align-items:center;justify-content:center;
 }
-.empty-ic i{font-size:24px;color:var(--sky-3)}
+.empty-ic i{font-size:24px;color:var(--sky-6)}
 .empty h3{font-size:.9rem;color:var(--w70);margin-bottom:5px}
 .empty p{font-size:.78rem;margin-bottom:16px}
 .btn-primary{
@@ -362,18 +399,19 @@ input{font-family:var(--font-kuf)}
 /* ── MODAL ── */
 .modal-bg{
   display:none;position:fixed;inset:0;
-  background:rgba(3,9,26,0.7);
+  background:rgba(120,90,20,0.18);
   backdrop-filter:blur(12px);z-index:900;
   align-items:center;justify-content:center;padding:16px;
 }
 .modal-bg.open{display:flex}
 .modal{
-  background:rgba(10,28,55,0.9);
+  background:rgba(255,255,255,0.88);
   border:1px solid var(--glass-border);
   backdrop-filter:blur(24px);
   border-radius:var(--r24);padding:22px;
   width:100%;max-width:420px;position:relative;
   animation:mpop .22s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 20px 50px rgba(245,158,11,0.18);
 }
 @keyframes mpop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
 .modal-x{
@@ -394,7 +432,7 @@ input{font-family:var(--font-kuf)}
   margin-bottom:16px;position:relative;
 }
 .modal-banner-bg{position:absolute;inset:0;opacity:.2}
-.modal-banner i{font-size:50px;position:relative;z-index:1;opacity:.9}
+.modal-banner i{font-size:50px;position:relative;z-index:1;opacity:.95}
 
 .modal-title{font-family:var(--font-nas);font-size:1rem;font-weight:700;color:var(--white);margin-bottom:2px}
 .modal-sub{font-size:0.7rem;color:var(--w50);margin-bottom:14px}
@@ -402,7 +440,7 @@ input{font-family:var(--font-kuf)}
 .mc{background:var(--w08);border-radius:var(--r10);padding:10px 12px;border:1px solid var(--glass-border)}
 .mc-lbl{font-size:0.63rem;color:var(--w50)}
 .mc-val{font-size:0.86rem;font-weight:700;color:var(--white);margin-top:3px}
-.modal-desc{font-size:0.78rem;color:var(--w60,rgba(255,255,255,.6));line-height:1.7;background:var(--w04);border-radius:var(--r10);padding:10px 13px;margin-bottom:12px}
+.modal-desc{font-size:0.78rem;color:var(--w70);line-height:1.7;background:var(--w04);border-radius:var(--r10);padding:10px 13px;margin-bottom:12px}
 .qty-wrap{margin-bottom:12px}
 .qty-top{display:flex;justify-content:space-between;margin-bottom:7px}
 .qty-lbl{font-size:0.74rem;color:var(--w50)}
@@ -419,33 +457,35 @@ input{font-family:var(--font-kuf)}
   color:var(--white);border-radius:var(--r10);
   padding:7px;font-size:0.88rem;text-align:center;
 }
-.qinp:focus{outline:none;border-color:var(--sky-4)}
+.qinp:focus{outline:none;border-color:var(--sky-5)}
 .modal-acts{display:flex;gap:8px}
 .modal-acts .btn-buy,.modal-acts .btn-sell{height:40px;font-size:0.84rem;border-radius:var(--r10)}
 
 /* ── TOAST ── */
 .toast{
-  position:fixed;bottom:76px;left:50%;
+  position:fixed;bottom:96px;left:50%;
   transform:translateX(-50%) translateY(60px);
-  background:rgba(10,28,55,0.92);border:1px solid var(--glass-border);
+  background:rgba(255,255,255,0.92);border:1px solid var(--glass-border);
   color:var(--white);padding:10px 20px;
   border-radius:var(--r14);font-size:0.82rem;font-weight:600;
   z-index:9999;pointer-events:none;white-space:nowrap;
   backdrop-filter:blur(16px);
+  box-shadow:0 8px 28px rgba(245,158,11,0.14);
   transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  max-width:90vw;overflow:hidden;text-overflow:ellipsis;
 }
 .toast.show{transform:translateX(-50%) translateY(0)}
-.toast.ok{color:var(--green);border-color:rgba(74,222,128,.3)}
-.toast.err{color:var(--red);border-color:rgba(248,113,113,.3)}
+.toast.ok{color:var(--green);border-color:rgba(22,163,74,.3)}
+.toast.err{color:var(--red);border-color:rgba(220,38,38,.3)}
 
 /* ── CAT COLORS ── */
-.cat-company{--cat-c:#38bdf8;--cat-bg:rgba(14,165,233,0.15)}
-.cat-property{--cat-c:#4ade80;--cat-bg:rgba(74,222,128,0.12)}
-.cat-land{--cat-c:#a3e635;--cat-bg:rgba(163,230,53,0.12)}
-.cat-car{--cat-c:#fb923c;--cat-bg:rgba(251,146,60,0.12)}
-.cat-shop{--cat-c:#c084fc;--cat-bg:rgba(192,132,252,0.12)}
-.cat-gold{--cat-c:#fbbf24;--cat-bg:rgba(251,191,36,0.12)}
-.cat-dollar{--cat-c:#67e8f9;--cat-bg:rgba(103,232,249,0.12)}
+.cat-company{--cat-c:#0284c7;--cat-bg:rgba(2,132,199,0.10)}
+.cat-property{--cat-c:#16a34a;--cat-bg:rgba(22,163,74,0.10)}
+.cat-land{--cat-c:#65a30d;--cat-bg:rgba(101,163,13,0.10)}
+.cat-car{--cat-c:#ea580c;--cat-bg:rgba(234,88,12,0.10)}
+.cat-shop{--cat-c:#9333ea;--cat-bg:rgba(147,51,234,0.10)}
+.cat-gold{--cat-c:#d97706;--cat-bg:rgba(217,119,6,0.12)}
+.cat-dollar{--cat-c:#0891b2;--cat-bg:rgba(8,145,178,0.10)}
 
 .mcard-img,.modal-banner{background:var(--cat-bg)}
 .mcard-img-bg,.modal-banner-bg{background:var(--cat-c)}
@@ -453,13 +493,13 @@ input{font-family:var(--font-kuf)}
 .prow-ic i{color:var(--cat-c)}
 .prow-ic{background:var(--cat-bg)}
 
-.badge-company{background:rgba(56,189,248,.15);color:#7dd3fc}
-.badge-property{background:rgba(74,222,128,.12);color:#86efac}
-.badge-land{background:rgba(163,230,53,.12);color:#bef264}
-.badge-car{background:rgba(251,146,60,.12);color:#fdba74}
-.badge-shop{background:rgba(192,132,252,.12);color:#d8b4fe}
-.badge-gold{background:rgba(251,191,36,.12);color:#fde68a}
-.badge-dollar{background:rgba(103,232,249,.12);color:#a5f3fc}
+.badge-company{background:rgba(2,132,199,.12);color:#0369a1}
+.badge-property{background:rgba(22,163,74,.12);color:#15803d}
+.badge-land{background:rgba(101,163,13,.12);color:#4d7c0f}
+.badge-car{background:rgba(234,88,12,.12);color:#c2410c}
+.badge-shop{background:rgba(147,51,234,.12);color:#7e22ce}
+.badge-gold{background:rgba(217,119,6,.12);color:#b45309}
+.badge-dollar{background:rgba(8,145,178,.12);color:#0e7490}
 
 /* ── RESPONSIVE ── */
 @media(max-width:860px){
@@ -472,11 +512,50 @@ input{font-family:var(--font-kuf)}
   .stat-pill:nth-child(3){display:none}
   .ptable-head,.prow{grid-template-columns:1fr 90px 80px}
   .modal{padding:16px}
+  .dash-hero{padding:18px 16px 20px}
+  .dash-hero-item{padding:9px 10px}
+  .dhi-lbl{font-size:0.6rem}
+  .dhi-val{font-size:0.84rem}
 }
 @media(max-width:400px){
   .kpi-row{grid-template-columns:1fr}
   .stat-pill:nth-child(2){display:none}
+  .nav{padding:0 12px}
+  .page{padding:16px 12px 104px}
+  .dash-hero-row{gap:8px}
 }
+@media(max-width:340px){
+  .bnav{left:6px;right:6px;border-radius:var(--r24)}
+  .bnav-btn{padding:6px 14px}
+}
+
+/* ── LOAN ── */
+.cat-loan{--cat-c:#dc2626;--cat-bg:rgba(220,38,38,0.10)}
+.badge-loan{background:rgba(220,38,38,.12);color:#b91c1c}
+
+.loan-card{
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r18);
+  padding:16px 18px;margin-bottom:12px;
+  backdrop-filter:blur(12px);
+  box-shadow:0 4px 18px rgba(245,158,11,0.06);
+}
+.loan-card.overdue{border-right:3px solid var(--red)}
+.loan-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.loan-name{font-size:0.92rem;font-weight:700;color:var(--white)}
+.loan-status{font-size:0.65rem;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.loan-status.ok{background:var(--gbg);color:var(--green)}
+.loan-status.warn{background:var(--abg);color:var(--amber)}
+.loan-status.bad{background:var(--rbg);color:var(--red)}
+.loan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:12px}
+.loan-item{background:var(--w08);border-radius:var(--r10);padding:9px 12px;border:1px solid var(--glass-border)}
+.loan-item-lbl{font-size:0.62rem;color:var(--w50)}
+.loan-item-val{font-size:0.86rem;font-weight:700;color:var(--white);margin-top:3px}
+.loan-item-val.penalty{color:var(--red)}
+.loan-acts{display:flex;gap:8px}
+.loan-acts input{flex:1}
+
 </style>
 </head>
 <body>
@@ -484,55 +563,71 @@ input{font-family:var(--font-kuf)}
 <!-- NAVBAR -->
 <nav class="nav">
   <div class="nav-brand">
-    <div class="nav-logo"><i class="ti ti-building-skyscraper"></i></div>
-    بازرگان
+	بازرگان
   </div>
   <div class="nav-stats">
-    <div class="stat-pill">
-      <span class="stat-pill-lbl">کاش</span>
-      <span class="stat-pill-val" id="nCash">$50k</span>
-    </div>
-    <div class="stat-pill">
-      <span class="stat-pill-lbl">سامان</span>
-      <span class="stat-pill-val" id="nNet">$50k</span>
-    </div>
-    <div class="stat-pill">
-      <span class="stat-pill-lbl">ڕۆژ</span>
-      <span class="stat-pill-val" id="nDay">1</span>
-    </div>
+	<div class="stat-pill">
+	  <span class="stat-pill-lbl">کاش</span>
+	  <span class="stat-pill-val" id="nCash">$50k</span>
+	</div>
+	<div class="stat-pill">
+	  <span class="stat-pill-lbl">سامان</span>
+	  <span class="stat-pill-val" id="nNet">$50k</span>
+	</div>
+	<div class="stat-pill">
+	  <span class="stat-pill-lbl">ڕۆژ</span>
+	  <span class="stat-pill-val" id="nDay">1</span>
+	</div>
   </div>
   <button class="btn-nextday" onclick="G.nextDay()" title="ڕۆژی داهاتوو">
-    <i class="ti ti-player-play"></i>
+	<i class="ti ti-player-play"></i>
   </button>
 </nav>
 
 <!-- PAGES -->
 <div id="p-dashboard" class="page active">
   <div class="sec-head"><h1 class="sec-title">داشبۆرد</h1><p class="sec-sub">وضعی گشتی دارایی و سامانی تۆ</p></div>
-  <div class="kpi-row">
-    <div class="kpi-card">
-      <div><div class="kpi-lbl">پارەی کاش</div><div class="kpi-val" id="kCash">$50,000</div></div>
-      <div class="kpi-ic"><i class="ti ti-coin"></i></div>
-    </div>
-    <div class="kpi-card">
-      <div><div class="kpi-lbl">سامانی گشتی</div><div class="kpi-val" id="kNet">$50,000</div></div>
-      <div class="kpi-ic"><i class="ti ti-trending-up"></i></div>
-    </div>
-    <div class="kpi-card">
-      <div><div class="kpi-lbl">قازانجی گشتی</div><div class="kpi-val" id="kProfit">$0</div></div>
-      <div class="kpi-ic"><i class="ti ti-chart-bar"></i></div>
-    </div>
-    <div class="kpi-card">
-      <div><div class="kpi-lbl">ژمارەی موڵک</div><div class="kpi-val" id="kCount">0</div></div>
-      <div class="kpi-ic"><i class="ti ti-building-community"></i></div>
-    </div>
+
+  <div class="dash-hero">
+	<div class="dash-hero-top">
+	  <div class="dash-hero-day"><i class="ti ti-calendar-event"></i>ڕۆژی <span id="kDay">1</span></div>
+	</div>
+	<div class="dash-hero-lbl">کۆی سامانی گشتی</div>
+	<div class="dash-hero-val" id="kNet">$50,000</div>
+	<div class="dash-hero-row">
+	  <div class="dash-hero-item">
+		<div class="dhi-ic"><i class="ti ti-coin"></i></div>
+		<div><div class="dhi-lbl">پارەی کاش</div><div class="dhi-val" id="kCash">$50,000</div></div>
+	  </div>
+	  <div class="dash-hero-item">
+		<div class="dhi-ic"><i class="ti ti-chart-bar"></i></div>
+		<div><div class="dhi-lbl">قازانجی گشتی</div><div class="dhi-val" id="kProfit">$0</div></div>
+	  </div>
+	</div>
   </div>
+
+  <div class="kpi-row">
+	<div class="kpi-card">
+	  <div><div class="kpi-lbl">ژمارەی موڵک</div><div class="kpi-val" id="kCount">0</div></div>
+	  <div class="kpi-ic"><i class="ti ti-building-community"></i></div>
+	</div>
+	<div class="kpi-card">
+	  <div><div class="kpi-lbl">ڕێژەی گەشە</div><div class="kpi-val" id="kGrowth">0%</div></div>
+	  <div class="kpi-ic"><i class="ti ti-trending-up"></i></div>
+	</div>
+  <div class="kpi-card">
+  <div><div class="kpi-lbl">کۆی قەرزی ماوە</div><div class="kpi-val dn" id="kDebt">$0</div></div>
+  <div class="kpi-ic"><i class="ti ti-receipt"></i></div>
+</div>
+  </div>
+  
+
   <div class="event-box" id="evBox">
-    <div class="event-ic"><i class="ti ti-bell"></i></div>
-    <div>
-      <div class="event-day" id="evDay">ڕۆژی 1</div>
-      <div class="event-msg" id="evMsg">بەخێربێیت! دەستت بە $50,000 پێوە دەست پێدەکەیت. باشترین سەرمایەکاری بکە.</div>
-    </div>
+	<div class="event-ic"><i class="ti ti-bell"></i></div>
+	<div>
+	  <div class="event-day" id="evDay">ڕۆژی 1</div>
+	  <div class="event-msg" id="evMsg">بەخێربێیت! دەستت بە $50,000 پێوە دەست پێدەکەیت. باشترین سەرمایەکاری بکە.</div>
+	</div>
   </div>
   <div class="sec-head"><h2 class="sec-title" style="font-size:1rem">موڵکەکانم</h2></div>
   <div id="dPort"></div>
@@ -553,36 +648,53 @@ input{font-family:var(--font-kuf)}
 <div id="p-prices" class="page">
   <div class="sec-head"><h1 class="sec-title">نرخەکان</h1><p class="sec-sub">شوێن بگرە لە گۆڕانکاری نرخی بازاڕ</p></div>
   <div class="ptable">
-    <div class="ptable-head"><div>ناو</div><div>نرخی ئێستا</div><div>گۆڕانکاری</div><div>کڕاوەکانت</div></div>
-    <div id="pList"></div>
+	<div class="ptable-head"><div>ناو</div><div>نرخی ئێستا</div><div>گۆڕانکاری</div><div>کڕاوەکانت</div></div>
+	<div id="pList"></div>
   </div>
+  
+  <div id="p-loans" class="page">
+  <div class="sec-head"><h1 class="sec-title">قەرز</h1><p class="sec-sub">داواکردنی قەرز و چاودێریکردنی دانەوەکان</p></div>
+
+  <div class="kpi-row" id="lStats"></div>
+
+  <div class="sec-head"><h2 class="sec-title" style="font-size:1rem">قەرزی چالاک</h2></div>
+  <div id="lActive"></div>
+
+  <div class="sec-head"><h2 class="sec-title" style="font-size:1rem">داواکردنی قەرزی نوێ</h2></div>
+  <div class="market-grid" id="lOffers"></div>
+</div>
+  
 </div>
 
 <!-- BOTTOM NAV -->
 <nav class="bnav">
   <button class="bnav-btn active" id="bnav-dashboard" onclick="G.tab('dashboard',this)">
-    <i class="ti ti-layout-dashboard"></i>
-    <span class="bnav-dot"></span>
+	<i class="ti ti-layout-dashboard"></i>
+	<span class="bnav-dot"></span>
   </button>
   <button class="bnav-btn" id="bnav-market" onclick="G.tab('market',this)">
-    <i class="ti ti-shopping-bag"></i>
-    <span class="bnav-dot"></span>
+	<i class="ti ti-shopping-bag"></i>
+	<span class="bnav-dot"></span>
   </button>
   <button class="bnav-btn" id="bnav-portfolio" onclick="G.tab('portfolio',this)">
-    <i class="ti ti-briefcase"></i>
-    <span class="bnav-dot"></span>
+	<i class="ti ti-briefcase"></i>
+	<span class="bnav-dot"></span>
   </button>
   <button class="bnav-btn" id="bnav-prices" onclick="G.tab('prices',this)">
-    <i class="ti ti-chart-line"></i>
-    <span class="bnav-dot"></span>
+	<i class="ti ti-chart-line"></i>
+	<span class="bnav-dot"></span>
   </button>
+  <button class="bnav-btn" id="bnav-loans" onclick="G.tab('loans',this)">
+  <i class="ti ti-cash-banknote"></i>
+  <span class="bnav-dot"></span>
+</button>
 </nav>
 
 <!-- MODAL -->
 <div class="modal-bg" id="mBg" onclick="G.mClose(event)">
   <div class="modal">
-    <button class="modal-x" onclick="G.closeM()"><i class="ti ti-x"></i></button>
-    <div id="mBody"></div>
+	<button class="modal-x" onclick="G.closeM()"><i class="ti ti-x"></i></button>
+	<div id="mBody"></div>
   </div>
 </div>
 
@@ -619,6 +731,13 @@ const ASSETS=[
   {id:'u10k',cat:'dollar',name:'10,000 دۆلار',sub:'دەستەی دۆلار',price:13000,base:13000,yield:0,detail:'نرخی بازاڕی ئازاد'},
 ];
 
+const LOAN_OFFERS=[
+  {id:'l1',name:'قەرزی بچووک',principal:20000,term:10,penalty:.02,detail:'گونجاوە بۆ سەرمایەکاری بچووک · مۆڵەت 10 ڕۆژ'},
+  {id:'l2',name:'قەرزی مامناوەند',principal:75000,term:15,penalty:.025,detail:'گونجاوە بۆ کڕینی موڵک · مۆڵەت 15 ڕۆژ'},
+  {id:'l3',name:'قەرزی گەورە',principal:200000,term:20,penalty:.03,detail:'گونجاوە بۆ کۆمپانیا · مۆڵەت 20 ڕۆژ'},
+  {id:'l4',name:'قەرزی گەورەی تایبەت',principal:500000,term:25,penalty:.035,detail:'بۆ سەرمایەکاری گەورە · مۆڵەت 25 ڕۆژ'},
+];
+
 const EVENTS=[
   {msg:'گەشتیاری زیاد بوو — نرخی دوکان بەرز دەبێتەوە.',cats:['shop','company'],fx:.09},
   {msg:'بازاڕی خانوو گەشەی کرد — داواکاری زیاد.',cats:['property'],fx:.11},
@@ -634,11 +753,11 @@ const EVENTS=[
   {msg:'وەبەرهێنانی بیانی زیاد بوو لە کوردستان.',cats:['company','property'],fx:.06},
 ];
 
-const S={cash:50000,day:1,port:{},cat:'all'};
+const S={cash:50000,day:1,port:{},cat:'all',loans:[]};
 
 const fmt=n=>{const a=Math.abs(n),s=n<0?'-':'';return a>=1e6?s+'$'+(a/1e6).toFixed(2)+'M':a>=1000?s+'$'+Math.round(a).toLocaleString():s+'$'+Math.round(a);};
 const own=id=>S.port[id]?.qty||0;
-const nw=()=>{let t=S.cash;ASSETS.forEach(a=>{const q=own(a.id);if(q)t+=a.price*q;});return t;};
+const nw=()=>{let t=S.cash;ASSETS.forEach(a=>{const q=own(a.id);if(q)t+=a.price*q;});t-=totalDebt();return t;};
 const profit=()=>nw()-50000;
 const acount=()=>Object.values(S.port).reduce((s,v)=>s+v.qty,0);
 
@@ -665,45 +784,54 @@ function upStats(){
   document.getElementById('kNet').textContent=fmt(n);
   const pe=document.getElementById('kProfit');
   pe.textContent=(p>=0?'+':'')+fmt(p);
-  pe.className='kpi-val '+(p>0?'up':p<0?'dn':'');
+  pe.className='dhi-val '+(p>0?'up':p<0?'dn':'');
   document.getElementById('kCount').textContent=acount();
+  document.getElementById('kDay').textContent=S.day;
+  const ge=document.getElementById('kGrowth');
+  const g=p/50000*100;
+  ge.textContent=(g>=0?'+':'')+g.toFixed(1)+'%';
+  ge.className='kpi-val '+(g>0?'up':g<0?'dn':'');
+  document.getElementById('kDebt').textContent=fmt(totalDebt());
 }
+
+function loanLimit(){return nw()*0.5;}
+function totalDebt(){return S.loans.reduce((s,l)=>s+l.remaining,0);}
 
 function mcard(a,mode){
   const q=own(a.id),canBuy=S.cash>=a.price;
   let acts='';
   if(mode==='market'){
-    acts=`<div class="mcard-actions">
-      <button class="btn-buy" ${!canBuy?'disabled':''} onclick="event.stopPropagation();G.openM('${a.id}','buy')"><i class="ti ti-shopping-cart"></i>بکڕە</button>
-      ${q>0?`<button class="btn-sell" onclick="event.stopPropagation();G.openM('${a.id}','sell')"><i class="ti ti-arrow-down"></i>بفرۆشە</button>`:''}
-    </div>`;
+	acts=`<div class="mcard-actions">
+	  <button class="btn-buy" ${!canBuy?'disabled':''} onclick="event.stopPropagation();G.openM('${a.id}','buy')"><i class="ti ti-shopping-cart"></i>بکڕە</button>
+	  ${q>0?`<button class="btn-sell" onclick="event.stopPropagation();G.openM('${a.id}','sell')"><i class="ti ti-arrow-down"></i>بفرۆشە</button>`:''}
+	</div>`;
   } else {
-    acts=`<div class="mcard-actions">
-      <button class="btn-sell" onclick="event.stopPropagation();G.openM('${a.id}','sell')"><i class="ti ti-arrow-down"></i>بفرۆشە</button>
-      <button class="btn-more" onclick="event.stopPropagation();G.openM('${a.id}','buy')"><i class="ti ti-plus"></i>زیادبکە</button>
-    </div>`;
+	acts=`<div class="mcard-actions">
+	  <button class="btn-sell" onclick="event.stopPropagation();G.openM('${a.id}','sell')"><i class="ti ti-arrow-down"></i>بفرۆشە</button>
+	  <button class="btn-more" onclick="event.stopPropagation();G.openM('${a.id}','buy')"><i class="ti ti-plus"></i>زیادبکە</button>
+	</div>`;
   }
   return`<div class="mcard cat-${a.cat}" onclick="G.openM('${a.id}','info')">
-    <div class="mcard-img">
-      <div class="mcard-img-bg"></div>
-      <i class="ti ${CAT_ICONS[a.cat]}"></i>
-    </div>
-    <div class="mcard-body">
-      ${q>0?`<div class="mcard-owned-badge"><i class="ti ti-check"></i>${q} ماڵت</div>`:''}
-      <div class="mcard-row1">
-        <div>
-          <div class="mcard-name">${a.name}</div>
-          <div class="mcard-sub">${a.sub}</div>
-        </div>
-        <div class="mcard-badge badge-${a.cat}">${CATS[a.cat]}</div>
-      </div>
-      <div class="mcard-price-row">
-        <span class="mcard-price">${fmt(a.price)}</span>
-        ${cpill(a)}
-      </div>
-      <div class="mcard-detail">${a.detail}</div>
-      ${acts}
-    </div>
+	<div class="mcard-img">
+	  <div class="mcard-img-bg"></div>
+	  <i class="ti ${CAT_ICONS[a.cat]}"></i>
+	</div>
+	<div class="mcard-body">
+	  ${q>0?`<div class="mcard-owned-badge"><i class="ti ti-check"></i>${q} ماڵت</div>`:''}
+	  <div class="mcard-row1">
+		<div>
+		  <div class="mcard-name">${a.name}</div>
+		  <div class="mcard-sub">${a.sub}</div>
+		</div>
+		<div class="mcard-badge badge-${a.cat}">${CATS[a.cat]}</div>
+	  </div>
+	  <div class="mcard-price-row">
+		<span class="mcard-price">${fmt(a.price)}</span>
+		${cpill(a)}
+	  </div>
+	  <div class="mcard-detail">${a.detail}</div>
+	  ${acts}
+	</div>
   </div>`;
 }
 
@@ -714,38 +842,38 @@ function renderMarket(){
 function renderPort(){
   const own_=ASSETS.filter(a=>own(a.id)>0);
   if(!own_.length){
-    document.getElementById('pGrid').innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-ic"><i class="ti ti-briefcase"></i></div><h3>موڵکت نییە هێشتا</h3><p>بڕۆ بازاڕ دەست بکە بە سەرمایەکاری!</p><button class="btn-primary" onclick="G.tab('market',document.getElementById('bnav-market'))"><i class="ti ti-shopping-bag"></i>بڕۆ بازاڕ</button></div>`;
-    document.getElementById('pStats').innerHTML='';return;
+	document.getElementById('pGrid').innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-ic"><i class="ti ti-briefcase"></i></div><h3>موڵکت نییە هێشتا</h3><p>بڕۆ بازاڕ دەست بکە بە سەرمایەکاری!</p><button class="btn-primary" onclick="G.tab('market',document.getElementById('bnav-market'))"><i class="ti ti-shopping-bag"></i>بڕۆ بازاڕ</button></div>`;
+	document.getElementById('pStats').innerHTML='';return;
   }
   document.getElementById('pGrid').innerHTML=own_.map(a=>mcard(a,'port')).join('');
   const tv=own_.reduce((s,a)=>s+a.price*own(a.id),0);
   const tc=own_.reduce((s,a)=>{const p=S.port[a.id];return s+(p?p.avgBuy*p.qty:0);},0);
   const pnl=tv-tc;
   document.getElementById('pStats').innerHTML=`
-    <div class="pstat"><div class="pstat-lbl">ژمارەی موڵک</div><div class="pstat-val">${acount()}</div></div>
-    <div class="pstat"><div class="pstat-lbl">نرخی ئێستا</div><div class="pstat-val">${fmt(tv)}</div></div>
-    <div class="pstat"><div class="pstat-lbl">تێچوونی کڕین</div><div class="pstat-val">${fmt(tc)}</div></div>
-    <div class="pstat"><div class="pstat-lbl">قازانج/زیان</div><div class="pstat-val" style="color:${pnl>=0?'var(--green)':'var(--red)'}">${pnl>=0?'+':''}${fmt(pnl)}</div></div>`;
+	<div class="pstat"><div class="pstat-lbl">ژمارەی موڵک</div><div class="pstat-val">${acount()}</div></div>
+	<div class="pstat"><div class="pstat-lbl">نرخی ئێستا</div><div class="pstat-val">${fmt(tv)}</div></div>
+	<div class="pstat"><div class="pstat-lbl">تێچوونی کڕین</div><div class="pstat-val">${fmt(tc)}</div></div>
+	<div class="pstat"><div class="pstat-lbl">قازانج/زیان</div><div class="pstat-val" style="color:${pnl>=0?'var(--green)':'var(--red)'}">${pnl>=0?'+':''}${fmt(pnl)}</div></div>`;
 }
 function renderPrices(){
   document.getElementById('pList').innerHTML=ASSETS.map(a=>{
-    const q=own(a.id);
-    return`<div class="prow cat-${a.cat}">
-      <div class="prow-name">
-        <div class="prow-ic"><i class="ti ${CAT_ICONS[a.cat]}"></i></div>
-        <div><div class="prow-main">${a.name}</div><div class="prow-cat">${CATS[a.cat]}</div></div>
-      </div>
-      <div class="prow-price">${fmt(a.price)}</div>
-      <div>${cpill(a)}</div>
-      <div class="prow-owned">${q>0?`${q} ماڵت`:'—'}</div>
-    </div>`;
+	const q=own(a.id);
+	return`<div class="prow cat-${a.cat}">
+	  <div class="prow-name">
+		<div class="prow-ic"><i class="ti ${CAT_ICONS[a.cat]}"></i></div>
+		<div><div class="prow-main">${a.name}</div><div class="prow-cat">${CATS[a.cat]}</div></div>
+	  </div>
+	  <div class="prow-price">${fmt(a.price)}</div>
+	  <div>${cpill(a)}</div>
+	  <div class="prow-owned">${q>0?`${q} ماڵت`:'—'}</div>
+	</div>`;
   }).join('');
 }
 function renderDPort(){
   const own_=ASSETS.filter(a=>own(a.id)>0);
   if(!own_.length){
-    document.getElementById('dPort').innerHTML=`<div class="empty"><div class="empty-ic"><i class="ti ti-briefcase"></i></div><h3>هێشتا موڵکت نییە</h3><p>بڕۆ بازاڕ و دەست بکە بە کڕین</p><button class="btn-primary" onclick="G.tab('market',document.getElementById('bnav-market'))"><i class="ti ti-shopping-bag"></i>بڕۆ بازاڕ</button></div>`;
-    return;
+	document.getElementById('dPort').innerHTML=`<div class="empty"><div class="empty-ic"><i class="ti ti-briefcase"></i></div><h3>هێشتا موڵکت نییە</h3><p>بڕۆ بازاڕ و دەست بکە بە کڕین</p><button class="btn-primary" onclick="G.tab('market',document.getElementById('bnav-market'))"><i class="ti ti-shopping-bag"></i>بڕۆ بازاڕ</button></div>`;
+	return;
   }
   document.getElementById('dPort').innerHTML=`<div class="market-grid">${own_.map(a=>mcard(a,'port')).join('')}</div>`;
 }
@@ -753,47 +881,102 @@ function renderFilter(){
   const cats=[{id:'all',label:'هەمووی',icon:'ti-apps'},...Object.keys(CATS).map(k=>({id:k,label:CATS[k],icon:CAT_ICONS[k]}))];
   document.getElementById('fBar').innerHTML=cats.map(c=>`<button class="fc ${S.cat===c.id?'active':''}" onclick="G.fCat('${c.id}',this)"><i class="ti ${c.icon}"></i>${c.label}</button>`).join('');
 }
+function renderLoanStats(){
+  const limit=loanLimit(),debt=totalDebt(),avail=Math.max(0,limit-debt);
+  document.getElementById('lStats').innerHTML=`
+    <div class="kpi-card"><div><div class="kpi-lbl">کۆی قەرزی ماوە</div><div class="kpi-val ${debt>0?'dn':''}">${fmt(debt)}</div></div><div class="kpi-ic"><i class="ti ti-receipt"></i></div></div>
+    <div class="kpi-card"><div><div class="kpi-lbl">سنووری قەرز</div><div class="kpi-val">${fmt(limit)}</div></div><div class="kpi-ic"><i class="ti ti-shield-check"></i></div></div>
+    <div class="kpi-card"><div><div class="kpi-lbl">بڕی بەردەست</div><div class="kpi-val up">${fmt(avail)}</div></div><div class="kpi-ic"><i class="ti ti-wallet"></i></div></div>`;
+}
+
+function renderLoanOffers(){
+  const avail=Math.max(0,loanLimit()-totalDebt());
+  document.getElementById('lOffers').innerHTML=LOAN_OFFERS.map(o=>{
+    const can=o.principal<=avail;
+    return`<div class="mcard cat-loan">
+      <div class="mcard-img"><div class="mcard-img-bg"></div><i class="ti ti-cash-banknote"></i></div>
+      <div class="mcard-body">
+        <div class="mcard-row1">
+          <div><div class="mcard-name">${o.name}</div><div class="mcard-sub">مۆڵەت ${o.term} ڕۆژ · سزای دواکەوتن ${(o.penalty*100).toFixed(1)}%/ڕۆژ</div></div>
+          <div class="mcard-badge badge-loan">قەرز</div>
+        </div>
+        <div class="mcard-price-row"><span class="mcard-price">${fmt(o.principal)}</span></div>
+        <div class="mcard-detail">${o.detail}</div>
+        <div class="mcard-actions">
+          <button class="btn-buy" ${!can?'disabled':''} onclick="G.requestLoan('${o.id}')"><i class="ti ti-arrow-down-circle"></i>وەرگرتنی قەرز</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderActiveLoans(){
+  const el=document.getElementById('lActive');
+  if(!S.loans.length){
+    el.innerHTML=`<div class="empty"><div class="empty-ic"><i class="ti ti-receipt-off"></i></div><h3>هیچ قەرزێکت نییە</h3><p>دەتوانیت قەرز وەربگریت لە خوارەوە</p></div>`;
+    return;
+  }
+  el.innerHTML=S.loans.map(l=>{
+    const left=l.due-S.day,overdue=left<0;
+    const status=overdue?`<span class="loan-status bad">دواکەوتووە</span>`:left<=3?`<span class="loan-status warn">${left} ڕۆژ ماوە</span>`:`<span class="loan-status ok">${left} ڕۆژ ماوە</span>`;
+    return`<div class="loan-card ${overdue?'overdue':''}">
+      <div class="loan-head"><div class="loan-name">${l.name}</div>${status}</div>
+      <div class="loan-grid">
+        <div class="loan-item"><div class="loan-item-lbl">بڕی سەرەتایی</div><div class="loan-item-val">${fmt(l.principal)}</div></div>
+        <div class="loan-item"><div class="loan-item-lbl">سزای دواکەوتن</div><div class="loan-item-val penalty">${l.penaltyTotal>0?'+':''}${fmt(l.penaltyTotal)}</div></div>
+        <div class="loan-item"><div class="loan-item-lbl">کۆی قەرزی ماوە</div><div class="loan-item-val">${fmt(l.remaining)}</div></div>
+        <div class="loan-item"><div class="loan-item-lbl">ڕۆژی دانەوە</div><div class="loan-item-val">ڕۆژی ${l.due}</div></div>
+      </div>
+      <div class="loan-acts">
+        <input type="number" class="qinp" id="pay-${l.uid}" min="1" max="${Math.ceil(l.remaining)}" value="${Math.min(Math.ceil(l.remaining),Math.max(1,Math.round(S.cash)))}" placeholder="بڕی دانەوە">
+        <button class="btn-buy" onclick="G.repayLoan('${l.uid}')"><i class="ti ti-cash"></i>دانەوە</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderLoans(){renderLoanStats();renderActiveLoans();renderLoanOffers();}
 function openModal(id,mode){
   const a=ASSETS.find(x=>x.id===id),q=own(id),canBuy=S.cash>=a.price;
   const ys=a.yield>0?`+${(a.yield*100).toFixed(1)}%`:a.yield<0?`${(a.yield*100).toFixed(1)}%`:'—';
   let body=`<div class="modal-banner cat-${a.cat}">
-    <div class="modal-banner-bg"></div>
-    <i class="ti ${CAT_ICONS[a.cat]}"></i>
+	<div class="modal-banner-bg"></div>
+	<i class="ti ${CAT_ICONS[a.cat]}"></i>
   </div>
   <div class="modal-title">${a.name}</div>
   <div class="modal-sub">${a.sub} · ${CATS[a.cat]}</div>
   <div class="modal-grid">
-    <div class="mc"><div class="mc-lbl">نرخی ئێستا</div><div class="mc-val">${fmt(a.price)}</div></div>
-    <div class="mc"><div class="mc-lbl">گۆڕانکاری</div><div class="mc-val">${cpill(a)}</div></div>
-    <div class="mc"><div class="mc-lbl">داهاتی ساڵانە</div><div class="mc-val" style="color:var(--green)">${ys}</div></div>
-    <div class="mc"><div class="mc-lbl">کڕاوەکانت</div><div class="mc-val">${q}</div></div>
+	<div class="mc"><div class="mc-lbl">نرخی ئێستا</div><div class="mc-val">${fmt(a.price)}</div></div>
+	<div class="mc"><div class="mc-lbl">گۆڕانکاری</div><div class="mc-val">${cpill(a)}</div></div>
+	<div class="mc"><div class="mc-lbl">داهاتی ساڵانە</div><div class="mc-val" style="color:var(--green)">${ys}</div></div>
+	<div class="mc"><div class="mc-lbl">کڕاوەکانت</div><div class="mc-val">${q}</div></div>
   </div>
   <div class="modal-desc">${a.detail}</div>`;
 
   if(mode==='buy'||mode==='info'){
-    body+=`<div class="qty-wrap">
-      <div class="qty-top"><span class="qty-lbl">بڕی کڕین</span><span class="qty-tot" id="bTot">${fmt(a.price)}</span></div>
-      <div class="qty-row">
-        <button class="qbtn" onclick="G.qA('bQ','${id}',-1,'buy')">−</button>
-        <input type="number" class="qinp" id="bQ" min="1" value="1" oninput="G.qR('${id}','buy')">
-        <button class="qbtn" onclick="G.qA('bQ','${id}',1,'buy')">+</button>
-      </div>
-    </div>
-    <div class="modal-acts">
-      <button class="btn-buy" style="flex:1" ${!canBuy?'disabled':''} onclick="G.doBuy('${id}')"><i class="ti ti-shopping-cart"></i>بکڕە</button>
-      ${q>0?`<button class="btn-sell" style="flex:1" onclick="G.swSell('${id}')"><i class="ti ti-arrow-down"></i>بفرۆشە</button>`:''}
-    </div>`;
+	body+=`<div class="qty-wrap">
+	  <div class="qty-top"><span class="qty-lbl">بڕی کڕین</span><span class="qty-tot" id="bTot">${fmt(a.price)}</span></div>
+	  <div class="qty-row">
+		<button class="qbtn" onclick="G.qA('bQ','${id}',-1,'buy')">−</button>
+		<input type="number" class="qinp" id="bQ" min="1" value="1" oninput="G.qR('${id}','buy')">
+		<button class="qbtn" onclick="G.qA('bQ','${id}',1,'buy')">+</button>
+	  </div>
+	</div>
+	<div class="modal-acts">
+	  <button class="btn-buy" style="flex:1" ${!canBuy?'disabled':''} onclick="G.doBuy('${id}')"><i class="ti ti-shopping-cart"></i>بکڕە</button>
+	  ${q>0?`<button class="btn-sell" style="flex:1" onclick="G.swSell('${id}')"><i class="ti ti-arrow-down"></i>بفرۆشە</button>`:''}
+	</div>`;
   } else if(mode==='sell'){
-    if(!q){toast('هیچ نییە بفرۆشیت!','err');return;}
-    body+=`<div class="qty-wrap">
-      <div class="qty-top"><span class="qty-lbl">بڕی فرۆشتن (هەیتت: ${q})</span><span class="qty-tot" id="sTot">${fmt(a.price)}</span></div>
-      <div class="qty-row">
-        <button class="qbtn" onclick="G.qA('sQ','${id}',-1,'sell')">−</button>
-        <input type="number" class="qinp" id="sQ" min="1" max="${q}" value="1" oninput="G.qR('${id}','sell')">
-        <button class="qbtn" onclick="G.qA('sQ','${id}',1,'sell')">+</button>
-      </div>
-    </div>
-    <div class="modal-acts"><button class="btn-sell" style="flex:1" onclick="G.doSell('${id}')"><i class="ti ti-arrow-down"></i>بفرۆشە</button></div>`;
+	if(!q){toast('هیچ نییە بفرۆشیت!','err');return;}
+	body+=`<div class="qty-wrap">
+	  <div class="qty-top"><span class="qty-lbl">بڕی فرۆشتن (هەیتت: ${q})</span><span class="qty-tot" id="sTot">${fmt(a.price)}</span></div>
+	  <div class="qty-row">
+		<button class="qbtn" onclick="G.qA('sQ','${id}',-1,'sell')">−</button>
+		<input type="number" class="qinp" id="sQ" min="1" max="${q}" value="1" oninput="G.qR('${id}','sell')">
+		<button class="qbtn" onclick="G.qA('sQ','${id}',1,'sell')">+</button>
+	  </div>
+	</div>
+	<div class="modal-acts"><button class="btn-sell" style="flex:1" onclick="G.doSell('${id}')"><i class="ti ti-arrow-down"></i>بفرۆشە</button></div>`;
   }
   document.getElementById('mBody').innerHTML=body;
   document.getElementById('mBg').classList.add('open');
@@ -801,77 +984,107 @@ function openModal(id,mode){
 
 const G={
   tab(id,btn){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
-    document.getElementById('p-'+id).classList.add('active');
-    (btn||document.getElementById('bnav-'+id)).classList.add('active');
-    if(id==='market'){renderFilter();renderMarket();}
-    if(id==='portfolio')renderPort();
-    if(id==='prices')renderPrices();
-    if(id==='dashboard'){renderDPort();upStats();}
+	document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+	document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
+	document.getElementById('p-'+id).classList.add('active');
+	(btn||document.getElementById('bnav-'+id)).classList.add('active');
+	if(id==='market'){renderFilter();renderMarket();}
+	if(id==='portfolio')renderPort();
+	if(id==='prices')renderPrices();
+  if(id==='loans')renderLoans();
+	if(id==='dashboard'){renderDPort();upStats();}
   },
   fCat(cat,btn){S.cat=cat;document.querySelectorAll('.fc').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderMarket();},
+  requestLoan(offerId){
+  const o=LOAN_OFFERS.find(x=>x.id===offerId);
+  const avail=loanLimit()-totalDebt();
+  if(o.principal>avail){toast('سنووری قەرزت بەس نییە بۆ ئەم بڕە','err');return;}
+  S.cash+=o.principal;
+  S.loans.push({uid:'ln'+Date.now()+Math.random().toString(36).slice(2,5),name:o.name,principal:o.principal,taken:S.day,due:S.day+o.term,penaltyRate:o.penalty,remaining:o.principal,penaltyTotal:0});
+  upStats();toast(`قەرزی ${fmt(o.principal)} وەرگیرا`,'ok');renderLoans();
+},
+repayLoan(uid){
+  const l=S.loans.find(x=>x.uid===uid);if(!l)return;
+  const inp=document.getElementById('pay-'+uid);
+  let amt=parseFloat(inp.value)||0;
+  if(amt<=0){toast('بڕێکی دروست بنووسە','err');return;}
+  if(amt>S.cash){toast('پارەی کاشت بەس نییە','err');return;}
+  amt=Math.min(amt,l.remaining);
+  S.cash-=amt;l.remaining-=amt;
+  if(l.remaining<=0.01){S.loans=S.loans.filter(x=>x.uid!==uid);toast('قەرزەکە بە تەواوی دراوەتەوە!','ok');}
+  else toast(`${fmt(amt)} دانەوە کرا`,'ok');
+  upStats();renderLoans();
+},
   openM:openModal,
   closeM(){document.getElementById('mBg').classList.remove('open');},
   mClose(e){if(e.target.id==='mBg')this.closeM();},
   swSell(id){this.closeM();setTimeout(()=>openModal(id,'sell'),60);},
   qA(inp,id,d,mode){
-    const el=document.getElementById(inp),q=own(id);
-    let v=(parseInt(el.value)||1)+d;
-    v=mode==='sell'?Math.min(Math.max(v,1),q):Math.max(v,1);
-    el.value=v;this.qR(id,mode);
+	const el=document.getElementById(inp),q=own(id);
+	let v=(parseInt(el.value)||1)+d;
+	v=mode==='sell'?Math.min(Math.max(v,1),q):Math.max(v,1);
+	el.value=v;this.qR(id,mode);
   },
   qR(id,mode){
-    const a=ASSETS.find(x=>x.id===id);
-    const inp=mode==='buy'?'bQ':'sQ',tot=mode==='buy'?'bTot':'sTot';
-    const v=parseInt(document.getElementById(inp)?.value)||1;
-    const el=document.getElementById(tot);if(el)el.textContent=fmt(a.price*v);
+	const a=ASSETS.find(x=>x.id===id);
+	const inp=mode==='buy'?'bQ':'sQ',tot=mode==='buy'?'bTot':'sTot';
+	const v=parseInt(document.getElementById(inp)?.value)||1;
+	const el=document.getElementById(tot);if(el)el.textContent=fmt(a.price*v);
   },
   doBuy(id){
-    const a=ASSETS.find(x=>x.id===id);
-    const qty=parseInt(document.getElementById('bQ')?.value)||1;
-    const total=a.price*qty;
-    if(S.cash<total){toast('پارەت بەس نییە!','err');return;}
-    S.cash-=total;
-    if(!S.port[id])S.port[id]={qty:0,avgBuy:0,totalCost:0};
-    const p=S.port[id];p.totalCost=(p.totalCost||0)+total;p.qty+=qty;p.avgBuy=p.totalCost/p.qty;
-    upStats();this.closeM();toast(`${a.name} ×${qty} کڕیت — ${fmt(total)}`,'ok');this._ref();
+	const a=ASSETS.find(x=>x.id===id);
+	const qty=parseInt(document.getElementById('bQ')?.value)||1;
+	const total=a.price*qty;
+	if(S.cash<total){toast('پارەت بەس نییە!','err');return;}
+	S.cash-=total;
+	if(!S.port[id])S.port[id]={qty:0,avgBuy:0,totalCost:0};
+	const p=S.port[id];p.totalCost=(p.totalCost||0)+total;p.qty+=qty;p.avgBuy=p.totalCost/p.qty;
+	upStats();this.closeM();toast(`${a.name} ×${qty} کڕیت — ${fmt(total)}`,'ok');this._ref();
   },
   doSell(id){
-    const a=ASSETS.find(x=>x.id===id),q=own(id);
-    const qty=Math.min(parseInt(document.getElementById('sQ')?.value)||1,q);
-    if(!qty){toast('هیچ نییە!','err');return;}
-    const total=a.price*qty,avgBuy=S.port[id]?.avgBuy||0,pnl=(a.price-avgBuy)*qty;
-    S.cash+=total;S.port[id].qty-=qty;
-    if(S.port[id].qty<=0){S.port[id].totalCost=0;delete S.port[id];}
-    upStats();this.closeM();toast(`فرۆشیت ×${qty} — ${fmt(total)} | ${pnl>=0?'+':''}${fmt(pnl)}`,pnl>=0?'ok':'inf');
-    this._ref();
-    if(nw()>=1e6)setTimeout(()=>toast('پیرۆزبا! بوویتە میلیۆنێر!','ok'),400);
+	const a=ASSETS.find(x=>x.id===id),q=own(id);
+	const qty=Math.min(parseInt(document.getElementById('sQ')?.value)||1,q);
+	if(!qty){toast('هیچ نییە!','err');return;}
+	const total=a.price*qty,avgBuy=S.port[id]?.avgBuy||0,pnl=(a.price-avgBuy)*qty;
+	S.cash+=total;S.port[id].qty-=qty;
+	if(S.port[id].qty<=0){S.port[id].totalCost=0;delete S.port[id];}
+	upStats();this.closeM();toast(`فرۆشیت ×${qty} — ${fmt(total)} | ${pnl>=0?'+':''}${fmt(pnl)}`,pnl>=0?'ok':'inf');
+	this._ref();
+	if(nw()>=1e6)setTimeout(()=>toast('پیرۆزبا! بوویتە میلیۆنێر!','ok'),400);
   },
   nextDay(){
-    S.day++;
-    ASSETS.forEach(a=>{const d=(Math.random()-.47)*.065;a.price=Math.max(a.base*.28,a.price*(1+d));});
-    let msg='بازاڕ ئارامبوو. هیچ ڕووداوێکی گرینگ ڕووی نەدا.';
-    if(Math.random()<.58){
-      const ev=EVENTS[Math.floor(Math.random()*EVENTS.length)];
-      ev.cats.forEach(cat=>ASSETS.filter(a=>a.cat===cat).forEach(a=>{a.price=Math.max(a.base*.22,a.price*(1+(ev.fx+(Math.random()-.5)*.03)));}));
-      msg=ev.msg;
-    }
-    let yi=0;ASSETS.forEach(a=>{const q=own(a.id);if(q>0&&a.yield>0)yi+=a.price*a.yield*q/30;});
-    if(yi>0){S.cash+=yi;msg+=` — داهاتی موڵک: +${fmt(yi)}`;}
-    const b=document.getElementById('evBox');
-    document.getElementById('evDay').textContent=`ڕۆژی ${S.day}`;
-    document.getElementById('evMsg').textContent=msg;
-    b.style.animation='none';requestAnimationFrame(()=>b.style.animation='slideIn .35s ease');
-    upStats();toast(`ڕۆژی ${S.day} دەستی پێکرد`,'inf');this._ref();
+	S.day++;
+	ASSETS.forEach(a=>{const d=(Math.random()-.47)*.065;a.price=Math.max(a.base*.28,a.price*(1+d));});
+	let msg='بازاڕ ئارامبوو. هیچ ڕووداوێکی گرینگ ڕووی نەدا.';
+	if(Math.random()<.58){
+	  const ev=EVENTS[Math.floor(Math.random()*EVENTS.length)];
+	  ev.cats.forEach(cat=>ASSETS.filter(a=>a.cat===cat).forEach(a=>{a.price=Math.max(a.base*.22,a.price*(1+(ev.fx+(Math.random()-.5)*.03)));}));
+	  msg=ev.msg;
+	}
+	let yi=0;ASSETS.forEach(a=>{const q=own(a.id);if(q>0&&a.yield>0)yi+=a.price*a.yield*q/30;});
+	if(yi>0){S.cash+=yi;msg+=` — داهاتی موڵک: +${fmt(yi)}`;}
+  let penAdded=0;
+S.loans.forEach(l=>{
+  if(S.day>l.due&&l.remaining>0){
+	const pen=l.remaining*l.penaltyRate;
+	l.remaining+=pen;l.penaltyTotal+=pen;penAdded++;
+  }
+});
+if(penAdded>0)msg+=` — ئاگاداری: ${penAdded} قەرز دواکەوتوون و سزا زیادکرا.`;
+	const b=document.getElementById('evBox');
+	document.getElementById('evDay').textContent=`ڕۆژی ${S.day}`;
+	document.getElementById('evMsg').textContent=msg;
+	b.style.animation='none';requestAnimationFrame(()=>b.style.animation='slideIn .35s ease');
+	upStats();toast(`ڕۆژی ${S.day} دەستی پێکرد`,'inf');this._ref();
   },
   _ref(){
-    const a=document.querySelector('.page.active');if(!a)return;
-    const id=a.id.replace('p-','');
-    if(id==='market')renderMarket();
-    if(id==='portfolio')renderPort();
-    if(id==='prices')renderPrices();
-    if(id==='dashboard')renderDPort();
+	const a=document.querySelector('.page.active');if(!a)return;
+	const id=a.id.replace('p-','');
+	if(id==='market')renderMarket();
+	if(id==='portfolio')renderPort();
+	if(id==='prices')renderPrices();
+  if(id==='loans')renderLoans();
+	if(id==='dashboard')renderDPort();
   },
 };
 upStats();renderDPort();
