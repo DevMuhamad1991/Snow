@@ -623,12 +623,12 @@ input{font-family:var(--font-kuf)}
   </div>
    <div class="countdown-bar">
    <div class="cd-label">
-     <i class="ti ti-clock"></i>
-     <span>نوێبوونەوەی داهاتوو</span>
+	 <i class="ti ti-clock"></i>
+	 <span>نوێبوونەوەی داهاتوو</span>
    </div>
    <div class="cd-timer" id="cdTimer">3:00</div>
    <div class="cd-track">
-     <div class="cd-fill" id="cdFill"></div>
+	 <div class="cd-fill" id="cdFill"></div>
    </div>
  </div>
   
@@ -644,8 +644,6 @@ input{font-family:var(--font-kuf)}
   <div class="sec-head"><h2 class="sec-title" style="font-size:1rem">قەرز</h2></div>
   <div id="loanCard"></div>
 
-  <div class="sec-head"><h2 class="sec-title" style="font-size:1rem">موڵکەکانم</h2></div>
-  <div id="dPort"></div>
 </div>
 
 <div id="p-market" class="page">
@@ -862,13 +860,16 @@ function renderPrices(){
   }).join('');
 }
 function renderDPort(){
+  const el=document.getElementById('dPort');
+  if(!el)return;
   const own_=ASSETS.filter(a=>own(a.id)>0);
   if(!own_.length){
-	document.getElementById('dPort').innerHTML=`<div class="empty"><div class="empty-ic"><i class="ti ti-briefcase"></i></div><h3>هێشتا موڵکت نییە</h3><p>بڕۆ بازاڕ و دەست بکە بە کڕین</p><button class="btn-primary" onclick="G.tab('market',document.getElementById('bnav-market'))"><i class="ti ti-shopping-bag"></i>بڕۆ بازاڕ</button></div>`;
-	return;
+    el.innerHTML=`<div class="empty"><div class="empty-ic"><i class="ti ti-briefcase"></i></div><h3>هێشتا موڵکت نییە</h3><p>بڕۆ بازاڕ و دەست بکە بە کڕین</p><button class="btn-primary" onclick="G.tab('market',document.getElementById('bnav-market'))"><i class="ti ti-shopping-bag"></i>بڕۆ بازاڕ</button></div>`;
+    return;
   }
-  document.getElementById('dPort').innerHTML=`<div class="market-grid">${own_.map(a=>mcard(a,'port')).join('')}</div>`;
+  el.innerHTML=`<div class="market-grid">${own_.map(a=>mcard(a,'port')).join('')}</div>`;
 }
+
 function renderFilter(){
   const cats=[{id:'all',label:'هەمووی',icon:'ti-apps'},...Object.keys(CATS).map(k=>({id:k,label:CATS[k],icon:CAT_ICONS[k]}))];
   document.getElementById('fBar').innerHTML=cats.map(c=>`<button class="fc ${S.cat===c.id?'active':''}" onclick="G.fCat('${c.id}',this)"><i class="ti ${c.icon}"></i>${c.label}</button>`).join('');
@@ -1116,7 +1117,7 @@ const G={
 	if(id==='dashboard')renderDPort();
   },
 };
-upStats();renderDPort();renderLoan();
+upStats();renderLoan();
 // ── AUTO TIMER ──
 const INTERVAL_MS = 3 * 60 * 1000; // 3 خولەک
 let timerStart = Date.now();
@@ -1132,8 +1133,8 @@ function updateCountdown(){
   if(el) el.textContent = m + ':' + String(s).padStart(2,'0');
   if(fill) fill.style.width = ((INTERVAL_MS - remaining) / INTERVAL_MS * 100) + '%';
   if(remaining <= 0){
-    timerStart = Date.now();
-    G.nextDay();
+	timerStart = Date.now();
+	G.nextDay();
   }
 }
 setInterval(updateCountdown, 500);
