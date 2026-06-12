@@ -55,7 +55,70 @@ body::before{
 button{cursor:pointer;font-family:var(--font-kuf)}
 input{font-family:var(--font-kuf)}
 
+/* ── NAVBAR ── */
+.nav{
+  position:sticky;top:0;z-index:300;
+  height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;gap:12px;
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border-bottom:1px solid var(--glass-border);
+  border-radius:0 0 var(--r18) var(--r18);
+}
+.nav-brand{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-nas);font-size:1.05rem;font-weight:800;
+  color:var(--white);white-space:nowrap;
+}
+.nav-stats{display:flex;gap:6px}
+.stat-pill{
+  display:flex;flex-direction:column;align-items:center;
+  background:var(--w08);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r14);padding:5px 14px;min-width:80px;
+  backdrop-filter:blur(10px);
+}
+.stat-pill-lbl{font-size:0.6rem;color:var(--w50);line-height:1.2}
+.stat-pill-val{font-size:0.82rem;font-weight:700;color:var(--white);margin-top:1px}
+.btn-nextday{
+  width:42px;height:42px;border-radius:var(--r10);
+  background:linear-gradient(135deg,var(--sky-5),var(--sky-7));
+  border:none;color:#fff;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(2,132,199,0.28);
+  transition:transform .15s,opacity .15s;flex-shrink:0;
+}
+.btn-nextday:hover{transform:scale(1.06);opacity:.9}
+.btn-nextday i{font-size:20px}
 
+/* ── BOTTOM NAV ── */
+.bnav{
+  position:fixed;bottom:12px;left:12px;right:12px;z-index:300;
+  height:64px;max-width:520px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-around;
+  background:rgba(255,255,255,0.62);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r32);
+  box-shadow:0 10px 34px rgba(245,158,11,0.16);
+}
+.bnav-btn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  background:transparent;border:none;color:var(--w40);
+  padding:6px 20px;border-radius:var(--r18);
+  transition:color .2s,background .2s;
+  position:relative;
+}
+.bnav-btn i{font-size:22px;line-height:1}
+.bnav-btn .bnav-dot{
+  position:absolute;top:4px;right:18px;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--sky-5);display:none;
+}
+.bnav-btn.active{color:var(--sky-6)}
+.bnav-btn.active .bnav-dot{display:block}
 
 /* ── PAGES ── */
 .page { display:none; padding:20px 16px 20px; max-width:1200px; margin:0 auto }
@@ -526,27 +589,39 @@ input{font-family:var(--font-kuf)}
 </head>
 <body>
 
+<!-- PAGES -->
 <div id="p-dashboard" class="page active">
+  <div class="sec-head"><h1 class="sec-title">داشبۆرد</h1><p class="sec-sub">وضعی گشتی دارایی و سامانی تۆ</p></div>
 
- <div class="dash-hero">
-   <div class="dash-hero-top">
-     <div class="dash-hero-day"><i class="ti ti-calendar-event"></i>ڕۆژی <span id="kDay">1</span></div>
-   </div>
-   <div class="dash-hero-lbl">کۆی سامانی گشتی</div>
-   <div class="dash-hero-val" id="kNet">$50,000</div>
-   <div class="dash-hero-row">
-     <div class="dash-hero-item">
-       <div class="dhi-ic"><i class="ti ti-coin"></i></div>
-       <div><div class="dhi-lbl">پارەی کاش</div><div class="dhi-val" id="kCash">$50,000</div></div>
-     </div>
-     <div class="dash-hero-item">
-       <div class="dhi-ic"><i class="ti ti-chart-bar"></i></div>
-       <div><div class="dhi-lbl">قازانجی گشتی</div><div class="dhi-val" id="kProfit">$0</div></div>
-     </div>
-   </div>
- </div>
+  <div class="dash-hero">
+	<div class="dash-hero-top">
+	  <div class="dash-hero-day"><i class="ti ti-calendar-event"></i>ڕۆژی <span id="kDay">1</span></div>
+	</div>
+	<div class="dash-hero-lbl">کۆی سامانی گشتی</div>
+	<div class="dash-hero-val" id="kNet">$50,000</div>
+	<div class="dash-hero-row">
+	  <div class="dash-hero-item">
+		<div class="dhi-ic"><i class="ti ti-coin"></i></div>
+		<div><div class="dhi-lbl">پارەی کاش</div><div class="dhi-val" id="kCash">$50,000</div></div>
+	  </div>
+	  <div class="dash-hero-item">
+		<div class="dhi-ic"><i class="ti ti-chart-bar"></i></div>
+		<div><div class="dhi-lbl">قازانجی گشتی</div><div class="dhi-val" id="kProfit">$0</div></div>
+	  </div>
+	</div>
+  </div>
 
- <div class="countdown-bar">
+  <div class="kpi-row">
+	<div class="kpi-card">
+	  <div><div class="kpi-lbl">ژمارەی موڵک</div><div class="kpi-val" id="kCount">0</div></div>
+	  <div class="kpi-ic"><i class="ti ti-building-community"></i></div>
+	</div>
+	<div class="kpi-card">
+	  <div><div class="kpi-lbl">ڕێژەی گەشە</div><div class="kpi-val" id="kGrowth">0%</div></div>
+	  <div class="kpi-ic"><i class="ti ti-trending-up"></i></div>
+	</div>
+  </div>
+   <div class="countdown-bar">
    <div class="cd-label">
      <i class="ti ti-clock"></i>
      <span>نوێبوونەوەی داهاتوو</span>
@@ -556,45 +631,73 @@ input{font-family:var(--font-kuf)}
      <div class="cd-fill" id="cdFill"></div>
    </div>
  </div>
+  
 
- <div class="kpi-row">
-   <div class="kpi-card">
-     <div><div class="kpi-lbl">ژمارەی موڵک</div><div class="kpi-val" id="kCount">0</div></div>
-     <div class="kpi-ic"><i class="ti ti-building-community"></i></div>
-   </div>
-   <div class="kpi-card">
-     <div><div class="kpi-lbl">ڕێژەی گەشە</div><div class="kpi-val" id="kGrowth">0%</div></div>
-     <div class="kpi-ic"><i class="ti ti-trending-up"></i></div>
-   </div>
- </div>
+  <div class="event-box" id="evBox">
+	<div class="event-ic"><i class="ti ti-bell"></i></div>
+	<div>
+	  <div class="event-day" id="evDay">ڕۆژی 1</div>
+	  <div class="event-msg" id="evMsg">بەخێربێیت! دەستت بە $50,000 پێوە دەست پێدەکەیت. باشترین سەرمایەکاری بکە.</div>
+	</div>
+  </div>
 
- <div class="event-box" id="evBox">
-   <div class="event-ic"><i class="ti ti-bell"></i></div>
-   <div>
-     <div class="event-day" id="evDay">ڕۆژی 1</div>
-     <div class="event-msg" id="evMsg">بەخێربێیت! دەستت بە $50,000 پێوە دەست پێدەکەیت. باشترین سەرمایەکاری بکە.</div>
-   </div>
- </div>
+  <div class="sec-head"><h2 class="sec-title" style="font-size:1rem">قەرز</h2></div>
+  <div id="loanCard"></div>
 
- <div class="sec-head"><h2 class="sec-title" style="font-size:1rem">قەرز</h2></div>
- <div id="loanCard"></div>
-
- <div class="sec-head"><h2 class="sec-title" style="font-size:1rem">موڵکەکانم</h2></div>
- <div id="dPort"></div>
-
+  <div class="sec-head"><h2 class="sec-title" style="font-size:1rem">موڵکەکانم</h2></div>
+  <div id="dPort"></div>
 </div>
+
+<div id="p-market" class="page">
+  <div class="sec-head"><h1 class="sec-title">بازاڕ</h1><p class="sec-sub">کڕین و فرۆشتنی موڵک و بابەتەکان</p></div>
+  <div class="filter-bar" id="fBar"></div>
+  <div class="market-grid" id="mGrid"></div>
+</div>
+
+<div id="p-portfolio" class="page">
+  <div class="sec-head"><h1 class="sec-title">موڵکەکانم</h1><p class="sec-sub">هەموو سامان و موڵکی تۆ</p></div>
+  <div class="port-stats" id="pStats"></div>
+  <div class="market-grid" id="pGrid"></div>
+</div>
+
+<div id="p-prices" class="page">
+  <div class="sec-head"><h1 class="sec-title">نرخەکان</h1><p class="sec-sub">شوێن بگرە لە گۆڕانکاری نرخی بازاڕ</p></div>
+  <div class="ptable">
+	<div class="ptable-head"><div>ناو</div><div>نرخی ئێستا</div><div>گۆڕانکاری</div><div>کڕاوەکانت</div></div>
+	<div id="pList"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <button class="bnav-btn active" id="bnav-dashboard" onclick="G.tab('dashboard',this)">
+	<i class="ti ti-layout-dashboard"></i>
+	<span class="bnav-dot"></span>
+  </button>
+  <button class="bnav-btn" id="bnav-market" onclick="G.tab('market',this)">
+	<i class="ti ti-shopping-bag"></i>
+	<span class="bnav-dot"></span>
+  </button>
+  <button class="bnav-btn" id="bnav-portfolio" onclick="G.tab('portfolio',this)">
+	<i class="ti ti-briefcase"></i>
+	<span class="bnav-dot"></span>
+  </button>
+  <button class="bnav-btn" id="bnav-prices" onclick="G.tab('prices',this)">
+	<i class="ti ti-chart-line"></i>
+	<span class="bnav-dot"></span>
+  </button>
+</nav>
 
 <!-- MODAL -->
 <div class="modal-bg" id="mBg" onclick="G.mClose(event)">
- <div class="modal">
-   <button class="modal-x" onclick="G.closeM()"><i class="ti ti-x"></i></button>
-   <div id="mBody"></div>
- </div>
+  <div class="modal">
+	<button class="modal-x" onclick="G.closeM()"><i class="ti ti-x"></i></button>
+	<div id="mBody"></div>
+  </div>
 </div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
-
 
 <script>
 const CATS={company:'کۆمپانیا',property:'خانووبەرە',land:'زەوی',car:'ئۆتۆمبێل',shop:'دوکان',gold:'زێڕ',dollar:'دۆلار'};
@@ -895,7 +998,7 @@ function openRepayModal(){
 const G={
   tab(id,btn){
 	document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-
+	document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
 	document.getElementById('p-'+id).classList.add('active');
 	(btn||document.getElementById('bnav-'+id)).classList.add('active');
 	if(id==='market'){renderFilter();renderMarket();}
