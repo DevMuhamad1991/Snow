@@ -960,10 +960,6 @@ function renderDPort(){
   el.innerHTML=`<div class="market-grid">${own_.map(a=>mcard(a,'port')).join('')}</div>`;
 }
 
-function renderFilter(){
-  const cats=[{id:'all',label:'هەمووی',icon:'ti-apps'},...Object.keys(CATS).map(k=>({id:k,label:CATS[k],icon:CAT_ICONS[k]}))];
-  document.getElementById('fBar').innerHTML=cats.map(c=>`<button class="fc ${S.cat===c.id?'active':''}" onclick="G.fCat('${c.id}',this)"><i class="ti ${c.icon}"></i>${c.label}</button>`).join('');
-}
 
 function renderLoan(){
   const el=document.getElementById('loanCard');
@@ -1108,7 +1104,7 @@ const G={
    document.getElementById('catSub').textContent=c.sub;
    document.getElementById('catView').style.display='none';
    document.getElementById('itemView').style.display='block';
-   renderFilter();renderMarket();
+   renderMarket();
  },
  backToCats(){
    document.getElementById('catView').style.display='block';
