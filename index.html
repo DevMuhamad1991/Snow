@@ -1278,11 +1278,7 @@ const G={
      S.loan.totalInterest+=interest;
      msg+=` — ⚠ قەرزەکەت دواکەوت، ${fmt(interest)} سوو زیادکرا`;
    }
-   const b=document.getElementById('evBox');
-   document.getElementById('evDay').textContent=`ڕۆژی ${S.day}`;
-   document.getElementById('evMsg').textContent=msg;
-   b.style.animation='none';requestAnimationFrame(()=>b.style.animation='slideIn .35s ease');
-upStats();renderLoan();this._ref();
+ 
 
  },
  _ref(){
