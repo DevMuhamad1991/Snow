@@ -108,12 +108,10 @@ input{font-family:var(--font-kuf)}
 
 .price-legend { 
   display:flex; gap:14px; 
-  margin-bottom:12px; padding:10px 16px;
-  background:var(--glass-bg);
-  border:1px solid var(--glass-border);
-  border-radius:var(--r14);
-  backdrop-filter:blur(10px);
+  padding:12px 18px;
+  border-bottom:1px solid var(--glass-border);
 }
+
 .leg { display:flex; align-items:center; gap:5px; font-size:0.74rem; }
 .leg.up { color:var(--green); }
 .leg.dn { color:var(--red); }
@@ -742,20 +740,19 @@ input{font-family:var(--font-kuf)}
   <div class="market-grid" id="pGrid"></div>
 </div>
 
-<div class="price-legend">
-  <span class="leg up"><i class="ti ti-trending-up"></i> بەرزبووەوە</span>
-  <span class="leg dn"><i class="ti ti-trending-down"></i> دابەزیووە</span>
-  <span class="leg fl"><i class="ti ti-minus"></i> نەگۆڕاو</span>
-</div>
-
-
 <div id="p-prices" class="page">
-  <div class="sec-head"><h1 class="sec-title">نرخەکان</h1><p class="sec-sub">شوێن بگرە لە گۆڕانکاری نرخی بازاڕ</p></div>
-  <div class="ptable">
-	<div class="ptable-head"><div>ناو</div><div>نرخی ئێستا</div><div>گۆڕانکاری</div><div>کڕاوەکانت</div></div>
-	<div id="pList"></div>
-  </div>
+ <div class="sec-head"><h1 class="sec-title">نرخەکان</h1><p class="sec-sub">شوێن بگرە لە گۆڕانکاری نرخی بازاڕ</p></div>
+ <div class="ptable">
+   <div class="price-legend">
+     <span class="leg up"><i class="ti ti-trending-up"></i> بەرزبووەوە</span>
+     <span class="leg dn"><i class="ti ti-trending-down"></i> دابەزیووە</span>
+     <span class="leg fl"><i class="ti ti-minus"></i> نەگۆڕاو</span>
+   </div>
+   <div class="ptable-head"><div>ناو</div><div>نرخی ئێستا</div><div>گۆڕانکاری</div><div>کڕاوەکانت</div></div>
+   <div id="pList"></div>
+ </div>
 </div>
+
 
 <!-- BOTTOM NAV -->
 <nav class="bnav">
