@@ -968,8 +968,8 @@ function renderLoan(){
 	  <div class="loan-empty">
 		<div class="loan-empty-ic"><i class="ti ti-cash-banknote"></i></div>
 		<div>
-		  <div class="loan-empty-title">قەرزت نییە</div>
-		  <div class="loan-empty-sub">دەتوانیت قەرز ڕابکێشیت بۆ زیادکردنی سەرمایەت — بەڵام ئەگەر دواکەوتیت لە گەڕاندنەوەی، قازانج بەسەر قەرزەکەتدا زیاد دەکرێت</div>
+		  <div class="loan-empty-title"> قەرزکردنی پارە</div>
+		  <div class="loan-empty-sub">دەتوانیت قەرز ڕابکێشیت بۆ زیادکردنی سەرمایەت — بەڵام ئەگەر دواکەوتیت لە گەڕاندنەوەی، قەرزەکەت زیاد دەکرێت</div>
 		</div>
 	  </div>
 	  <button class="btn-primary" style="width:100%;justify-content:center;margin-top:12px" onclick="G.openLoanModal()"><i class="ti ti-cash-banknote"></i>ڕاکێشانی قەرز</button>
@@ -983,7 +983,7 @@ function renderLoan(){
 	  <div class="mc"><div class="mc-lbl">قەرزی سەرەتایی</div><div class="mc-val">${fmt(L.principal)}</div></div>
 	  <div class="mc"><div class="mc-lbl">کۆی قەرز (ماوە)</div><div class="mc-val" style="color:var(--red)">${fmt(L.debt)}</div></div>
 	  <div class="mc"><div class="mc-lbl">زیادکراو بەهۆی دواخستن</div><div class="mc-val" style="color:var(--amber-7)">${fmt(L.totalInterest)}</div></div>
-	  <div class="mc"><div class="mc-lbl">ماوەی گەڕاندنەوە</div><div class="mc-val">${overdue>0?`دواکەوتوو ${overdue} ڕۆژ`:`ڕۆژی ${L.dueDay}`}</div></div>
+	  <div class="mc"><div class="mc-lbl">کاتی گەڕاندنەوە</div><div class="mc-val">${overdue>0?`دواکەوتوو ${overdue} ڕۆژ`:`ڕۆژی ${L.dueDay}`}</div></div>
 	</div>
 	${overdue>0?`<div class="loan-warn"><i class="ti ti-alert-triangle"></i>قەرزەکەت دواکەوتووە! هەر ڕۆژێک ڕێژەی ${(L.rate*100).toFixed(0)}% وەک سوو بەسەر قەرزەکەتدا زیاد دەکرێت تا کاتێک بیگەڕێنیتەوە.</div>`:''}
 	<button class="btn-primary" style="width:100%;justify-content:center;margin-top:12px" onclick="G.openRepayModal()"><i class="ti ti-credit-card-pay"></i>گەڕاندنەوەی قەرز</button>
