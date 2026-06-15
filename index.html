@@ -738,13 +738,13 @@ input{font-family:var(--font-kuf)}
  </div>
   
 
-  <div class="event-box" id="evBox">
+<!--  <div class="event-box" id="evBox">
 	<div class="event-ic"><i class="ti ti-bell"></i></div>
 	<div>
 	  <div class="event-day" id="evDay">ڕۆژی 1</div>
 	  <div class="event-msg" id="evMsg">بەخێربێیت! دەستت بە $50,000 پێوە دەست پێدەکەیت. باشترین سەرمایەکاری بکە.</div>
 	</div>
-  </div>
+  </div> -->
 
   <div id="loanCard"></div>
 
@@ -1282,7 +1282,8 @@ const G={
    document.getElementById('evDay').textContent=`ڕۆژی ${S.day}`;
    document.getElementById('evMsg').textContent=msg;
    b.style.animation='none';requestAnimationFrame(()=>b.style.animation='slideIn .35s ease');
-   upStats();renderLoan();toast(`ڕۆژی ${S.day} دەستی پێکرد`,'inf');this._ref();
+upStats();renderLoan();this._ref();
+
  },
  _ref(){
    const a=document.querySelector('.page.active');if(!a)return;
