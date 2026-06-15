@@ -118,34 +118,75 @@ input{font-family:var(--font-kuf)}
 .leg.fl { color:var(--amber); }
 
 
+.bottom-nav {
+  position: fixed;
+  bottom: clamp(12px, 4vw, 24px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  gap: clamp(8px, 2.5vw, 14px);
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255,255,255,0.55);
+  border-radius: 999px;
+  padding: 10px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12),
+              inset 0 1px 0 rgba(255,255,255,0.6);
+}
 
-/* ── BOTTOM NAV ── */
-.bnav{
-  position:fixed;bottom:12px;left:12px;right:12px;z-index:300;
-  height:64px;max-width:520px;margin:0 auto;
-  display:flex;align-items:center;justify-content:space-around;
-  background:rgba(255,255,255,0.62);
-  backdrop-filter:var(--glass-blur);
-  -webkit-backdrop-filter:var(--glass-blur);
-  border:1px solid var(--glass-border);
-  border-radius:var(--r32);
-  box-shadow:0 10px 34px rgba(245,158,11,0.16);
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: #6b6b6b;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease, padding 0.2s ease;
 }
-.bnav-btn{
-  display:flex;flex-direction:column;align-items:center;gap:3px;
-  background:transparent;border:none;color:var(--w40);
-  padding:6px 20px;border-radius:var(--r18);
-  transition:color .2s,background .2s;
-  position:relative;
+
+.nav-item.active {
+  background: #FFD400;
+  color: #111;
+  padding: 9px 16px 9px 12px;
+  font-weight: 700;
 }
-.bnav-btn i{font-size:22px;line-height:1}
-.bnav-btn .bnav-dot{
-  position:absolute;top:4px;right:18px;
-  width:6px;height:6px;border-radius:50%;
-  background:var(--sky-5);display:none;
+
+.nav-item svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  fill: currentColor;
+  transition: transform 0.2s ease;
 }
-.bnav-btn.active{color:var(--sky-6)}
-.bnav-btn.active .bnav-dot{display:block}
+
+.nav-item.active svg {
+  transform: scale(1.1);
+}
+
+.nav-label {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  opacity: 0;
+  margin-right: 0;
+  transition: width 0.2s ease, opacity 0.15s ease, margin-right 0.2s ease;
+}
+
+.nav-item.active .nav-label {
+  width: var(--lw, 48px);
+  opacity: 1;
+  margin-right: 6px;
+}
+
 
 /* ── PAGES ── */
 .page { display:none; padding:20px 16px 20px; max-width:1200px; margin:0 auto }
@@ -755,24 +796,25 @@ input{font-family:var(--font-kuf)}
 
 
 <!-- BOTTOM NAV -->
-<nav class="bnav">
-  <button class="bnav-btn active" id="bnav-dashboard" onclick="G.tab('dashboard',this)">
-	<i class="ti ti-layout-dashboard"></i>
-	<span class="bnav-dot"></span>
+<nav class="bottom-nav" id="bottomNav">
+  <button class="nav-item active" id="nav-dashboard" style="--lw:54px" onclick="G.tab('dashboard',this);navClick('dashboard')">
+    <i class="ti ti-layout-dashboard" style="font-size:22px"></i>
+    <span class="nav-label">داشبۆرد</span>
   </button>
-  <button class="bnav-btn" id="bnav-market" onclick="G.tab('market',this)">
-	<i class="ti ti-shopping-bag"></i>
-	<span class="bnav-dot"></span>
+  <button class="nav-item" id="nav-market" style="--lw:48px" onclick="G.tab('market',this);navClick('market')">
+    <i class="ti ti-shopping-bag" style="font-size:22px"></i>
+    <span class="nav-label">بازاڕ</span>
   </button>
-  <button class="bnav-btn" id="bnav-portfolio" onclick="G.tab('portfolio',this)">
-	<i class="ti ti-briefcase"></i>
-	<span class="bnav-dot"></span>
+  <button class="nav-item" id="nav-portfolio" style="--lw:62px" onclick="G.tab('portfolio',this);navClick('portfolio')">
+    <i class="ti ti-briefcase" style="font-size:22px"></i>
+    <span class="nav-label">موڵکەکانم</span>
   </button>
-  <button class="bnav-btn" id="bnav-prices" onclick="G.tab('prices',this)">
-	<i class="ti ti-chart-line"></i>
-	<span class="bnav-dot"></span>
+  <button class="nav-item" id="nav-prices" style="--lw:54px" onclick="G.tab('prices',this);navClick('prices')">
+    <i class="ti ti-chart-line" style="font-size:22px"></i>
+    <span class="nav-label">نرخەکان</span>
   </button>
 </nav>
+
 
 <!-- MODAL -->
 <div class="modal-bg" id="mBg" onclick="G.mClose(event)">
@@ -876,6 +918,12 @@ function toast(msg,type='inf'){
   el.textContent=msg;el.className=`toast show ${type}`;
   clearTimeout(el._t);el._t=setTimeout(()=>el.className='toast',3000);
 }
+
+function navClick(tab) {
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('nav-' + tab).classList.add('active');
+}
+
 
 function renderCats(){
   document.getElementById('catGrid').innerHTML=CATEGORIES.map(c=>{
