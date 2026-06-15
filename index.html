@@ -73,7 +73,7 @@ input{font-family:var(--font-kuf)}
   color:var(--white);white-space:nowrap;
 }
 .nav-stats{display:flex;gap:6px}
-.stat-pill{
+.stat-
   display:flex;flex-direction:column;align-items:center;
   background:var(--w08);
   border:1px solid var(--glass-border);
@@ -1165,14 +1165,6 @@ function openRepayModal(){
 }
 
 const G={
- tab(id,btn){
-   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-   document.getElementById('p-'+id).classList.add('active');
-   if(id==='market'){renderCats();this.showCatView();}
-   if(id==='portfolio')renderPort();
-   if(id==='prices')renderPrices();
-   if(id==='dashboard'){renderDPort();renderLoan();upStats();}
- },
  showCatView(){
    document.getElementById('catView').style.display='block';
    document.getElementById('itemView').style.display='none';
@@ -1201,6 +1193,19 @@ const G={
    v=mode==='sell'?Math.min(Math.max(v,1),q):Math.max(v,1);
    el.value=v;this.qR(id,mode);
  },
+
+tab(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  if(id==='market'){renderCats();this.showCatView();}
+  if(id==='portfolio')renderPort();
+  if(id==='prices')renderPrices();
+  if(id==='dashboard'){renderDPort();renderLoan();upStats();}
+},
+
+
  qR(id,mode){
    const a=ASSETS.find(x=>x.id===id);
    const inp=mode==='buy'?'bQ':'sQ',tot=mode==='buy'?'bTot':'sTot';
