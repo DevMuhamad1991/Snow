@@ -83,6 +83,13 @@ input{font-family:var(--font-kuf)}
 .stat-pill-lbl{font-size:0.6rem;color:var(--w50);line-height:1.2}
 .stat-pill-val{font-size:0.82rem;font-weight:700;color:var(--white);margin-top:1px}
 
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .bottom-nav {
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    margin-bottom: 0;
+    bottom: 0;
+  }
+}
 
 
 .prow.row-up { 
