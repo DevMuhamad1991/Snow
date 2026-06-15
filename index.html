@@ -82,15 +82,7 @@ input{font-family:var(--font-kuf)}
 }
 .stat-pill-lbl{font-size:0.6rem;color:var(--w50);line-height:1.2}
 .stat-pill-val{font-size:0.82rem;font-weight:700;color:var(--white);margin-top:1px}
-.btn-nextday{
-  width:42px;height:42px;border-radius:var(--r10);
-  background:linear-gradient(135deg,var(--sky-5),var(--sky-7));
-  border:none;color:#fff;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 14px rgba(2,132,199,0.28);
-  transition:transform .15s,opacity .15s;flex-shrink:0;
-}
-.btn-nextday:hover{transform:scale(1.06);opacity:.9}
-.btn-nextday i{font-size:20px}
+
 
 
 .prow.row-up { 
@@ -1305,12 +1297,6 @@ const G={
  },
 };
 upStats();renderLoan();
-
-const btnNext = document.createElement('button');
-btnNext.className = 'btn-nextday';
-btnNext.innerHTML = '<i class="ti ti-player-skip-forward"></i>';
-btnNext.onclick = () => G.nextDay();
-document.querySelector('.nav').appendChild(btnNext);
 
 
 // ── AUTO TIMER ──
