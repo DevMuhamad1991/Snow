@@ -1306,6 +1306,13 @@ const G={
 };
 upStats();renderLoan();
 
+const btnNext = document.createElement('button');
+btnNext.className = 'btn-nextday';
+btnNext.innerHTML = '<i class="ti ti-player-skip-forward"></i>';
+btnNext.onclick = () => G.nextDay();
+document.querySelector('.nav').appendChild(btnNext);
+
+
 // ── AUTO TIMER ──
 const INTERVAL_MS = 3 * 60 * 1000; // 3 خولەک
 let timerStart = Date.now();
