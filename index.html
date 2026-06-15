@@ -92,6 +92,35 @@ input{font-family:var(--font-kuf)}
 .btn-nextday:hover{transform:scale(1.06);opacity:.9}
 .btn-nextday i{font-size:20px}
 
+
+.prow.row-up { 
+  background: rgba(22,163,74,0.05); 
+  border-right: 3px solid var(--green); 
+}
+.prow.row-dn { 
+  background: rgba(220,38,38,0.05); 
+  border-right: 3px solid var(--red); 
+}
+.prow.row-fl { 
+  background: rgba(217,119,6,0.05); 
+  border-right: 3px solid var(--amber); 
+}
+
+.price-legend { 
+  display:flex; gap:14px; 
+  margin-bottom:12px; padding:10px 16px;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r14);
+  backdrop-filter:blur(10px);
+}
+.leg { display:flex; align-items:center; gap:5px; font-size:0.74rem; }
+.leg.up { color:var(--green); }
+.leg.dn { color:var(--red); }
+.leg.fl { color:var(--amber); }
+
+
+
 /* ── BOTTOM NAV ── */
 .bnav{
   position:fixed;bottom:12px;left:12px;right:12px;z-index:300;
@@ -713,6 +742,13 @@ input{font-family:var(--font-kuf)}
   <div class="market-grid" id="pGrid"></div>
 </div>
 
+<div class="price-legend">
+  <span class="leg up"><i class="ti ti-trending-up"></i> بەرزبووەوە</span>
+  <span class="leg dn"><i class="ti ti-trending-down"></i> دابەزیووە</span>
+  <span class="leg fl"><i class="ti ti-minus"></i> نەگۆڕاو</span>
+</div>
+
+
 <div id="p-prices" class="page">
   <div class="sec-head"><h1 class="sec-title">نرخەکان</h1><p class="sec-sub">شوێن بگرە لە گۆڕانکاری نرخی بازاڕ</p></div>
   <div class="ptable">
@@ -937,7 +973,10 @@ function renderPort(){
 function renderPrices(){
   document.getElementById('pList').innerHTML=ASSETS.map(a=>{
 	const q=own(a.id);
-	return`<div class="prow cat-${a.cat}">
+const d = (a.price - a.base) / a.base;
+const rowClass = d > 0.0004 ? 'row-up' : d < -0.0004 ? 'row-dn' : 'row-fl';
+return`<div class="prow cat-${a.cat} ${rowClass}">
+
 	  <div class="prow-name">
 		<div class="prow-ic"><i class="ti ${CAT_ICONS[a.cat]}"></i></div>
 		<div><div class="prow-main">${a.name}</div><div class="prow-cat">${CATS[a.cat]}</div></div>
