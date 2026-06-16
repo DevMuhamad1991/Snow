@@ -597,10 +597,8 @@ input{font-family:var(--font-kuf)}
 
 /* ── CAT COLORS ── */
 .cat-company{--cat-c:#0284c7;--cat-bg:rgba(2,132,199,0.10)}
-.cat-property{--cat-c:#16a34a;--cat-bg:rgba(22,163,74,0.10)}
-.cat-land{--cat-c:#65a30d;--cat-bg:rgba(101,163,13,0.10)}
+.cat-realestate{--cat-c:#16a34a;--cat-bg:rgba(22,163,74,0.10)}
 .cat-car{--cat-c:#ea580c;--cat-bg:rgba(234,88,12,0.10)}
-.cat-shop{--cat-c:#9333ea;--cat-bg:rgba(147,51,234,0.10)}
 .cat-gold{--cat-c:#d97706;--cat-bg:rgba(217,119,6,0.12)}
 .cat-dollar{--cat-c:#0891b2;--cat-bg:rgba(8,145,178,0.10)}
 
@@ -611,10 +609,8 @@ input{font-family:var(--font-kuf)}
 .prow-ic{background:var(--cat-bg)}
 
 .badge-company{background:rgba(2,132,199,.12);color:#0369a1}
-.badge-property{background:rgba(22,163,74,.12);color:#15803d}
-.badge-land{background:rgba(101,163,13,.12);color:#4d7c0f}
+.badge-realestate{background:rgba(22,163,74,.12);color:#15803d}
 .badge-car{background:rgba(234,88,12,.12);color:#c2410c}
-.badge-shop{background:rgba(147,51,234,.12);color:#7e22ce}
 .badge-gold{background:rgba(217,119,6,.12);color:#b45309}
 .badge-dollar{background:rgba(8,145,178,.12);color:#0e7490}
 
@@ -831,8 +827,8 @@ input{font-family:var(--font-kuf)}
 <div class="toast" id="toast"></div>
 
 <script>
-const CATS={company:'کۆمپانیا',property:'خانووبەرە',land:'زەوی',car:'ئۆتۆمبێل',shop:'دوکان',gold:'زێڕ',dollar:'دۆلار'};
-const CAT_ICONS={company:'ti-building-skyscraper',property:'ti-home',land:'ti-mountain',car:'ti-car',shop:'ti-shopping-cart',gold:'ti-crown',dollar:'ti-currency-dollar'};
+const CATS={company:'کۆمپانیا',realestate:'عقارات',car:'ئۆتۆمبێل',gold:'زێڕ',dollar:'دۆلار'};
+const CAT_ICONS={company:'ti-building-skyscraper',realestate:'ti-building',car:'ti-car',gold:'ti-crown',dollar:'ti-currency-dollar'};
 
 const ASSETS=[
   {id:'korek',cat:'company',name:'کۆمپانیای کۆرەک',sub:'تێلیکۆم · هەولێر',price:850000,base:850000,yield:.020,detail:'12M بەکارهێنەر · داهاتی ساڵانە $120M'},
@@ -840,25 +836,26 @@ const ASSETS=[
   {id:'mass',cat:'company',name:'ماس گلۆبەل',sub:'بیناسازی · کوردستان',price:3500000,base:3500000,yield:.018,detail:'50+ پرۆژە · داهاتی بەرز'},
   {id:'nazcity',cat:'company',name:'ناز سیتی',sub:'سەرگەرمی · هەولێر',price:650000,base:650000,yield:.035,detail:'500K میوان لە ساڵدا'},
   {id:'falcon',cat:'company',name:'گروپی فالکۆن',sub:'هوتێل · کوردستان',price:980000,base:980000,yield:.022,detail:'8 هوتێل · داهاتی ساڵانە $95M'},
-  {id:'villa',cat:'property',name:'ڤیلا لە عەینکاوە',sub:'هەولێر · عەینکاوە',price:420000,base:420000,yield:.015,detail:'450م² · 5 ژووری نوستن · باخچە'},
-  {id:'apt',cat:'property',name:'شقەی بینای بلند',sub:'سلێمانی · ناوەند',price:180000,base:180000,yield:.012,detail:'120م² · 3 ژووری نوستن · 12 قات'},
-  {id:'tower',cat:'property',name:'برجی بازرگانی',sub:'هەولێر · ئەمنی',price:750000,base:750000,yield:.020,detail:'800م² ئۆفیس · 3 قات'},
-  {id:'house',cat:'property',name:'خانووی دهوک',sub:'دهوک · سەنتەری',price:145000,base:145000,yield:.013,detail:'130م² · 3 ژووری نوستن · دیمەنی چیا'},
-  {id:'lgwr',cat:'land',name:'زەوی کشتوکاڵی گەورڕە',sub:'هەولێر · گەورڕە',price:320000,base:320000,yield:0,detail:'50 دۆنم · ئاوی تەواو'},
-  {id:'lind',cat:'land',name:'زەوی پیشەسازی',sub:'هەولێر · زۆنی پیشەسازی',price:560000,base:560000,yield:0,detail:'30 دۆنم · مۆڵەتی بیناسازی'},
-  {id:'ltur',cat:'land',name:'زەوی گەشتیاری سۆران',sub:'ئەربیل · سۆران',price:210000,base:210000,yield:0,detail:'20 دۆنم · دیمەنی چیایی'},
+  {id:'villa',cat:'realestate',name:'ڤیلا لە عەینکاوە',sub:'هەولێر · عەینکاوە',price:420000,base:420000,yield:.015,detail:'450م² · 5 ژووری نوستن · باخچە'},
+  {id:'apt',cat:'realestate',name:'شقەی بینای بلند',sub:'سلێمانی · ناوەند',price:180000,base:180000,yield:.012,detail:'120م² · 3 ژووری نوستن · 12 قات'},
+  {id:'tower',cat:'realestate',name:'برجی بازرگانی',sub:'هەولێر · ئەمنی',price:750000,base:750000,yield:.020,detail:'800م² ئۆفیس · 3 قات'},
+  {id:'house',cat:'realestate',name:'خانووی دهوک',sub:'دهوک · سەنتەری',price:145000,base:145000,yield:.013,detail:'130م² · 3 ژووری نوستن · دیمەنی چیا'},
+  {id:'lgwr',cat:'realestate',name:'زەوی کشتوکاڵی گەورڕە',sub:'هەولێر · گەورڕە',price:320000,base:320000,yield:0,detail:'50 دۆنم · ئاوی تەواو'},
+  {id:'lind',cat:'realestate',name:'زەوی پیشەسازی',sub:'هەولێر · زۆنی پیشەسازی',price:560000,base:560000,yield:0,detail:'30 دۆنم · مۆڵەتی بیناسازی'},
+  {id:'ltur',cat:'realestate',name:'زەوی گەشتیاری سۆران',sub:'ئەربیل · سۆران',price:210000,base:210000,yield:0,detail:'20 دۆنم · دیمەنی چیایی'},
   {id:'lc200',cat:'car',name:'تۆیۆتا لاندکروزەر 2024',sub:'SUV لوکس',price:85000,base:85000,yield:-.005,detail:'ڤی8 · 4WD · فول ئۆپشن'},
   {id:'lexus',cat:'car',name:'لێکسەس LX 600',sub:'فول ئۆپشن · 2023',price:130000,base:130000,yield:-.003,detail:'ڤی6 ترببۆ · 7 نیشتەجێ'},
   {id:'bus',cat:'car',name:'باسی گواستنەوە',sub:'بازرگانی · 45 نیشتەجێ',price:45000,base:45000,yield:.018,detail:'دیزێل · گونجاوە بۆ لایینی بازرگانی'},
-  {id:'shopfam',cat:'shop',name:'دوکانی فامیلی مۆڵ',sub:'هەولێر · فامیلی مۆڵ',price:280000,base:280000,yield:.040,detail:'80م² · کرێی مانگانە $2,500'},
-  {id:'rest',cat:'shop',name:'چێشتخانەی ئامادە',sub:'سلێمانی · ئازادی',price:95000,base:95000,yield:.050,detail:'50 کەلتوور · داهاتی مانگانە $7,500'},
-  {id:'pharm',cat:'shop',name:'داروخانەی مۆدێرن',sub:'کوردستان · ناوەند',price:65000,base:65000,yield:.038,detail:'مۆڵەتی تەواو · داهاتی باش'},
+  {id:'shopfam',cat:'realestate',name:'دوکانی فامیلی مۆڵ',sub:'هەولێر · فامیلی مۆڵ',price:280000,base:280000,yield:.040,detail:'80م² · کرێی مانگانە $2,500'},
+  {id:'rest',cat:'realestate',name:'چێشتخانەی ئامادە',sub:'سلێمانی · ئازادی',price:95000,base:95000,yield:.050,detail:'50 کەلتوور · داهاتی مانگانە $7,500'},
+  {id:'pharm',cat:'realestate',name:'داروخانەی مۆدێرن',sub:'کوردستان · ناوەند',price:65000,base:65000,yield:.038,detail:'مۆڵەتی تەواو · داهاتی باش'},
   {id:'g1',cat:'gold',name:'زێڕی 1 ئاونس',sub:'24 قیراط · 31.1 گرام',price:2050,base:2050,yield:0,detail:'زێڕی خاوی ناوەند'},
   {id:'g10',cat:'gold',name:'زێڕی 10 ئاونس',sub:'24 قیراط · 311 گرام',price:20500,base:20500,yield:0,detail:'بارکی 10 ئاونسی زێڕ'},
   {id:'gkg',cat:'gold',name:'زێڕی یەک کیلۆ',sub:'24 قیراط · 1000 گرام',price:65900,base:65900,yield:0,detail:'بارکی 1 کیلۆی زێڕ'},
   {id:'u1k',cat:'dollar',name:'1,000 دۆلار',sub:'دۆلاری ئەمریکی',price:1300,base:1300,yield:0,detail:'1 دۆلار = 1,300 دینار'},
   {id:'u10k',cat:'dollar',name:'10,000 دۆلار',sub:'دەستەی دۆلار',price:13000,base:13000,yield:0,detail:'نرخی بازاڕی ئازاد'},
 ];
+
 
 const EVENTS=[
   {msg:'گەشتیاری زیاد بوو — نرخی دوکان بەرز دەبێتەوە.',cats:['shop','company'],fx:.09},
@@ -884,20 +881,18 @@ const LOAN_OPTIONS=[
 ];
 
 const CATEGORIES=[
-  {id:'property',name:'خانووبەرە',sub:'ملک و بینا',icon:'ti-home',
+{id:'property',name:'عقارات',sub:'ملک و بینا',icon:'ti-home',
    img:'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80'},
+
   {id:'company',name:'کۆمپانیا',sub:'بازرگانی و تێلیکۆم',icon:'ti-building-skyscraper',
    img:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80'},
   {id:'car',name:'ئۆتۆمبێل',sub:'ئۆتۆمبێل و گواستنەوە',icon:'ti-car',
    img:'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80'},
-  {id:'shop',name:'دوکان',sub:'دوکان و چێشتخانە',icon:'ti-shopping-cart',
-   img:'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80'},
+
   {id:'gold',name:'زێڕ',sub:'زێڕ و فلزی گرانبها',icon:'ti-crown',
    img:'https://images.unsplash.com/photo-1610375461246-83df859d849d?w=600&q=80'},
   {id:'dollar',name:'دۆلار',sub:'دراوی بیانی',icon:'ti-currency-dollar',
    img:'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=600&q=80'},
-  {id:'land',name:'زەوی',sub:'زەوی و ئەرازی',icon:'ti-mountain',
-   img:'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80'},
 ];
 
 
