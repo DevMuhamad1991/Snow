@@ -492,10 +492,12 @@ input{font-family:var(--font-kuf)}
   z-index:9999;pointer-events:none;white-space:nowrap;
   backdrop-filter:blur(16px);
   box-shadow:0 8px 28px rgba(245,158,11,0.14);
-  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1), opacity .3s, visibility .3s;
   max-width:90vw;overflow:hidden;text-overflow:ellipsis;
+  opacity:0;
+  visibility:hidden;
 }
-.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
 .toast.ok{color:var(--green);border-color:rgba(22,163,74,.3)}
 .toast.err{color:var(--red);border-color:rgba(220,38,38,.3)}
 
