@@ -112,56 +112,7 @@ input{font-family:var(--font-kuf)}
 
 
 
-.nav-item {
-  display: flex;
-  align-items: center;
-  padding: 9px 12px;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  background: transparent;
-  color: #6b6b6b;
-  font-size: 15px;
-  font-weight: 400;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: background 0.2s ease, color 0.2s ease, padding 0.2s ease;
-}
 
-.nav-item.active {
-  background: #FFD400;
-  color: #111;
-  padding: 9px 16px 9px 12px;
-  font-weight: 700;
-}
-
-.nav-item svg {
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
-  fill: currentColor;
-  transition: transform 0.2s ease;
-}
-
-.nav-item.active svg {
-  transform: scale(1.1);
-}
-
-.nav-label {
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 0;
-  opacity: 0;
-  margin-right: 0;
-  transition: width 0.2s ease, opacity 0.15s ease, margin-right 0.2s ease;
-}
-
-.nav-item.active .nav-label {
-  width: var(--lw, 48px);
-  opacity: 1;
-  margin-right: 6px;
-}
 
 
 /* ── PAGES ── */
@@ -486,7 +437,7 @@ input{font-family:var(--font-kuf)}
 .modal-bg{
   display:none;position:fixed;inset:0;
   background:rgba(120,90,20,0.18);
-  backdrop-filter:blur(12px);z-index:900;
+  backdrop-filter:blur(=12px);z-index:900;
   align-items:center;justify-content:center;padding:16px;
 }
 .modal-bg.open{display:flex}
