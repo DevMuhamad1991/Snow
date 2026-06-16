@@ -179,6 +179,17 @@ input{font-family:var(--font-kuf)}
   margin-right: 6px;
 }
 
+@keyframes navBounce {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.25); }
+  60%  { transform: scale(0.92); }
+  100% { transform: scale(1.1); } /* کۆتایی وەک active state */
+}
+.nav-item.bump svg {
+  animation: navBounce 0.4s cubic-bezier(.34,1.56,.64,1);
+}
+
+
 
 /* ── PAGES ── */
 .page { display:none; padding:20px 16px 110px; max-width:1200px; margin:0 auto }
