@@ -141,6 +141,7 @@ input{font-family:var(--font-kuf)}
   font-weight: 400;
   white-space: nowrap;
   flex-shrink: 0;
+  will-change: transform;
   transition: background 0.2s ease, color 0.2s ease, padding 0.2s ease;
 }
 
@@ -178,6 +179,17 @@ input{font-family:var(--font-kuf)}
   opacity: 1;
   margin-right: 6px;
 }
+
+@keyframes navBounce {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.25); }
+  60%  { transform: scale(0.92); }
+  100% { transform: scale(1.1); } /* کۆتایی وەک active state */
+}
+.nav-item.bump svg {
+  animation: navBounce 0.4s cubic-bezier(.34,1.56,.64,1);
+}
+
 
 
 /* ── PAGES ── */
@@ -698,7 +710,6 @@ input{font-family:var(--font-kuf)}
 
 <!-- PAGES -->
 <div id="p-dashboard" class="page active">
-  <div class="sec-head"><h1 class="sec-title">داشبۆرد</h1><p class="sec-sub">وضعی گشتی دارایی و سامانی تۆ</p></div>
 
   <div class="dash-hero">
 	<div class="dash-hero-top">
@@ -754,7 +765,6 @@ input{font-family:var(--font-kuf)}
 
 <div id="p-market" class="page">
   <div id="catView">
-    <div class="sec-head"><h1 class="sec-title">بازاڕ</h1><p class="sec-sub">کەتەگۆری هەڵبژێرە</p></div>
     <div class="cat-grid" id="catGrid"></div>
   </div>
 <div id="itemView" style="display:none">
@@ -770,13 +780,12 @@ input{font-family:var(--font-kuf)}
 
 
 <div id="p-portfolio" class="page">
-  <div class="sec-head"><h1 class="sec-title">موڵکەکانم</h1><p class="sec-sub">هەموو سامان و موڵکی تۆ</p></div>
   <div class="port-stats" id="pStats"></div>
   <div class="market-grid" id="pGrid"></div>
 </div>
 
 <div id="p-prices" class="page">
- <div class="sec-head"><h1 class="sec-title">نرخەکان</h1><p class="sec-sub">شوێن بگرە لە گۆڕانکاری نرخی بازاڕ</p></div>
+
  <div class="ptable">
    <div class="price-legend">
      <span class="leg up"><i class="ti ti-trending-up"></i> بەرزبووەوە</span>
@@ -875,17 +884,17 @@ const LOAN_OPTIONS=[
 ];
 
 const CATEGORIES=[
-  {id:'property',name:'خانووبەرە',sub:'ملک و بینا',icon:'ti-home',
+  {id:'property',name:'عقارات',sub:'ملک و بینا',icon:'ti-home',
    img:'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80'},
-  {id:'company',name:'کۆمپانیا',sub:'بازرگانی و تێلیکۆم',icon:'ti-building-skyscraper',
+  {id:'company',name:'شەریکە',sub:'بازرگانی و تێلیکۆم',icon:'ti-building-skyscraper',
    img:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80'},
-  {id:'car',name:'ئۆتۆمبێل',sub:'ئۆتۆمبێل و گواستنەوە',icon:'ti-car',
+  {id:'car',name:'مەحرەز',sub:'ئۆتۆمبێل و گواستنەوە',icon:'ti-car',
    img:'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80'},
   {id:'shop',name:'دوکان',sub:'دوکان و چێشتخانە',icon:'ti-shopping-cart',
    img:'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80'},
-  {id:'gold',name:'زێڕ',sub:'زێڕ و فلزی گرانبها',icon:'ti-crown',
+  {id:'gold',name:'زێرنگر',sub:'زێڕ و فلزی گرانبها',icon:'ti-crown',
    img:'https://images.unsplash.com/photo-1610375461246-83df859d849d?w=600&q=80'},
-  {id:'dollar',name:'دۆلار',sub:'دراوی بیانی',icon:'ti-currency-dollar',
+  {id:'dollar',name:'بۆنسە',sub:'دراوی بیانی',icon:'ti-currency-dollar',
    img:'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=600&q=80'},
   {id:'land',name:'زەوی',sub:'زەوی و ئەرازی',icon:'ti-mountain',
    img:'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80'},
@@ -914,9 +923,20 @@ function toast(msg,type='inf'){
 }
 
 function navClick(tab) {
+  const btn = document.getElementById('nav-' + tab);
+  if (btn.classList.contains('active')) return; // پێشتر چالاکە، هیچ مەکە
+
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  document.getElementById('nav-' + tab).classList.add('active');
+  btn.classList.add('active');
+
+  // بۆ بجوڵانی ئایکۆن
+  const icon = btn.querySelector('svg, i');
+  icon.classList.remove('bump');
+  void icon.offsetWidth; // ڕیستارتی animation
+  icon.classList.add('bump');
 }
+
+
 
 
 function renderCats(){
