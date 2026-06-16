@@ -55,7 +55,31 @@ body::before{
 button{cursor:pointer;font-family:var(--font-kuf)}
 input{font-family:var(--font-kuf)}
 
-
+/* ── NAVBAR ── */
+.nav{
+  position:sticky;top:0;z-index:300;
+  height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;gap:12px;
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border-bottom:1px solid var(--glass-border);
+  border-radius:0 0 var(--r18) var(--r18);
+}
+.nav-brand{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-nas);font-size:1.05rem;font-weight:800;
+  color:var(--white);white-space:nowrap;
+}
+.nav-stats{display:flex;gap:6px}
+.stat-pill{
+  display:flex;flex-direction:column;align-items:center;
+  background:var(--w08);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r14);padding:5px 14px;min-width:80px;
+  backdrop-filter:blur(10px);
+}
 .stat-pill-lbl{font-size:0.6rem;color:var(--w50);line-height:1.2}
 .stat-pill-val{font-size:0.82rem;font-weight:700;color:var(--white);margin-top:1px}
 
@@ -74,13 +98,6 @@ input{font-family:var(--font-kuf)}
   border-right: 3px solid var(--amber); 
 }
 
-.bnav-btn{
-  -webkit-appearance:none;
-  appearance:none;
-  -webkit-tap-highlight-color:transparent;
-  outline:none;
-}
-
 .price-legend { 
   display:flex; gap:14px; 
   padding:12px 18px;
@@ -93,9 +110,74 @@ input{font-family:var(--font-kuf)}
 .leg.fl { color:var(--amber); }
 
 
+.bottom-nav {
+  position: fixed;
+  bottom: clamp(12px, 4vw, 24px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  gap: clamp(8px, 2.5vw, 14px);
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255,255,255,0.55);
+  border-radius: 999px;
+  padding: 10px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12),
+              inset 0 1px 0 rgba(255,255,255,0.6);
+}
 
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: #6b6b6b;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease, padding 0.2s ease;
+}
 
+.nav-item.active {
+  background: #FFD400;
+  color: #111;
+  padding: 9px 16px 9px 12px;
+  font-weight: 700;
+}
 
+.nav-item svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  fill: currentColor;
+  transition: transform 0.2s ease;
+}
+
+.nav-item.active svg {
+  transform: scale(1.1);
+}
+
+.nav-label {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  opacity: 0;
+  margin-right: 0;
+  transition: width 0.2s ease, opacity 0.15s ease, margin-right 0.2s ease;
+}
+
+.nav-item.active .nav-label {
+  width: var(--lw, 48px);
+  opacity: 1;
+  margin-right: 6px;
+}
 
 
 /* ── PAGES ── */
@@ -420,7 +502,7 @@ input{font-family:var(--font-kuf)}
 .modal-bg{
   display:none;position:fixed;inset:0;
   background:rgba(120,90,20,0.18);
-  backdrop-filter:blur(=12px);z-index:900;
+  backdrop-filter:blur(12px);z-index:900;
   align-items:center;justify-content:center;padding:16px;
 }
 .modal-bg.open{display:flex}
@@ -492,12 +574,10 @@ input{font-family:var(--font-kuf)}
   z-index:9999;pointer-events:none;white-space:nowrap;
   backdrop-filter:blur(16px);
   box-shadow:0 8px 28px rgba(245,158,11,0.14);
-  transition:transform .3s cubic-bezier(.34,1.56,.64,1), opacity .3s, visibility .3s;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
   max-width:90vw;overflow:hidden;text-overflow:ellipsis;
-  opacity:0;
-  visibility:hidden;
 }
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
+.toast.show{transform:translateX(-50%) translateY(0)}
 .toast.ok{color:var(--green);border-color:rgba(22,163,74,.3)}
 .toast.err{color:var(--red);border-color:rgba(220,38,38,.3)}
 
@@ -547,7 +627,10 @@ input{font-family:var(--font-kuf)}
   .page{padding:16px 12px 104px}
   .dash-hero-row{gap:8px}
 }
-
+@media(max-width:340px){
+  .bnav{left:6px;right:6px;border-radius:var(--r24)}
+  .bnav-btn{padding:6px 14px}
+}
 .countdown-bar{
   display:flex;align-items:center;gap:12px;
   background:rgba(255,255,255,0.6);
