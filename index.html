@@ -912,8 +912,17 @@ function toast(msg,type='inf'){
 
 function navClick(tab) {
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  document.getElementById('nav-' + tab).classList.add('active');
+  const btn = document.getElementById('nav-' + tab);
+  btn.classList.add('active');
+
+  // بۆ بجوڵانی ئایکۆن
+  const icon = btn.querySelector('svg, i');
+  icon.classList.remove('bump');
+  // ئەم خوێندنەوەیە پێویستە بۆ ئەوەی animation دووبارە دەستی پێبکرێتەوە
+  void icon.offsetWidth;
+  icon.classList.add('bump');
 }
+
 
 
 function renderCats(){
