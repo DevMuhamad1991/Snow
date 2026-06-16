@@ -141,6 +141,7 @@ input{font-family:var(--font-kuf)}
   font-weight: 400;
   white-space: nowrap;
   flex-shrink: 0;
+  will-change: transform;
   transition: background 0.2s ease, color 0.2s ease, padding 0.2s ease;
 }
 
@@ -922,17 +923,19 @@ function toast(msg,type='inf'){
 }
 
 function navClick(tab) {
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
   const btn = document.getElementById('nav-' + tab);
+  if (btn.classList.contains('active')) return; // پێشتر چالاکە، هیچ مەکە
+
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 
   // بۆ بجوڵانی ئایکۆن
   const icon = btn.querySelector('svg, i');
   icon.classList.remove('bump');
-  // ئەم خوێندنەوەیە پێویستە بۆ ئەوەی animation دووبارە دەستی پێبکرێتەوە
-  void icon.offsetWidth;
+  void icon.offsetWidth; // ڕیستارتی animation
   icon.classList.add('bump');
 }
+
 
 
 
