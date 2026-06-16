@@ -73,7 +73,7 @@ input{font-family:var(--font-kuf)}
   color:var(--white);white-space:nowrap;
 }
 .nav-stats{display:flex;gap:6px}
-.stat-
+.stat-pill{
   display:flex;flex-direction:column;align-items:center;
   background:var(--w08);
   border:1px solid var(--glass-border);
@@ -83,13 +83,6 @@ input{font-family:var(--font-kuf)}
 .stat-pill-lbl{font-size:0.6rem;color:var(--w50);line-height:1.2}
 .stat-pill-val{font-size:0.82rem;font-weight:700;color:var(--white);margin-top:1px}
 
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .bottom-nav {
-    padding-bottom: calc(10px + env(safe-area-inset-bottom));
-    margin-bottom: 0;
-    bottom: 0;
-  }
-}
 
 
 .prow.row-up { 
@@ -506,7 +499,33 @@ input{font-family:var(--font-kuf)}
 .btn-primary i{font-size:15px}
 
 /* ── MODAL ── */
-
+.modal-bg{
+  display:none;position:fixed;inset:0;
+  background:rgba(120,90,20,0.18);
+  backdrop-filter:blur(12px);z-index:900;
+  align-items:center;justify-content:center;padding:16px;
+}
+.modal-bg.open{display:flex}
+.modal{
+  background:rgba(255,255,255,0.88);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(24px);
+  border-radius:var(--r24);padding:22px;
+  width:100%;max-width:420px;position:relative;
+  animation:mpop .22s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 20px 50px rgba(245,158,11,0.18);
+  max-height:88vh;overflow-y:auto;
+}
+@keyframes mpop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.modal-x{
+  position:absolute;top:14px;left:14px;
+  width:28px;height:28px;border-radius:50%;
+  background:var(--w08);border:none;color:var(--w70);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;
+}
+.modal-x:hover{background:var(--w15)}
+.modal-x i{font-size:14px}
 
 /* Modal item banner */
 .modal-banner{
@@ -1139,6 +1158,14 @@ function openRepayModal(){
 }
 
 const G={
+ tab(id,btn){
+   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+   document.getElementById('p-'+id).classList.add('active');
+   if(id==='market'){renderCats();this.showCatView();}
+   if(id==='portfolio')renderPort();
+   if(id==='prices')renderPrices();
+   if(id==='dashboard'){renderDPort();renderLoan();upStats();}
+ },
  showCatView(){
    document.getElementById('catView').style.display='block';
    document.getElementById('itemView').style.display='none';
@@ -1167,19 +1194,6 @@ const G={
    v=mode==='sell'?Math.min(Math.max(v,1),q):Math.max(v,1);
    el.value=v;this.qR(id,mode);
  },
-
-tab(id,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
-  document.getElementById('p-'+id).classList.add('active');
-  document.getElementById('nav-'+id).classList.add('active');
-  if(id==='market'){renderCats();this.showCatView();}
-  if(id==='portfolio')renderPort();
-  if(id==='prices')renderPrices();
-  if(id==='dashboard'){renderDPort();renderLoan();upStats();}
-},
-
-
  qR(id,mode){
    const a=ASSETS.find(x=>x.id===id);
    const inp=mode==='buy'?'bQ':'sQ',tot=mode==='buy'?'bTot':'sTot';
@@ -1264,7 +1278,11 @@ tab(id,btn){
      S.loan.totalInterest+=interest;
      msg+=` — ⚠ قەرزەکەت دواکەوت، ${fmt(interest)} سوو زیادکرا`;
    }
- 
+   const b=document.getElementById('evBox');
+   document.getElementById('evDay').textContent=`ڕۆژی ${S.day}`;
+   document.getElementById('evMsg').textContent=msg;
+   b.style.animation='none';requestAnimationFrame(()=>b.style.animation='slideIn .35s ease');
+upStats();renderLoan();this._ref();
 
  },
  _ref(){
