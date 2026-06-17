@@ -779,6 +779,11 @@ input{font-family:var(--font-kuf)}
 .news-item.dn{border-right-color:#f87171}
 .news-day{font-size:0.62rem;color:rgba(255,255,255,0.4);margin-bottom:3px;font-family:'Courier New',monospace}
 .news-msg{font-size:0.8rem;color:rgba(255,255,255,0.75);line-height:1.6}
+.news-viewport{height:360px;overflow:hidden;position:relative;border-radius:var(--r14)}
+.news-track{display:flex;flex-direction:column;animation:newsScroll linear infinite}
+.news-viewport:hover .news-track{animation-play-state:paused}
+@keyframes newsScroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+
 
 </style>
 </head>
@@ -1361,17 +1366,20 @@ function renderNewsFeed(){
   const el=document.getElementById('newsFeed');
   if(!el)return;
   if(!S.newsLog.length){
-    el.innerHTML=`<div class="news-item"><div class="news-msg">هێشتا هیچ هەواڵێک نییە — ڕۆژی داهاتوو چاوەڕوان بکە.</div></div>`;
+    el.innerHTML=`<div class="news-viewport"><div class="news-track"><div class="news-item"><div class="news-msg">هێشتا هیچ هەواڵێک نییە — ڕۆژی داهاتوو چاوەڕوان بکە.</div></div></div></div>`;
     return;
   }
-  el.innerHTML=S.newsLog.map(n=>`
+  const itemsHtml=S.newsLog.map(n=>`
     <div class="news-item ${n.dir}">
       <div>
         <div class="news-day">ڕۆژی ${n.day}</div>
         <div class="news-msg">${n.msg}</div>
       </div>
     </div>`).join('');
+  const duration=Math.max(12,S.newsLog.length*4);
+  el.innerHTML=`<div class="news-viewport"><div class="news-track" style="animation-duration:${duration}s">${itemsHtml}${itemsHtml}</div></div>`;
 }
+
 
 
 const G={
