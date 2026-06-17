@@ -752,7 +752,7 @@ input{font-family:var(--font-kuf)}
 .eco-spark{width:120px;height:48px;flex-shrink:0}
 
 .ticker-wrap{overflow:hidden;white-space:nowrap;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r14);padding:10px 0;margin-bottom:16px}
-.ticker-track{display:inline-flex;gap:28px;animation:tickerScroll 35s linear infinite}
+.ticker-track{display:inline-flex;gap:28px;animation:tickerScroll 90s linear infinite}
 .ticker-wrap:hover .ticker-track{animation-play-state:paused}
 @keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .ticker-item{display:inline-flex;align-items:center;gap:8px;font-family:'Courier New',monospace;font-size:0.82rem;color:rgba(255,255,255,0.85);flex-shrink:0}
@@ -1357,6 +1357,22 @@ function renderHeatmap(){
   }).join('');
 }
 
+function renderNewsFeed(){
+  const el=document.getElementById('newsFeed');
+  if(!el)return;
+  if(!S.newsLog.length){
+    el.innerHTML=`<div class="news-item"><div class="news-msg">هێشتا هیچ هەواڵێک نییە — ڕۆژی داهاتوو چاوەڕوان بکە.</div></div>`;
+    return;
+  }
+  el.innerHTML=S.newsLog.map(n=>`
+    <div class="news-item ${n.dir}">
+      <div>
+        <div class="news-day">ڕۆژی ${n.day}</div>
+        <div class="news-msg">${n.msg}</div>
+      </div>
+    </div>`).join('');
+}
+
 
 const G={
  tab(id,btn){
@@ -1365,9 +1381,11 @@ const G={
 
    if(id==='market'){renderCats();this.showCatView();}
    if(id==='portfolio')renderPort();
-if(id==='prices'){renderEcoIndex();renderTicker();renderQuickStats();renderHeatmap();}
+if(id==='prices'){renderEcoIndex();renderTicker();renderQuickStats();renderHeatmap();renderNewsFeed();}
+
    if(id==='dashboard'){renderDPort();renderLoan();upStats();}
  },
+
  showCatView(){
    document.getElementById('catView').style.display='block';
    document.getElementById('itemView').style.display='none';
@@ -1512,10 +1530,12 @@ if(id==='prices'){renderEcoIndex();renderTicker();renderQuickStats();renderHeatm
      if(itemView&&itemView.style.display!=='none')renderMarket();
    }
    if(id==='portfolio')renderPort();
-if(id==='prices'){renderEcoIndex();renderTicker();renderQuickStats();renderHeatmap();}
+if(id==='prices'){renderEcoIndex();renderTicker();renderQuickStats();renderHeatmap();renderNewsFeed();}
+
 
    if(id==='dashboard')renderDPort();
  },
+
 };
 upStats();renderLoan();
 
