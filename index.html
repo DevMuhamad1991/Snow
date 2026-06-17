@@ -700,6 +700,25 @@ input{font-family:var(--font-kuf)}
 .btn-back:hover{background:var(--w15)}
 .btn-back i{font-size:18px}
 
+.chart-card{
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  border-radius:var(--r18);padding:16px;
+  backdrop-filter:blur(12px);
+  box-shadow:0 4px 18px rgba(245,158,11,0.06);
+  margin-bottom:16px;
+}
+.chart-svg-wrap{width:100%}
+.price-chart-svg{width:100%;height:auto;display:block}
+.chart-legend{display:flex;flex-wrap:wrap;gap:8px}
+.legend-item{
+  display:flex;align-items:center;gap:6px;
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  border-radius:20px;padding:6px 12px;font-size:0.74rem;
+}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.legend-name{color:var(--w70);font-weight:600}
+.legend-val{font-weight:700}
+
 </style>
 </head>
 <body>
@@ -781,17 +800,24 @@ input{font-family:var(--font-kuf)}
 </div>
 
 <div id="p-prices" class="page">
-
- <div class="ptable">
-   <div class="price-legend">
-     <span class="leg up"><i class="ti ti-trending-up"></i> بەرزبووەوە</span>
-     <span class="leg dn"><i class="ti ti-trending-down"></i> دابەزیووە</span>
-     <span class="leg fl"><i class="ti ti-minus"></i> نەگۆڕاو</span>
-   </div>
-   <div class="ptable-head"><div>ناو</div><div>نرخی ئێستا</div><div>گۆڕانکاری</div><div>کڕاوەکانت</div></div>
-   <div id="pList"></div>
- </div>
+  <div class="sec-head">
+    <h1 class="sec-title">نرخەکان</h1>
+    <p class="sec-sub">گۆڕانی ڕێژەیی نرخ بەپێی ڕۆژ (%)</p>
+  </div>
+  <div class="filter-bar" id="priceFilterBar">
+    <button class="fc active" onclick="G.priceFilter('all',this)"><i class="ti ti-chart-line"></i>هەموو</button>
+    <button class="fc" onclick="G.priceFilter('company',this)"><i class="ti ti-building-skyscraper"></i>کۆمپانیا</button>
+    <button class="fc" onclick="G.priceFilter('realestate',this)"><i class="ti ti-building"></i>عقارات</button>
+    <button class="fc" onclick="G.priceFilter('car',this)"><i class="ti ti-car"></i>ئۆتۆمبێل</button>
+    <button class="fc" onclick="G.priceFilter('gold',this)"><i class="ti ti-crown"></i>زێڕ</button>
+    <button class="fc" onclick="G.priceFilter('dollar',this)"><i class="ti ti-currency-dollar"></i>دۆلار</button>
+  </div>
+  <div class="chart-card">
+    <div class="chart-svg-wrap" id="priceChartWrap"></div>
+  </div>
+  <div class="chart-legend" id="priceChartLegend"></div>
 </div>
+
 
 
 <!-- BOTTOM NAV -->
@@ -854,6 +880,10 @@ const ASSETS=[
   {id:'gkg',cat:'gold',name:'زێڕی یەک کیلۆ',sub:'24 قیراط · 1000 گرام',price:65900,base:65900,yield:0,detail:'بارکی 1 کیلۆی زێڕ'},
   {id:'u1k',cat:'dollar',name:'1,000 دۆلار',sub:'دۆلاری ئەمریکی',price:1300,base:1300,yield:0,detail:'1 دۆلار = 1,300 دینار'},
   {id:'u10k',cat:'dollar',name:'10,000 دۆلار',sub:'دەستەی دۆلار',price:13000,base:13000,yield:0,detail:'نرخی بازاڕی ئازاد'},
+  const HIST={};
+ASSETS.forEach(a=>HIST[a.id]=[{day:1,price:a.price}]);
+const CHART_COLORS=['#0ea5e9','#16a34a','#dc2626','#d97706','#9333ea','#0891b2','#65a30d','#ea580c','#ec4899','#475569'];
+
 ];
 
 
@@ -911,7 +941,8 @@ const CATEGORIES=[
 ];
 
 
-const S={cash:50000,day:1,port:{},cat:'all',loan:null};
+const S={cash:50000,day:1,port:{},cat:'all',priceCat:'all',loan:null};
+
 
 const fmt=n=>{const a=Math.abs(n),s=n<0?'-':'';return a>=1e6?s+'$'+(a/1e6).toFixed(2)+'M':a>=1000?s+'$'+Math.round(a).toLocaleString():s+'$'+Math.round(a);};
 const own=id=>S.port[id]?.qty||0;
@@ -1039,23 +1070,43 @@ function renderPort(){
 	<div class="pstat"><div class="pstat-lbl">تێچوونی کڕین</div><div class="pstat-val">${fmt(tc)}</div></div>
 	<div class="pstat"><div class="pstat-lbl">قازانج/زیان</div><div class="pstat-val" style="color:${pnl>=0?'var(--green)':'var(--red)'}">${pnl>=0?'+':''}${fmt(pnl)}</div></div>`;
 }
-function renderPrices(){
-  document.getElementById('pList').innerHTML=ASSETS.map(a=>{
-	const q=own(a.id);
-const d = (a.price - a.base) / a.base;
-const rowClass = d > 0.0004 ? 'row-up' : d < -0.0004 ? 'row-dn' : 'row-fl';
-return`<div class="prow cat-${a.cat} ${rowClass}">
+function renderPriceChart(cat){
+  S.priceCat=cat||S.priceCat||'all';
+  const list=S.priceCat==='all'?ASSETS:ASSETS.filter(a=>a.cat===S.priceCat);
+  const series=list.map((a,i)=>{
+    const h=HIST[a.id];
+    return{asset:a,color:CHART_COLORS[i%CHART_COLORS.length],
+      days:h.map(p=>p.day),pts:h.map(p=>((p.price-a.base)/a.base)*100)};
+  });
+  let minY=0,maxY=0;
+  series.forEach(s=>s.pts.forEach(v=>{if(v<minY)minY=v;if(v>maxY)maxY=v;}));
+  const padY=Math.max(4,(maxY-minY)*.15)||5;
+  minY-=padY;maxY+=padY;
+  const W=600,H=260,pad=28;
+  const maxDay=Math.max(...series.flatMap(s=>s.days),1);
+  const minDay=Math.min(...series.flatMap(s=>s.days),1);
+  const xS=d=>pad+(d-minDay)/Math.max(1,maxDay-minDay)*(W-2*pad);
+  const yS=v=>H-pad-(v-minY)/(maxY-minY)*(H-2*pad);
 
-	  <div class="prow-name">
-		<div class="prow-ic"><i class="ti ${CAT_ICONS[a.cat]}"></i></div>
-		<div><div class="prow-main">${a.name}</div><div class="prow-cat">${CATS[a.cat]}</div></div>
-	  </div>
-	  <div class="prow-price">${fmt(a.price)}</div>
-	  <div>${cpill(a)}</div>
-	  <div class="prow-owned">${q>0?`${q} ماڵت`:'—'}</div>
-	</div>`;
+  let svg=`<svg viewBox="0 0 ${W} ${H}" class="price-chart-svg" preserveAspectRatio="none">`;
+  if(minY<0&&maxY>0)svg+=`<line x1="${pad}" y1="${yS(0)}" x2="${W-pad}" y2="${yS(0)}" stroke="rgba(30,36,48,0.18)" stroke-dasharray="4 4"/>`;
+  series.forEach(s=>{
+    const pts=s.days.map((d,idx)=>`${xS(d)},${yS(s.pts[idx])}`).join(' ');
+    svg+=`<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+  });
+  svg+='</svg>';
+  document.getElementById('priceChartWrap').innerHTML=svg;
+
+  document.getElementById('priceChartLegend').innerHTML=series.map(s=>{
+    const last=s.pts[s.pts.length-1];
+    return`<div class="legend-item">
+      <span class="legend-dot" style="background:${s.color}"></span>
+      <span class="legend-name">${s.asset.name}</span>
+      <span class="legend-val" style="color:${last>=0?'var(--green)':'var(--red)'}">${last>=0?'+':''}${last.toFixed(1)}%</span>
+    </div>`;
   }).join('');
 }
+
 function renderDPort(){
   const el=document.getElementById('dPort');
   if(!el)return;
@@ -1193,9 +1244,10 @@ const G={
  tab(id,btn){
    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
    document.getElementById('p-'+id).classList.add('active');
+
    if(id==='market'){renderCats();this.showCatView();}
    if(id==='portfolio')renderPort();
-   if(id==='prices')renderPrices();
+if(id==='prices')renderPriceChart(S.priceCat);
    if(id==='dashboard'){renderDPort();renderLoan();upStats();}
  },
  showCatView(){
@@ -1226,6 +1278,12 @@ const G={
    v=mode==='sell'?Math.min(Math.max(v,1),q):Math.max(v,1);
    el.value=v;this.qR(id,mode);
  },
+priceFilter(cat,btn){
+  document.querySelectorAll('#priceFilterBar .fc').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPriceChart(cat);
+},
+
  qR(id,mode){
    const a=ASSETS.find(x=>x.id===id);
    const inp=mode==='buy'?'bQ':'sQ',tot=mode==='buy'?'bTot':'sTot';
@@ -1296,6 +1354,8 @@ const G={
  nextDay(){
    S.day++;
    ASSETS.forEach(a=>{const d=(Math.random()-.47)*.065;a.price=Math.max(a.base*.28,a.price*(1+d));});
+  ASSETS.forEach(a=>HIST[a.id].push({day:S.day,price:a.price}));
+
    let msg='بازاڕ ئارامبوو. هیچ ڕووداوێکی گرینگ ڕووی نەدا.';
    if(Math.random()<.58){
      const ev=EVENTS[Math.floor(Math.random()*EVENTS.length)];
@@ -1325,7 +1385,7 @@ upStats();renderLoan();this._ref();
      if(itemView&&itemView.style.display!=='none')renderMarket();
    }
    if(id==='portfolio')renderPort();
-   if(id==='prices')renderPrices();
+if(id==='prices')renderPriceChart(S.priceCat);
    if(id==='dashboard')renderDPort();
  },
 };
