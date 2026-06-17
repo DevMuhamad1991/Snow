@@ -1139,34 +1139,7 @@ function renderPort(){
 	<div class="pstat"><div class="pstat-lbl">تێچوونی کڕین</div><div class="pstat-val">${fmt(tc)}</div></div>
 	<div class="pstat"><div class="pstat-lbl">قازانج/زیان</div><div class="pstat-val" style="color:${pnl>=0?'var(--green)':'var(--red)'}">${pnl>=0?'+':''}${fmt(pnl)}</div></div>`;
 }
-  let minY=0,maxY=0;
-  series.forEach(s=>s.pts.forEach(v=>{if(v<minY)minY=v;if(v>maxY)maxY=v;}));
-  const padY=Math.max(4,(maxY-minY)*.15)||5;
-  minY-=padY;maxY+=padY;
-  const W=600,H=260,pad=28;
-  const maxDay=Math.max(...series.flatMap(s=>s.days),1);
-  const minDay=Math.min(...series.flatMap(s=>s.days),1);
-  const xS=d=>pad+(d-minDay)/Math.max(1,maxDay-minDay)*(W-2*pad);
-  const yS=v=>H-pad-(v-minY)/(maxY-minY)*(H-2*pad);
 
-  let svg=`<svg viewBox="0 0 ${W} ${H}" class="price-chart-svg" preserveAspectRatio="none">`;
-  if(minY<0&&maxY>0)svg+=`<line x1="${pad}" y1="${yS(0)}" x2="${W-pad}" y2="${yS(0)}" stroke="rgba(30,36,48,0.18)" stroke-dasharray="4 4"/>`;
-  series.forEach(s=>{
-    const pts=s.days.map((d,idx)=>`${xS(d)},${yS(s.pts[idx])}`).join(' ');
-    svg+=`<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
-  });
-  svg+='</svg>';
-  document.getElementById('priceChartWrap').innerHTML=svg;
-
-  document.getElementById('priceChartLegend').innerHTML=series.map(s=>{
-    const last=s.pts[s.pts.length-1];
-    return`<div class="legend-item">
-      <span class="legend-dot" style="background:${s.color}"></span>
-      <span class="legend-name">${s.asset.name}</span>
-      <span class="legend-val" style="color:${last>=0?'var(--green)':'var(--red)'}">${last>=0?'+':''}${last.toFixed(1)}%</span>
-    </div>`;
-  }).join('');
-}
 
 function renderDPort(){
   const el=document.getElementById('dPort');
