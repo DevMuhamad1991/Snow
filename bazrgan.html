@@ -597,10 +597,8 @@ input{font-family:var(--font-kuf)}
 
 /* ── CAT COLORS ── */
 .cat-company{--cat-c:#0284c7;--cat-bg:rgba(2,132,199,0.10)}
-.cat-property{--cat-c:#16a34a;--cat-bg:rgba(22,163,74,0.10)}
-.cat-land{--cat-c:#65a30d;--cat-bg:rgba(101,163,13,0.10)}
+.cat-realestate{--cat-c:#16a34a;--cat-bg:rgba(22,163,74,0.10)}
 .cat-car{--cat-c:#ea580c;--cat-bg:rgba(234,88,12,0.10)}
-.cat-shop{--cat-c:#9333ea;--cat-bg:rgba(147,51,234,0.10)}
 .cat-gold{--cat-c:#d97706;--cat-bg:rgba(217,119,6,0.12)}
 .cat-dollar{--cat-c:#0891b2;--cat-bg:rgba(8,145,178,0.10)}
 
@@ -611,10 +609,8 @@ input{font-family:var(--font-kuf)}
 .prow-ic{background:var(--cat-bg)}
 
 .badge-company{background:rgba(2,132,199,.12);color:#0369a1}
-.badge-property{background:rgba(22,163,74,.12);color:#15803d}
-.badge-land{background:rgba(101,163,13,.12);color:#4d7c0f}
+.badge-realestate{background:rgba(22,163,74,.12);color:#15803d}
 .badge-car{background:rgba(234,88,12,.12);color:#c2410c}
-.badge-shop{background:rgba(147,51,234,.12);color:#7e22ce}
 .badge-gold{background:rgba(217,119,6,.12);color:#b45309}
 .badge-dollar{background:rgba(8,145,178,.12);color:#0e7490}
 
@@ -704,6 +700,25 @@ input{font-family:var(--font-kuf)}
 .btn-back:hover{background:var(--w15)}
 .btn-back i{font-size:18px}
 
+.chart-card{
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  border-radius:var(--r18);padding:16px;
+  backdrop-filter:blur(12px);
+  box-shadow:0 4px 18px rgba(245,158,11,0.06);
+  margin-bottom:16px;
+}
+.chart-svg-wrap{width:100%}
+.price-chart-svg{width:100%;height:auto;display:block}
+.chart-legend{display:flex;flex-wrap:wrap;gap:8px}
+.legend-item{
+  display:flex;align-items:center;gap:6px;
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  border-radius:20px;padding:6px 12px;font-size:0.74rem;
+}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.legend-name{color:var(--w70);font-weight:600}
+.legend-val{font-weight:700}
+
 </style>
 </head>
 <body>
@@ -744,7 +759,7 @@ input{font-family:var(--font-kuf)}
 	 <i class="ti ti-clock"></i>
 	 <span>نوێبوونەوەی داهاتوو</span>
    </div>
-   <div class="cd-timer" id="cdTimer">3:00</div>
+<div class="cd-timer" id="cdTimer">1:00</div>
    <div class="cd-track">
 	 <div class="cd-fill" id="cdFill"></div>
    </div>
@@ -785,17 +800,24 @@ input{font-family:var(--font-kuf)}
 </div>
 
 <div id="p-prices" class="page">
-
- <div class="ptable">
-   <div class="price-legend">
-     <span class="leg up"><i class="ti ti-trending-up"></i> بەرزبووەوە</span>
-     <span class="leg dn"><i class="ti ti-trending-down"></i> دابەزیووە</span>
-     <span class="leg fl"><i class="ti ti-minus"></i> نەگۆڕاو</span>
-   </div>
-   <div class="ptable-head"><div>ناو</div><div>نرخی ئێستا</div><div>گۆڕانکاری</div><div>کڕاوەکانت</div></div>
-   <div id="pList"></div>
- </div>
+  <div class="sec-head">
+    <h1 class="sec-title">نرخەکان</h1>
+    <p class="sec-sub">گۆڕانی ڕێژەیی نرخ بەپێی ڕۆژ (%)</p>
+  </div>
+  <div class="filter-bar" id="priceFilterBar">
+    <button class="fc active" onclick="G.priceFilter('all',this)"><i class="ti ti-chart-line"></i>هەموو</button>
+    <button class="fc" onclick="G.priceFilter('company',this)"><i class="ti ti-building-skyscraper"></i>کۆمپانیا</button>
+    <button class="fc" onclick="G.priceFilter('realestate',this)"><i class="ti ti-building"></i>عقارات</button>
+    <button class="fc" onclick="G.priceFilter('car',this)"><i class="ti ti-car"></i>ئۆتۆمبێل</button>
+    <button class="fc" onclick="G.priceFilter('gold',this)"><i class="ti ti-crown"></i>زێڕ</button>
+    <button class="fc" onclick="G.priceFilter('dollar',this)"><i class="ti ti-currency-dollar"></i>دۆلار</button>
+  </div>
+  <div class="chart-card">
+    <div class="chart-svg-wrap" id="priceChartWrap"></div>
+  </div>
+  <div class="chart-legend" id="priceChartLegend"></div>
 </div>
+
 
 
 <!-- BOTTOM NAV -->
@@ -831,8 +853,8 @@ input{font-family:var(--font-kuf)}
 <div class="toast" id="toast"></div>
 
 <script>
-const CATS={company:'کۆمپانیا',property:'خانووبەرە',land:'زەوی',car:'ئۆتۆمبێل',shop:'دوکان',gold:'زێڕ',dollar:'دۆلار'};
-const CAT_ICONS={company:'ti-building-skyscraper',property:'ti-home',land:'ti-mountain',car:'ti-car',shop:'ti-shopping-cart',gold:'ti-crown',dollar:'ti-currency-dollar'};
+const CATS={company:'کۆمپانیا',realestate:'عقارات',car:'ئۆتۆمبێل',gold:'زێڕ',dollar:'دۆلار'};
+const CAT_ICONS={company:'ti-building-skyscraper',realestate:'ti-building',car:'ti-car',gold:'ti-crown',dollar:'ti-currency-dollar'};
 
 const ASSETS=[
   {id:'korek',cat:'company',name:'کۆمپانیای کۆرەک',sub:'تێلیکۆم · هەولێر',price:850000,base:850000,yield:.020,detail:'12M بەکارهێنەر · داهاتی ساڵانە $120M'},
@@ -840,39 +862,59 @@ const ASSETS=[
   {id:'mass',cat:'company',name:'ماس گلۆبەل',sub:'بیناسازی · کوردستان',price:3500000,base:3500000,yield:.018,detail:'50+ پرۆژە · داهاتی بەرز'},
   {id:'nazcity',cat:'company',name:'ناز سیتی',sub:'سەرگەرمی · هەولێر',price:650000,base:650000,yield:.035,detail:'500K میوان لە ساڵدا'},
   {id:'falcon',cat:'company',name:'گروپی فالکۆن',sub:'هوتێل · کوردستان',price:980000,base:980000,yield:.022,detail:'8 هوتێل · داهاتی ساڵانە $95M'},
-  {id:'villa',cat:'property',name:'ڤیلا لە عەینکاوە',sub:'هەولێر · عەینکاوە',price:420000,base:420000,yield:.015,detail:'450م² · 5 ژووری نوستن · باخچە'},
-  {id:'apt',cat:'property',name:'شقەی بینای بلند',sub:'سلێمانی · ناوەند',price:180000,base:180000,yield:.012,detail:'120م² · 3 ژووری نوستن · 12 قات'},
-  {id:'tower',cat:'property',name:'برجی بازرگانی',sub:'هەولێر · ئەمنی',price:750000,base:750000,yield:.020,detail:'800م² ئۆفیس · 3 قات'},
-  {id:'house',cat:'property',name:'خانووی دهوک',sub:'دهوک · سەنتەری',price:145000,base:145000,yield:.013,detail:'130م² · 3 ژووری نوستن · دیمەنی چیا'},
-  {id:'lgwr',cat:'land',name:'زەوی کشتوکاڵی گەورڕە',sub:'هەولێر · گەورڕە',price:320000,base:320000,yield:0,detail:'50 دۆنم · ئاوی تەواو'},
-  {id:'lind',cat:'land',name:'زەوی پیشەسازی',sub:'هەولێر · زۆنی پیشەسازی',price:560000,base:560000,yield:0,detail:'30 دۆنم · مۆڵەتی بیناسازی'},
-  {id:'ltur',cat:'land',name:'زەوی گەشتیاری سۆران',sub:'ئەربیل · سۆران',price:210000,base:210000,yield:0,detail:'20 دۆنم · دیمەنی چیایی'},
+  {id:'villa',cat:'realestate',name:'ڤیلا لە عەینکاوە',sub:'هەولێر · عەینکاوە',price:420000,base:420000,yield:.015,detail:'450م² · 5 ژووری نوستن · باخچە'},
+  {id:'apt',cat:'realestate',name:'شقەی بینای بلند',sub:'سلێمانی · ناوەند',price:180000,base:180000,yield:.012,detail:'120م² · 3 ژووری نوستن · 12 قات'},
+  {id:'tower',cat:'realestate',name:'برجی بازرگانی',sub:'هەولێر · ئەمنی',price:750000,base:750000,yield:.020,detail:'800م² ئۆفیس · 3 قات'},
+  {id:'house',cat:'realestate',name:'خانووی دهوک',sub:'دهوک · سەنتەری',price:145000,base:145000,yield:.013,detail:'130م² · 3 ژووری نوستن · دیمەنی چیا'},
+  {id:'lgwr',cat:'realestate',name:'زەوی کشتوکاڵی گەورڕە',sub:'هەولێر · گەورڕە',price:320000,base:320000,yield:0,detail:'50 دۆنم · ئاوی تەواو'},
+  {id:'lind',cat:'realestate',name:'زەوی پیشەسازی',sub:'هەولێر · زۆنی پیشەسازی',price:560000,base:560000,yield:0,detail:'30 دۆنم · مۆڵەتی بیناسازی'},
+  {id:'ltur',cat:'realestate',name:'زەوی گەشتیاری سۆران',sub:'ئەربیل · سۆران',price:210000,base:210000,yield:0,detail:'20 دۆنم · دیمەنی چیایی'},
   {id:'lc200',cat:'car',name:'تۆیۆتا لاندکروزەر 2024',sub:'SUV لوکس',price:85000,base:85000,yield:-.005,detail:'ڤی8 · 4WD · فول ئۆپشن'},
   {id:'lexus',cat:'car',name:'لێکسەس LX 600',sub:'فول ئۆپشن · 2023',price:130000,base:130000,yield:-.003,detail:'ڤی6 ترببۆ · 7 نیشتەجێ'},
   {id:'bus',cat:'car',name:'باسی گواستنەوە',sub:'بازرگانی · 45 نیشتەجێ',price:45000,base:45000,yield:.018,detail:'دیزێل · گونجاوە بۆ لایینی بازرگانی'},
-  {id:'shopfam',cat:'shop',name:'دوکانی فامیلی مۆڵ',sub:'هەولێر · فامیلی مۆڵ',price:280000,base:280000,yield:.040,detail:'80م² · کرێی مانگانە $2,500'},
-  {id:'rest',cat:'shop',name:'چێشتخانەی ئامادە',sub:'سلێمانی · ئازادی',price:95000,base:95000,yield:.050,detail:'50 کەلتوور · داهاتی مانگانە $7,500'},
-  {id:'pharm',cat:'shop',name:'داروخانەی مۆدێرن',sub:'کوردستان · ناوەند',price:65000,base:65000,yield:.038,detail:'مۆڵەتی تەواو · داهاتی باش'},
+  {id:'shopfam',cat:'realestate',name:'دوکانی فامیلی مۆڵ',sub:'هەولێر · فامیلی مۆڵ',price:280000,base:280000,yield:.040,detail:'80م² · کرێی مانگانە $2,500'},
+  {id:'rest',cat:'realestate',name:'چێشتخانەی ئامادە',sub:'سلێمانی · ئازادی',price:95000,base:95000,yield:.050,detail:'50 کەلتوور · داهاتی مانگانە $7,500'},
+  {id:'pharm',cat:'realestate',name:'داروخانەی مۆدێرن',sub:'کوردستان · ناوەند',price:65000,base:65000,yield:.038,detail:'مۆڵەتی تەواو · داهاتی باش'},
   {id:'g1',cat:'gold',name:'زێڕی 1 ئاونس',sub:'24 قیراط · 31.1 گرام',price:2050,base:2050,yield:0,detail:'زێڕی خاوی ناوەند'},
   {id:'g10',cat:'gold',name:'زێڕی 10 ئاونس',sub:'24 قیراط · 311 گرام',price:20500,base:20500,yield:0,detail:'بارکی 10 ئاونسی زێڕ'},
   {id:'gkg',cat:'gold',name:'زێڕی یەک کیلۆ',sub:'24 قیراط · 1000 گرام',price:65900,base:65900,yield:0,detail:'بارکی 1 کیلۆی زێڕ'},
   {id:'u1k',cat:'dollar',name:'1,000 دۆلار',sub:'دۆلاری ئەمریکی',price:1300,base:1300,yield:0,detail:'1 دۆلار = 1,300 دینار'},
   {id:'u10k',cat:'dollar',name:'10,000 دۆلار',sub:'دەستەی دۆلار',price:13000,base:13000,yield:0,detail:'نرخی بازاڕی ئازاد'},
 ];
+  const HIST={};
+ASSETS.forEach(a=>HIST[a.id]=[{day:1,price:a.price}]);
+const CHART_COLORS=['#0ea5e9','#16a34a','#dc2626','#d97706','#9333ea','#0891b2','#65a30d','#ea580c','#ec4899','#475569'];
+
+
 
 const EVENTS=[
-  {msg:'گەشتیاری زیاد بوو — نرخی دوکان بەرز دەبێتەوە.',cats:['shop','company'],fx:.09},
-  {msg:'بازاڕی خانوو گەشەی کرد — داواکاری زیاد.',cats:['property'],fx:.11},
-  {msg:'نرخی سووتەمەنی بەرز بوو — کارگاکان کاریگەری بینی.',cats:['company','car'],fx:-.06},
-  {msg:'داواکاری زێڕ زیاد بوو.',cats:['gold'],fx:.13},
-  {msg:'دۆلار بەرز بوو لە بازاڕی ئازاد.',cats:['dollar'],fx:.07},
-  {msg:'قەیرانی ئابووری — بازاڕ دادەبەزێت.',cats:['company','property'],fx:-.13},
-  {msg:'وەرزی گەرمە — گەشتیاری زیاد بوو.',cats:['shop','company'],fx:.08},
-  {msg:'پرۆژەی گەورەی بیناسازی دەست پێکرد.',cats:['land','property'],fx:.10},
-  {msg:'نرخی ئۆتۆمبێل بەرز بوو بەهۆی تاکسی.',cats:['car'],fx:.09},
-  {msg:'نەورۆز — جووڵەی بازاڕ زیاد بوو.',cats:['shop','company'],fx:.12},
-  {msg:'باران و سیلاو — زەوی ئاژاوەیی کرد.',cats:['land'],fx:-.09},
-  {msg:'وەبەرهێنانی بیانی زیاد بوو لە کوردستان.',cats:['company','property'],fx:.06},
+  {msg:'کۆمپانیایەکی گەورەی نێودەوڵەتی ڕایگەیاند کە لە شارەکەدا وەبەرهێنان دەکات.',cats:['company','realestate'],fx:.14},
+  {msg:'داواکاری بۆ کڕینی خانوو زیادبوو؛ نرخەکانی عقارات بەرەو سەرەوە چوون.',cats:['realestate'],fx:.12},
+  {msg:'بانکەکان قەرزی نزم‌سوودیان بۆ کڕینی موڵک دەستپێکرد.',cats:['realestate'],fx:.10},
+  {msg:'پرۆژەی نوێی ڕێگا و پەرداخی شار دروستکرا؛ ناوچەکە بەهادارتر بوو.',cats:['realestate'],fx:.09},
+  {msg:'بازاڕی کرێدان گەرم بوو؛ خاوەن موڵکەکان قازانجی زیاتر وەردەگرن.',cats:['realestate'],fx:.08},
+  {msg:'وەبەرهێنەرانی دەرەکی سەرنجیان بۆ بازاڕی ناوخۆ زیاد کرد.',cats:['company','realestate'],fx:.11},
+  {msg:'پیشانگای نێودەوڵەتی بازرگانی هەزاران سەردانکەری ڕاکێشا.',cats:['company'],fx:.08},
+  {msg:'شارەوانی مۆڵەتی پرۆژەی گەورەی نیشتەجێبوونی دەرکرد.',cats:['realestate'],fx:.13},
+  {msg:'بازاڕی کار چالاک بوو؛ داواکاری بۆ خانوو و دوکان زیادبوو.',cats:['realestate','company'],fx:.07},
+  {msg:'گەشەی ئابووری شار خێراتر بوو؛ بای موڵک بەرزبوویەوە.',cats:['realestate'],fx:.10},
+
+  {msg:'هەواڵی قەیرانی ئابووری متمانەی وەبەرهێنەرانی کەمکردەوە.',cats:['company','realestate'],fx:-.14},
+  {msg:'نرخی ماددەی بیناسازی بەرزبوو؛ فرۆشتنی موڵک هێواش بوو.',cats:['realestate'],fx:-.08},
+  {msg:'ڕێژەی بێکاری زیادبوو؛ داواکاری بۆ کڕینی خانوو دابەزی.',cats:['realestate','company'],fx:-.10},
+  {msg:'چەند وەبەرهێنەرێکی گەورە پرۆژەکانیان ڕاگرت.',cats:['company'],fx:-.09},
+  {msg:'بازاڕی کرێدان لاواز بوو؛ قازانجی خاوەن موڵکەکان کەمبوویەوە.',cats:['realestate'],fx:-.07},
+  {msg:'سیلاوی بەهێز زیانی بە چەند ناوچەی نیشتەجێبوون گەیاند.',cats:['realestate'],fx:-.11},
+  {msg:'یاسای نوێی باج تێچووی وەبەرهێنانی زیاد کرد.',cats:['company','realestate'],fx:-.08},
+  {msg:'بانکەکان مەرجەکانی قەرزیان توندتر کرد.',cats:['realestate'],fx:-.09},
+  {msg:'بازاڕی فرۆشتنی دوکان و ئۆفیس هێواش بوو.',cats:['company','realestate'],fx:-.06},
+  {msg:'هەندێک پرۆژەی بیناسازی بەهۆی کێشەی دارایی وەستان.',cats:['realestate'],fx:-.12},
+
+  {msg:'جەژنی نەورۆز جووڵەی بازرگانی و وەبەرهێنانی چالاک کرد.',cats:['company','realestate'],fx:.12},
+  {msg:'گەشتیاری بە شێوەیەکی بەرچاو زیادبوو؛ داواکاری بۆ موڵک بەرزبوویەوە.',cats:['realestate'],fx:.09},
+  {msg:'فڕۆکەخانەی نوێ کرایەوە؛ ناوچە دەوروبەرەکان بەهادارتر بوون.',cats:['realestate'],fx:.11},
+  {msg:'کۆمپانیاکان ژمارەی کارمەندانیان زیاد کرد.',cats:['company'],fx:.08},
+  {msg:'شار گواسترایەوە و ناوچەی نوێی بازرگانی دامەزرا.',cats:['company','realestate'],fx:.13}
 ];
 
 const LOAN_OPTIONS=[
@@ -884,24 +926,23 @@ const LOAN_OPTIONS=[
 ];
 
 const CATEGORIES=[
-  {id:'property',name:'عقارات',sub:'ملک و بینا',icon:'ti-home',
+{id:'realestate',name:'عقارات',sub:'خانوو - زەوی - دوکان',icon:'ti-home',
    img:'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80'},
-  {id:'company',name:'شەریکە',sub:'بازرگانی و تێلیکۆم',icon:'ti-building-skyscraper',
+
+  {id:'company',name:'کۆمپانیا',sub:'بازرگانی',icon:'ti-building-skyscraper',
    img:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80'},
   {id:'car',name:'مەحرەز',sub:'ئۆتۆمبێل و گواستنەوە',icon:'ti-car',
    img:'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80'},
-  {id:'shop',name:'دوکان',sub:'دوکان و چێشتخانە',icon:'ti-shopping-cart',
-   img:'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80'},
-  {id:'gold',name:'زێرنگر',sub:'زێڕ و فلزی گرانبها',icon:'ti-crown',
+
+  {id:'gold',name:'زێرنگر',sub:'زێڕ و خشل',icon:'ti-crown',
    img:'https://images.unsplash.com/photo-1610375461246-83df859d849d?w=600&q=80'},
-  {id:'dollar',name:'بۆنسە',sub:'دراوی بیانی',icon:'ti-currency-dollar',
+  {id:'dollar',name:'بۆنسە',sub:'دراوەکان',icon:'ti-currency-dollar',
    img:'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=600&q=80'},
-  {id:'land',name:'زەوی',sub:'زەوی و ئەرازی',icon:'ti-mountain',
-   img:'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80'},
 ];
 
 
-const S={cash:50000,day:1,port:{},cat:'all',loan:null};
+const S={cash:50000,day:1,port:{},cat:'all',priceCat:'all',loan:null};
+
 
 const fmt=n=>{const a=Math.abs(n),s=n<0?'-':'';return a>=1e6?s+'$'+(a/1e6).toFixed(2)+'M':a>=1000?s+'$'+Math.round(a).toLocaleString():s+'$'+Math.round(a);};
 const own=id=>S.port[id]?.qty||0;
@@ -1029,23 +1070,43 @@ function renderPort(){
 	<div class="pstat"><div class="pstat-lbl">تێچوونی کڕین</div><div class="pstat-val">${fmt(tc)}</div></div>
 	<div class="pstat"><div class="pstat-lbl">قازانج/زیان</div><div class="pstat-val" style="color:${pnl>=0?'var(--green)':'var(--red)'}">${pnl>=0?'+':''}${fmt(pnl)}</div></div>`;
 }
-function renderPrices(){
-  document.getElementById('pList').innerHTML=ASSETS.map(a=>{
-	const q=own(a.id);
-const d = (a.price - a.base) / a.base;
-const rowClass = d > 0.0004 ? 'row-up' : d < -0.0004 ? 'row-dn' : 'row-fl';
-return`<div class="prow cat-${a.cat} ${rowClass}">
+function renderPriceChart(cat){
+  S.priceCat=cat||S.priceCat||'all';
+  const list=S.priceCat==='all'?ASSETS:ASSETS.filter(a=>a.cat===S.priceCat);
+  const series=list.map((a,i)=>{
+    const h=HIST[a.id];
+    return{asset:a,color:CHART_COLORS[i%CHART_COLORS.length],
+      days:h.map(p=>p.day),pts:h.map(p=>((p.price-a.base)/a.base)*100)};
+  });
+  let minY=0,maxY=0;
+  series.forEach(s=>s.pts.forEach(v=>{if(v<minY)minY=v;if(v>maxY)maxY=v;}));
+  const padY=Math.max(4,(maxY-minY)*.15)||5;
+  minY-=padY;maxY+=padY;
+  const W=600,H=260,pad=28;
+  const maxDay=Math.max(...series.flatMap(s=>s.days),1);
+  const minDay=Math.min(...series.flatMap(s=>s.days),1);
+  const xS=d=>pad+(d-minDay)/Math.max(1,maxDay-minDay)*(W-2*pad);
+  const yS=v=>H-pad-(v-minY)/(maxY-minY)*(H-2*pad);
 
-	  <div class="prow-name">
-		<div class="prow-ic"><i class="ti ${CAT_ICONS[a.cat]}"></i></div>
-		<div><div class="prow-main">${a.name}</div><div class="prow-cat">${CATS[a.cat]}</div></div>
-	  </div>
-	  <div class="prow-price">${fmt(a.price)}</div>
-	  <div>${cpill(a)}</div>
-	  <div class="prow-owned">${q>0?`${q} ماڵت`:'—'}</div>
-	</div>`;
+  let svg=`<svg viewBox="0 0 ${W} ${H}" class="price-chart-svg" preserveAspectRatio="none">`;
+  if(minY<0&&maxY>0)svg+=`<line x1="${pad}" y1="${yS(0)}" x2="${W-pad}" y2="${yS(0)}" stroke="rgba(30,36,48,0.18)" stroke-dasharray="4 4"/>`;
+  series.forEach(s=>{
+    const pts=s.days.map((d,idx)=>`${xS(d)},${yS(s.pts[idx])}`).join(' ');
+    svg+=`<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+  });
+  svg+='</svg>';
+  document.getElementById('priceChartWrap').innerHTML=svg;
+
+  document.getElementById('priceChartLegend').innerHTML=series.map(s=>{
+    const last=s.pts[s.pts.length-1];
+    return`<div class="legend-item">
+      <span class="legend-dot" style="background:${s.color}"></span>
+      <span class="legend-name">${s.asset.name}</span>
+      <span class="legend-val" style="color:${last>=0?'var(--green)':'var(--red)'}">${last>=0?'+':''}${last.toFixed(1)}%</span>
+    </div>`;
   }).join('');
 }
+
 function renderDPort(){
   const el=document.getElementById('dPort');
   if(!el)return;
@@ -1183,9 +1244,10 @@ const G={
  tab(id,btn){
    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
    document.getElementById('p-'+id).classList.add('active');
+
    if(id==='market'){renderCats();this.showCatView();}
    if(id==='portfolio')renderPort();
-   if(id==='prices')renderPrices();
+if(id==='prices')renderPriceChart(S.priceCat);
    if(id==='dashboard'){renderDPort();renderLoan();upStats();}
  },
  showCatView(){
@@ -1216,6 +1278,12 @@ const G={
    v=mode==='sell'?Math.min(Math.max(v,1),q):Math.max(v,1);
    el.value=v;this.qR(id,mode);
  },
+priceFilter(cat,btn){
+  document.querySelectorAll('#priceFilterBar .fc').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPriceChart(cat);
+},
+
  qR(id,mode){
    const a=ASSETS.find(x=>x.id===id);
    const inp=mode==='buy'?'bQ':'sQ',tot=mode==='buy'?'bTot':'sTot';
@@ -1286,6 +1354,8 @@ const G={
  nextDay(){
    S.day++;
    ASSETS.forEach(a=>{const d=(Math.random()-.47)*.065;a.price=Math.max(a.base*.28,a.price*(1+d));});
+  ASSETS.forEach(a=>HIST[a.id].push({day:S.day,price:a.price}));
+
    let msg='بازاڕ ئارامبوو. هیچ ڕووداوێکی گرینگ ڕووی نەدا.';
    if(Math.random()<.58){
      const ev=EVENTS[Math.floor(Math.random()*EVENTS.length)];
@@ -1315,7 +1385,7 @@ upStats();renderLoan();this._ref();
      if(itemView&&itemView.style.display!=='none')renderMarket();
    }
    if(id==='portfolio')renderPort();
-   if(id==='prices')renderPrices();
+if(id==='prices')renderPriceChart(S.priceCat);
    if(id==='dashboard')renderDPort();
  },
 };
@@ -1323,7 +1393,7 @@ upStats();renderLoan();
 
 
 // ── AUTO TIMER ──
-const INTERVAL_MS = 3 * 60 * 1000; // 3 خولەک
+const INTERVAL_MS = 60 * 1000; // 60 چرکە
 let timerStart = Date.now();
 
 function updateCountdown(){
