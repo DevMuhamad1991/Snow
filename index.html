@@ -195,6 +195,11 @@ input{font-family:var(--font-kuf)}
 /* ── PAGES ── */
 .page { display:none; padding:20px 16px 110px; max-width:1200px; margin:0 auto }
 .page.active { display:block }
+#p-prices.page{
+  max-width:none;
+  margin:0;
+  padding:0;
+}
 
 
 /* ── SEC HEAD ── */
@@ -719,6 +724,22 @@ input{font-family:var(--font-kuf)}
 .legend-name{color:var(--w70);font-weight:600}
 .legend-val{font-weight:700}
 
+.prices-screen{
+  min-height:100vh;
+  width:100%;
+  background:linear-gradient(160deg,#0a0e27 0%,#1a1040 55%,#0a0e27 100%);
+  padding:28px 18px 130px;
+  color:#fff;
+}
+.prices-screen .sec-title{color:#fff}
+.prices-screen .sec-sub{color:rgba(255,255,255,0.5)}
+.prices-screen .fc{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.6)}
+.prices-screen .fc:hover{border-color:rgba(255,255,255,0.35);color:#fff}
+.prices-screen .fc.active{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.4);color:#fff}
+.prices-screen .chart-card{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);box-shadow:none}
+.prices-screen .legend-item{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.12)}
+.prices-screen .legend-name{color:rgba(255,255,255,0.75)}
+
 </style>
 </head>
 <body>
@@ -800,23 +821,21 @@ input{font-family:var(--font-kuf)}
 </div>
 
 <div id="p-prices" class="page">
-  <div class="sec-head">
-    <h1 class="sec-title">نرخەکان</h1>
-    <p class="sec-sub">گۆڕانی ڕێژەیی نرخ بەپێی ڕۆژ (%)</p>
+  <div class="prices-screen">
+    <div class="sec-head">
+      <h1 class="sec-title">نرخەکان</h1>
+      <p class="sec-sub">گۆڕانی ڕێژەیی نرخ بەپێی ڕۆژ (%)</p>
+    </div>
+    <div class="filter-bar" id="priceFilterBar">
+      ...
+    </div>
+    <div class="chart-card">
+      <div class="chart-svg-wrap" id="priceChartWrap"></div>
+    </div>
+    <div class="chart-legend" id="priceChartLegend"></div>
   </div>
-  <div class="filter-bar" id="priceFilterBar">
-    <button class="fc active" onclick="G.priceFilter('all',this)"><i class="ti ti-chart-line"></i>هەموو</button>
-    <button class="fc" onclick="G.priceFilter('company',this)"><i class="ti ti-building-skyscraper"></i>کۆمپانیا</button>
-    <button class="fc" onclick="G.priceFilter('realestate',this)"><i class="ti ti-building"></i>عقارات</button>
-    <button class="fc" onclick="G.priceFilter('car',this)"><i class="ti ti-car"></i>ئۆتۆمبێل</button>
-    <button class="fc" onclick="G.priceFilter('gold',this)"><i class="ti ti-crown"></i>زێڕ</button>
-    <button class="fc" onclick="G.priceFilter('dollar',this)"><i class="ti ti-currency-dollar"></i>دۆلار</button>
-  </div>
-  <div class="chart-card">
-    <div class="chart-svg-wrap" id="priceChartWrap"></div>
-  </div>
-  <div class="chart-legend" id="priceChartLegend"></div>
 </div>
+
 
 
 
