@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -195,6 +197,11 @@ input{font-family:var(--font-kuf)}
 /* ── PAGES ── */
 .page { display:none; padding:20px 16px 110px; max-width:1200px; margin:0 auto }
 .page.active { display:block }
+#p-prices.page{
+  max-width:none;
+  margin:0;
+  padding:0;
+}
 
 
 /* ── SEC HEAD ── */
@@ -719,6 +726,65 @@ input{font-family:var(--font-kuf)}
 .legend-name{color:var(--w70);font-weight:600}
 .legend-val{font-weight:700}
 
+.prices-screen{
+  min-height:100vh;
+  width:100%;
+  background:linear-gradient(160deg,#0a0e27 0%,#1a1040 55%,#0a0e27 100%);
+  padding:28px 18px 130px;
+  color:#fff;
+}
+.prices-screen .sec-title{color:#fff}
+.prices-screen .sec-sub{color:rgba(255,255,255,0.5)}
+.prices-screen .fc{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.6)}
+.prices-screen .fc:hover{border-color:rgba(255,255,255,0.35);color:#fff}
+.prices-screen .fc.active{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.4);color:#fff}
+.prices-screen .chart-card{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);box-shadow:none}
+.prices-screen .legend-item{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.12)}
+.prices-screen .legend-name{color:rgba(255,255,255,0.75)}
+
+.eco-index-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r24);padding:20px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.eco-index-main{flex:1;min-width:0}
+.eco-index-lbl{font-size:0.72rem;color:rgba(255,255,255,0.5);margin-bottom:6px}
+.eco-index-val{font-family:'Courier New',monospace;font-size:clamp(1.8rem,7vw,2.6rem);font-weight:800;color:#fff;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.eco-index-chg{font-size:1rem;font-weight:700;font-family:'Courier New',monospace}
+.eco-index-chg.up{color:#22c55e}
+.eco-index-chg.dn{color:#f87171}
+.eco-spark{width:120px;height:48px;flex-shrink:0}
+
+.ticker-wrap{overflow:hidden;white-space:nowrap;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r14);padding:10px 0;margin-bottom:16px}
+.ticker-track{display:inline-flex;gap:28px;animation:tickerScroll 35s linear infinite}
+.ticker-wrap:hover .ticker-track{animation-play-state:paused}
+@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-25%)}}
+.ticker-item{display:inline-flex;align-items:center;gap:8px;font-family:'Courier New',monospace;font-size:0.82rem;color:rgba(255,255,255,0.85);flex-shrink:0}
+.ticker-item .tk-name{color:rgba(255,255,255,0.5);font-family:var(--font-kuf)}
+.ticker-item .tk-chg.up{color:#22c55e}
+.ticker-item .tk-chg.dn{color:#f87171}
+
+.quick-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.qstat{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r14);padding:12px 14px}
+.qstat-lbl{font-size:0.66rem;color:rgba(255,255,255,0.5);margin-bottom:5px}
+.qstat-val{font-family:'Courier New',monospace;font-size:0.92rem;font-weight:700;color:#fff}
+.qstat-val.up{color:#22c55e}
+.qstat-val.dn{color:#f87171}
+.qstat-sub{font-size:0.62rem;color:rgba(255,255,255,0.4);margin-top:2px}
+
+.heatmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;margin-bottom:18px}
+.heat-cell{border-radius:var(--r10);padding:10px 8px;min-height:64px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:transform .15s}
+.heat-cell:hover{transform:scale(1.04)}
+.heat-name{font-size:0.66rem;color:rgba(255,255,255,0.85);line-height:1.25}
+.heat-chg{font-family:'Courier New',monospace;font-size:0.78rem;font-weight:800;color:#fff}
+
+.news-item{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-right:3px solid rgba(255,255,255,0.2);border-radius:var(--r14);padding:12px 14px;margin-bottom:8px}
+.news-item.up{border-right-color:#22c55e}
+.news-item.dn{border-right-color:#f87171}
+.news-day{font-size:0.62rem;color:rgba(255,255,255,0.4);margin-bottom:3px;font-family:'Courier New',monospace}
+.news-msg{font-size:0.8rem;color:rgba(255,255,255,0.75);line-height:1.6}
+.news-viewport{height:360px;overflow:hidden;position:relative;border-radius:var(--r14)}
+.news-track{display:flex;flex-direction:column;animation:newsScroll linear infinite}
+.news-viewport:hover .news-track{animation-play-state:paused}
+@keyframes newsScroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+
+
 </style>
 </head>
 <body>
@@ -800,23 +866,29 @@ input{font-family:var(--font-kuf)}
 </div>
 
 <div id="p-prices" class="page">
-  <div class="sec-head">
-    <h1 class="sec-title">نرخەکان</h1>
-    <p class="sec-sub">گۆڕانی ڕێژەیی نرخ بەپێی ڕۆژ (%)</p>
+  <div class="prices-screen">
+    <div class="sec-head">
+      <h1 class="sec-title">ئابووری</h1>
+      <p class="sec-sub">دۆخی گشتی بازاڕ</p>
+    </div>
+
+    <div id="ecoIndexCard"></div>
+    <div id="tickerWrap"></div>
+    <div id="quickStats" class="quick-stats"></div>
+    <div id="heatmapGrid" class="heatmap-grid"></div>
+
+    <div id="candleSection">
+      <div id="candleTabs" class="filter-bar"></div>
+      <div class="chart-card">
+        <div id="candleChartBox" style="height:320px"></div>
+      </div>
+    </div>
+
+    <div id="newsFeed"></div>
   </div>
-  <div class="filter-bar" id="priceFilterBar">
-    <button class="fc active" onclick="G.priceFilter('all',this)"><i class="ti ti-chart-line"></i>هەموو</button>
-    <button class="fc" onclick="G.priceFilter('company',this)"><i class="ti ti-building-skyscraper"></i>کۆمپانیا</button>
-    <button class="fc" onclick="G.priceFilter('realestate',this)"><i class="ti ti-building"></i>عقارات</button>
-    <button class="fc" onclick="G.priceFilter('car',this)"><i class="ti ti-car"></i>ئۆتۆمبێل</button>
-    <button class="fc" onclick="G.priceFilter('gold',this)"><i class="ti ti-crown"></i>زێڕ</button>
-    <button class="fc" onclick="G.priceFilter('dollar',this)"><i class="ti ti-currency-dollar"></i>دۆلار</button>
-  </div>
-  <div class="chart-card">
-    <div class="chart-svg-wrap" id="priceChartWrap"></div>
-  </div>
-  <div class="chart-legend" id="priceChartLegend"></div>
 </div>
+
+
 
 
 
@@ -881,8 +953,8 @@ const ASSETS=[
   {id:'u1k',cat:'dollar',name:'1,000 دۆلار',sub:'دۆلاری ئەمریکی',price:1300,base:1300,yield:0,detail:'1 دۆلار = 1,300 دینار'},
   {id:'u10k',cat:'dollar',name:'10,000 دۆلار',sub:'دەستەی دۆلار',price:13000,base:13000,yield:0,detail:'نرخی بازاڕی ئازاد'},
 ];
-  const HIST={};
-ASSETS.forEach(a=>HIST[a.id]=[{day:1,price:a.price}]);
+const HIST={};
+ASSETS.forEach(a=>HIST[a.id]=[{day:1,open:a.price,high:a.price,low:a.price,close:a.price}]);
 const CHART_COLORS=['#0ea5e9','#16a34a','#dc2626','#d97706','#9333ea','#0891b2','#65a30d','#ea580c','#ec4899','#475569'];
 
 
@@ -941,7 +1013,9 @@ const CATEGORIES=[
 ];
 
 
-const S={cash:50000,day:1,port:{},cat:'all',priceCat:'all',loan:null};
+const S={cash:50000,day:1,port:{},cat:'all',priceCat:'all',loan:null,
+  econHist:[{day:1,val:0}],candleAsset:'korek',newsLog:[]};
+
 
 
 const fmt=n=>{const a=Math.abs(n),s=n<0?'-':'';return a>=1e6?s+'$'+(a/1e6).toFixed(2)+'M':a>=1000?s+'$'+Math.round(a).toLocaleString():s+'$'+Math.round(a);};
@@ -1070,42 +1144,7 @@ function renderPort(){
 	<div class="pstat"><div class="pstat-lbl">تێچوونی کڕین</div><div class="pstat-val">${fmt(tc)}</div></div>
 	<div class="pstat"><div class="pstat-lbl">قازانج/زیان</div><div class="pstat-val" style="color:${pnl>=0?'var(--green)':'var(--red)'}">${pnl>=0?'+':''}${fmt(pnl)}</div></div>`;
 }
-function renderPriceChart(cat){
-  S.priceCat=cat||S.priceCat||'all';
-  const list=S.priceCat==='all'?ASSETS:ASSETS.filter(a=>a.cat===S.priceCat);
-  const series=list.map((a,i)=>{
-    const h=HIST[a.id];
-    return{asset:a,color:CHART_COLORS[i%CHART_COLORS.length],
-      days:h.map(p=>p.day),pts:h.map(p=>((p.price-a.base)/a.base)*100)};
-  });
-  let minY=0,maxY=0;
-  series.forEach(s=>s.pts.forEach(v=>{if(v<minY)minY=v;if(v>maxY)maxY=v;}));
-  const padY=Math.max(4,(maxY-minY)*.15)||5;
-  minY-=padY;maxY+=padY;
-  const W=600,H=260,pad=28;
-  const maxDay=Math.max(...series.flatMap(s=>s.days),1);
-  const minDay=Math.min(...series.flatMap(s=>s.days),1);
-  const xS=d=>pad+(d-minDay)/Math.max(1,maxDay-minDay)*(W-2*pad);
-  const yS=v=>H-pad-(v-minY)/(maxY-minY)*(H-2*pad);
 
-  let svg=`<svg viewBox="0 0 ${W} ${H}" class="price-chart-svg" preserveAspectRatio="none">`;
-  if(minY<0&&maxY>0)svg+=`<line x1="${pad}" y1="${yS(0)}" x2="${W-pad}" y2="${yS(0)}" stroke="rgba(30,36,48,0.18)" stroke-dasharray="4 4"/>`;
-  series.forEach(s=>{
-    const pts=s.days.map((d,idx)=>`${xS(d)},${yS(s.pts[idx])}`).join(' ');
-    svg+=`<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
-  });
-  svg+='</svg>';
-  document.getElementById('priceChartWrap').innerHTML=svg;
-
-  document.getElementById('priceChartLegend').innerHTML=series.map(s=>{
-    const last=s.pts[s.pts.length-1];
-    return`<div class="legend-item">
-      <span class="legend-dot" style="background:${s.color}"></span>
-      <span class="legend-name">${s.asset.name}</span>
-      <span class="legend-val" style="color:${last>=0?'var(--green)':'var(--red)'}">${last>=0?'+':''}${last.toFixed(1)}%</span>
-    </div>`;
-  }).join('');
-}
 
 function renderDPort(){
   const el=document.getElementById('dPort');
@@ -1240,6 +1279,129 @@ function openRepayModal(){
   document.getElementById('mBg').classList.add('open');
 }
 
+function heatColor(pct){
+  const p=Math.max(-8,Math.min(8,pct));
+  let r,g,b;
+  if(p>=0){
+    const t=p/8;
+    r=Math.round(55+(34-55)*t);
+    g=Math.round(65+(197-65)*t);
+    b=Math.round(81+(94-81)*t);
+  } else {
+    const t=(-p)/8;
+    r=Math.round(55+(220-55)*t);
+    g=Math.round(65+(38-65)*t);
+    b=Math.round(81+(38-81)*t);
+  }
+  return `rgb(${r},${g},${b})`;
+}
+
+function renderEcoIndex(){
+  const el=document.getElementById('ecoIndexCard');
+  if(!el)return;
+  const h=S.econHist;
+  const last=h[h.length-1].val;
+  const prev=h.length>1?h[h.length-2].val:0;
+  const chg=last-prev;
+  const idxVal=1000*(1+last/100);
+  const W=120,H=48,pad=4;
+  const vals=h.slice(-30).map(p=>p.val);
+  const minV=Math.min(...vals),maxV=Math.max(...vals);
+  const range=(maxV-minV)||1;
+  const xS=i=>pad+i/(vals.length-1||1)*(W-2*pad);
+  const yS=v=>H-pad-(v-minV)/range*(H-2*pad);
+  const pts=vals.map((v,i)=>`${xS(i)},${yS(v)}`).join(' ');
+  const color=chg>=0?'#22c55e':'#f87171';
+  el.innerHTML=`<div class="eco-index-card">
+    <div class="eco-index-main">
+      <div class="eco-index-lbl">ئیندێکسی گشتی ئابووری</div>
+      <div class="eco-index-val">${idxVal.toFixed(1)}<span class="eco-index-chg ${chg>=0?'up':'dn'}">${chg>=0?'▲':'▼'}${Math.abs(chg).toFixed(2)}%</span></div>
+    </div>
+    <svg class="eco-spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+      <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    </svg>
+  </div>`;
+}
+
+function renderTicker(){
+  const el=document.getElementById('tickerWrap');
+  if(!el)return;
+  if(el.querySelector('.ticker-track')){
+    updateTickerPrices();
+    return;
+  }
+  const items=ASSETS.map(a=>{
+    const pct=(a.price-a.base)/a.base*100;
+    const dir=pct>0.04?'up':pct<-0.04?'dn':'fl';
+    const arrow=dir==='up'?'▲':dir==='dn'?'▼':'—';
+    return `<span class="ticker-item" data-asset="${a.id}"><span class="tk-name">${a.name}</span><span class="tk-price">${fmt(a.price)}</span><span class="tk-chg ${dir}"><span class="tk-arrow">${arrow}</span><span class="tk-pct">${Math.abs(pct).toFixed(1)}%</span></span></span>`;
+  }).join('');
+  el.innerHTML=`<div class="ticker-wrap"><div class="ticker-track">${items}${items}${items}${items}</div></div>`;
+}
+
+function updateTickerPrices(){
+  ASSETS.forEach(a=>{
+    const pct=(a.price-a.base)/a.base*100;
+    const dir=pct>0.04?'up':pct<-0.04?'dn':'fl';
+    const arrow=dir==='up'?'▲':dir==='dn'?'▼':'—';
+    document.querySelectorAll(`.ticker-item[data-asset="${a.id}"]`).forEach(item=>{
+      item.querySelector('.tk-price').textContent=fmt(a.price);
+      const chg=item.querySelector('.tk-chg');
+      chg.className=`tk-chg ${dir}`;
+      chg.querySelector('.tk-arrow').textContent=arrow;
+      chg.querySelector('.tk-pct').textContent=Math.abs(pct).toFixed(1)+'%';
+    });
+  });
+}
+
+
+function renderQuickStats(){
+  const el=document.getElementById('quickStats');
+  if(!el)return;
+  const withPct=ASSETS.map(a=>({a,pct:(a.price-a.base)/a.base*100}));
+  const gainer=withPct.reduce((b,c)=>c.pct>b.pct?c:b);
+  const loser=withPct.reduce((b,c)=>c.pct<b.pct?c:b);
+  const mcap=ASSETS.reduce((s,a)=>s+a.price,0);
+  el.innerHTML=`
+    <div class="qstat"><div class="qstat-lbl">باشترین گەشەسەند</div><div class="qstat-val up">+${gainer.pct.toFixed(1)}%</div><div class="qstat-sub">${gainer.a.name}</div></div>
+    <div class="qstat"><div class="qstat-lbl">خراپترین گەشە</div><div class="qstat-val dn">${loser.pct.toFixed(1)}%</div><div class="qstat-sub">${loser.a.name}</div></div>
+    <div class="qstat"><div class="qstat-lbl">کۆی بەهای بازاڕ</div><div class="qstat-val">${fmt(mcap)}</div></div>
+    <div class="qstat"><div class="qstat-lbl">ژمارەی ئاسێتی چالاک</div><div class="qstat-val">${ASSETS.length}</div></div>`;
+}
+
+function renderHeatmap(){
+  const el=document.getElementById('heatmapGrid');
+  if(!el)return;
+  el.innerHTML=ASSETS.map(a=>{
+    const pct=(a.price-a.base)/a.base*100;
+    const bg=heatColor(pct);
+    return `<div class="heat-cell" style="background:${bg}" onclick="G.selectCandleAsset('${a.id}')">
+      <div class="heat-name">${a.name}</div>
+      <div class="heat-chg">${pct>=0?'+':''}${pct.toFixed(1)}%</div>
+    </div>`;
+  }).join('');
+}
+
+function renderNewsFeed(){
+  const el=document.getElementById('newsFeed');
+  if(!el)return;
+  if(!S.newsLog.length){
+    el.innerHTML=`<div class="news-viewport"><div class="news-track"><div class="news-item"><div class="news-msg">هێشتا هیچ هەواڵێک نییە — ڕۆژی داهاتوو چاوەڕوان بکە.</div></div></div></div>`;
+    return;
+  }
+  const itemsHtml=S.newsLog.map(n=>`
+    <div class="news-item ${n.dir}">
+      <div>
+        <div class="news-day">ڕۆژی ${n.day}</div>
+        <div class="news-msg">${n.msg}</div>
+      </div>
+    </div>`).join('');
+const duration=Math.max(12,Math.min(45,S.newsLog.length*2));
+  el.innerHTML=`<div class="news-viewport"><div class="news-track" style="animation-duration:${duration}s">${itemsHtml}${itemsHtml}</div></div>`;
+}
+
+
+
 const G={
  tab(id,btn){
    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -1247,13 +1409,17 @@ const G={
 
    if(id==='market'){renderCats();this.showCatView();}
    if(id==='portfolio')renderPort();
-if(id==='prices')renderPriceChart(S.priceCat);
+if(id==='prices'){renderEcoIndex();renderTicker();renderQuickStats();renderHeatmap();renderNewsFeed();}
+
    if(id==='dashboard'){renderDPort();renderLoan();upStats();}
  },
+
  showCatView(){
    document.getElementById('catView').style.display='block';
    document.getElementById('itemView').style.display='none';
  },
+ selectCandleAsset(id){S.candleAsset=id;toast('چارتی کاندڵ لە هەنگاوی داهاتوو چالاک دەبێت','inf');},
+
  openCat(cat){
    S.cat=cat;
    const c=CATEGORIES.find(x=>x.id===cat);
@@ -1278,11 +1444,7 @@ if(id==='prices')renderPriceChart(S.priceCat);
    v=mode==='sell'?Math.min(Math.max(v,1),q):Math.max(v,1);
    el.value=v;this.qR(id,mode);
  },
-priceFilter(cat,btn){
-  document.querySelectorAll('#priceFilterBar .fc').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderPriceChart(cat);
-},
+
 
  qR(id,mode){
    const a=ASSETS.find(x=>x.id===id);
@@ -1353,30 +1515,41 @@ priceFilter(cat,btn){
  },
  nextDay(){
    S.day++;
+   const openPrices={};
+   ASSETS.forEach(a=>{openPrices[a.id]=a.price;});
    ASSETS.forEach(a=>{const d=(Math.random()-.47)*.065;a.price=Math.max(a.base*.28,a.price*(1+d));});
-  ASSETS.forEach(a=>HIST[a.id].push({day:S.day,price:a.price}));
 
    let msg='بازاڕ ئارامبوو. هیچ ڕووداوێکی گرینگ ڕووی نەدا.';
+   let evDir='fl';
    if(Math.random()<.58){
      const ev=EVENTS[Math.floor(Math.random()*EVENTS.length)];
      ev.cats.forEach(cat=>ASSETS.filter(a=>a.cat===cat).forEach(a=>{a.price=Math.max(a.base*.22,a.price*(1+(ev.fx+(Math.random()-.5)*.03)));}));
-     msg=ev.msg;
+     msg=ev.msg;evDir=ev.fx>0?'up':'dn';
    }
+
+   ASSETS.forEach(a=>{
+     const op=openPrices[a.id],cl=a.price;
+     const hi=Math.max(op,cl)*(1+Math.random()*.012);
+     const lo=Math.min(op,cl)*(1-Math.random()*.012);
+     HIST[a.id].push({day:S.day,open:op,high:hi,low:lo,close:cl});
+   });
+
+   const avgPct=ASSETS.reduce((s,a)=>s+(a.price-a.base)/a.base,0)/ASSETS.length*100;
+   S.econHist.push({day:S.day,val:avgPct});
+   S.newsLog.unshift({day:S.day,msg,dir:evDir});
+   if(S.newsLog.length>30)S.newsLog.pop();
+
    let yi=0;ASSETS.forEach(a=>{const q=own(a.id);if(q>0&&a.yield>0)yi+=a.price*a.yield*q/30;});
-   if(yi>0){S.cash+=yi;msg+=` — داهاتی موڵک: +${fmt(yi)}`;}
+   if(yi>0){S.cash+=yi;}
    if(S.loan&&S.day>S.loan.dueDay){
      const interest=S.loan.debt*S.loan.rate;
      S.loan.debt+=interest;
      S.loan.totalInterest+=interest;
-     msg+=` — ⚠ قەرزەکەت دواکەوت، ${fmt(interest)} سوو زیادکرا`;
    }
-   const b=document.getElementById('evBox');
-   document.getElementById('evDay').textContent=`ڕۆژی ${S.day}`;
-   document.getElementById('evMsg').textContent=msg;
-   b.style.animation='none';requestAnimationFrame(()=>b.style.animation='slideIn .35s ease');
-upStats();renderLoan();this._ref();
-
+   upStats();renderLoan();this._ref();
  },
+
+
  _ref(){
    const a=document.querySelector('.page.active');if(!a)return;
    const id=a.id.replace('p-','');
@@ -1385,9 +1558,12 @@ upStats();renderLoan();this._ref();
      if(itemView&&itemView.style.display!=='none')renderMarket();
    }
    if(id==='portfolio')renderPort();
-if(id==='prices')renderPriceChart(S.priceCat);
+if(id==='prices'){renderEcoIndex();renderTicker();renderQuickStats();renderHeatmap();renderNewsFeed();}
+
+
    if(id==='dashboard')renderDPort();
  },
+
 };
 upStats();renderLoan();
 
