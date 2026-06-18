@@ -1326,15 +1326,34 @@ function renderEcoIndex(){
 function renderTicker(){
   const el=document.getElementById('tickerWrap');
   if(!el)return;
+  if(el.querySelector('.ticker-track')){
+    updateTickerPrices();
+    return;
+  }
   const items=ASSETS.map(a=>{
     const pct=(a.price-a.base)/a.base*100;
     const dir=pct>0.04?'up':pct<-0.04?'dn':'fl';
     const arrow=dir==='up'?'▲':dir==='dn'?'▼':'—';
-    return `<span class="ticker-item"><span class="tk-name">${a.name}</span>${fmt(a.price)}<span class="tk-chg ${dir}">${arrow}${Math.abs(pct).toFixed(1)}%</span></span>`;
+    return `<span class="ticker-item" data-asset="${a.id}"><span class="tk-name">${a.name}</span><span class="tk-price">${fmt(a.price)}</span><span class="tk-chg ${dir}"><span class="tk-arrow">${arrow}</span><span class="tk-pct">${Math.abs(pct).toFixed(1)}%</span></span></span>`;
   }).join('');
   el.innerHTML=`<div class="ticker-wrap"><div class="ticker-track">${items}${items}${items}${items}</div></div>`;
-
 }
+
+function updateTickerPrices(){
+  ASSETS.forEach(a=>{
+    const pct=(a.price-a.base)/a.base*100;
+    const dir=pct>0.04?'up':pct<-0.04?'dn':'fl';
+    const arrow=dir==='up'?'▲':dir==='dn'?'▼':'—';
+    document.querySelectorAll(`.ticker-item[data-asset="${a.id}"]`).forEach(item=>{
+      item.querySelector('.tk-price').textContent=fmt(a.price);
+      const chg=item.querySelector('.tk-chg');
+      chg.className=`tk-chg ${dir}`;
+      chg.querySelector('.tk-arrow').textContent=arrow;
+      chg.querySelector('.tk-pct').textContent=Math.abs(pct).toFixed(1)+'%';
+    });
+  });
+}
+
 
 function renderQuickStats(){
   const el=document.getElementById('quickStats');
