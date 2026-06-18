@@ -754,7 +754,7 @@ input{font-family:var(--font-kuf)}
 .ticker-wrap{overflow:hidden;white-space:nowrap;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r14);padding:10px 0;margin-bottom:16px}
 .ticker-track{display:inline-flex;gap:28px;animation:tickerScroll 90s linear infinite}
 .ticker-wrap:hover .ticker-track{animation-play-state:paused}
-@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-25%)}}
 .ticker-item{display:inline-flex;align-items:center;gap:8px;font-family:'Courier New',monospace;font-size:0.82rem;color:rgba(255,255,255,0.85);flex-shrink:0}
 .ticker-item .tk-name{color:rgba(255,255,255,0.5);font-family:var(--font-kuf)}
 .ticker-item .tk-chg.up{color:#22c55e}
@@ -1332,7 +1332,8 @@ function renderTicker(){
     const arrow=dir==='up'?'▲':dir==='dn'?'▼':'—';
     return `<span class="ticker-item"><span class="tk-name">${a.name}</span>${fmt(a.price)}<span class="tk-chg ${dir}">${arrow}${Math.abs(pct).toFixed(1)}%</span></span>`;
   }).join('');
-  el.innerHTML=`<div class="ticker-wrap"><div class="ticker-track">${items}${items}</div></div>`;
+  el.innerHTML=`<div class="ticker-wrap"><div class="ticker-track">${items}${items}${items}${items}</div></div>`;
+
 }
 
 function renderQuickStats(){
@@ -1376,7 +1377,7 @@ function renderNewsFeed(){
         <div class="news-msg">${n.msg}</div>
       </div>
     </div>`).join('');
-  const duration=Math.max(12,S.newsLog.length*4);
+const duration=Math.max(12,Math.min(45,S.newsLog.length*2));
   el.innerHTML=`<div class="news-viewport"><div class="news-track" style="animation-duration:${duration}s">${itemsHtml}${itemsHtml}</div></div>`;
 }
 
